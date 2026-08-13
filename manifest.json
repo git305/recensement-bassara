@@ -1,0 +1,9 @@
+{
+  "name": "Recensement Bassara",
+  "short_name": "Bassara",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "theme_color": "#17365D",
+  "background_color": "#F5F8FC",
+  "lang": "fr"
+}
