@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#12365f">
+<title>Bassara — Administration</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{--blue:#12365f;--green:#4f8f2f;--bg:#f3f6fa;--text:#101828;--muted:#667085;--border:#d8e0e8;--danger:#b42318}
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:var(--bg);color:var(--text)}
+button,input,select{font:inherit}.hidden{display:none!important}.wrap{width:min(1200px,94%);margin:auto}
+.login{min-height:100vh;display:grid;place-items:center;padding:20px}.loginBox{width:min(430px,100%);background:#fff;padding:32px;border-radius:20px;border:1px solid var(--border);box-shadow:0 15px 40px #12365f18}.logo{width:55px;height:55px;background:var(--blue);color:#fff;border-radius:15px;display:grid;place-items:center;font-size:28px;font-weight:900}
+h1,h2,h3{color:var(--blue)}label{display:block;font-size:13px;font-weight:800;margin:15px 0 6px}input{width:100%;padding:13px;border:1px solid #98a2b3;border-radius:10px}.btn{border:0;border-radius:10px;padding:12px 17px;font-weight:800;cursor:pointer}.primary{background:var(--green);color:#fff}.secondary{background:#edf3f8;color:var(--blue)}.danger{background:#fee4e2;color:var(--danger)}
+header{background:#fff;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:10}.nav{min-height:70px;display:flex;align-items:center;justify-content:space-between;gap:15px}.brand{display:flex;align-items:center;gap:10px;color:var(--blue);font-weight:900}.miniLogo{width:42px;height:42px;background:var(--blue);color:#fff;border-radius:11px;display:grid;place-items:center;font-weight:900}
+main{padding:30px 0}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}.stat{background:#fff;border:1px solid var(--border);border-radius:15px;padding:20px}.stat span{color:var(--muted);font-size:13px;font-weight:700}.stat strong{display:block;font-size:30px;color:var(--blue);margin-top:5px}
+.panel{background:#fff;border:1px solid var(--border);border-radius:17px;padding:20px;margin-top:20px}.toolbar{display:grid;grid-template-columns:1fr 180px 180px auto;gap:10px}.toolbar input,.toolbar select{width:100%;padding:12px;border:1px solid #98a2b3;border-radius:10px;background:#fff}
+.tableWrap{overflow:auto;margin-top:18px}table{width:100%;border-collapse:collapse;min-width:850px}th,td{text-align:left;padding:12px;border-bottom:1px solid #eaecf0;font-size:13px;vertical-align:top}th{background:#f8fafc;color:var(--blue);position:sticky;top:0}.num{font-weight:900;color:var(--green)}
+.detail{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.detail div{padding:12px;background:#f8fafc;border-radius:10px}.detail b{display:block;font-size:11px;color:var(--muted);margin-bottom:3px}.msg{padding:12px;border-radius:10px;margin-top:12px;background:#fff1f1;color:var(--danger)}.ok{background:#eef7e9;color:#3f6e2d}
+@media(max-width:800px){.stats{grid-template-columns:1fr 1fr}.toolbar{grid-template-columns:1fr 1fr}.detail{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div id="loginPage" class="login">
+<div class="loginBox">
+<div class="logo">B</div>
+<h1>Administration Bassara</h1>
+<p>Connectez-vous avec le compte administrateur existant.</p>
+<form id="loginForm">
+<label>Email</label><input id="email" type="email" autocomplete="username" required>
+<label>Mot de passe</label><input id="password" type="password" autocomplete="current-password" required>
+<button id="loginBtn" class="btn primary" style="width:100%;margin-top:20px">🔐 Se connecter</button>
+</form>
+<div id="loginMessage"></div>
+</div>
+</div>
+
+<div id="app" class="hidden">
+<header><div class="wrap nav">
+<div class="brand"><span class="miniLogo">B</span><span>BASSARA<br><small>ADMINISTRATION</small></span></div>
+<div><span id="adminEmail" style="margin-right:10px;color:#667085;font-size:13px"></span><button class="btn secondary" onclick="logout()">🚪 Déconnexion</button></div>
+</div></header>
+
+<main><div class="wrap">
+<h1>📊 Tableau de bord</h1>
+<div class="stats">
+<div class="stat"><span>Total des recensés</span><strong id="total">0</strong></div>
+<div class="stat"><span>Hommes</span><strong id="hommes">0</strong></div>
+<div class="stat"><span>Femmes</span><strong id="femmes">0</strong></div>
+<div class="stat"><span>Pays représentés</span><strong id="paysCount">0</strong></div>
+</div>
+
+<div class="panel">
+<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+<h2>👥 Ressortissants recensés</h2>
+<button class="btn secondary" onclick="loadData()">🔄 Actualiser</button>
+</div>
+<div class="toolbar">
+<input id="search" placeholder="🔎 Nom, prénom, numéro, ville, profession..." oninput="render()">
+<select id="country" onchange="render()"><option value="">Tous les pays</option></select>
+<select id="gender" onchange="render()"><option value="">Tous les sexes</option><option value="Homme">Hommes</option><option value="Femme">Femmes</option></select>
+<button class="btn primary" onclick="exportCSV()">📥 CSV</button>
+</div>
+<div id="dataMessage"></div>
+<div class="tableWrap">
+<table><thead><tr><th>Numéro</th><th>Nom</th><th>Prénom</th><th>Sexe</th><th>Ville</th><th>Pays</th><th>Profession</th><th>Date</th><th></th></tr></thead>
+<tbody id="tbody"></tbody></table>
+</div>
+</div>
+
+<div id="detailPanel" class="panel hidden">
+<div style="display:flex;justify-content:space-between"><h2>👤 Fiche du ressortissant</h2><button class="btn secondary" onclick="document.getElementById('detailPanel').classList.add('hidden')">Fermer</button></div>
+<div id="detail" class="detail"></div>
+</div>
+</div></main>
+</div>
+
+<script>
+const SUPABASE_URL="https://gxsokrwqefletxitejde.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY="sb_publishable_4z1GPpx-LMGbKNXXPoHT3A_zD0Q60XC";
+const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
+const ADMIN_UID="cabf99bc-3d84-43ca-bb64-2dd3d3dd95ec";
+let rows=[];
+
+function esc(v){return String(v??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
+
+async function checkSession(){
+ const {data:{session}}=await db.auth.getSession();
+ if(session && session.user.id===ADMIN_UID){
+   showApp(session.user.email); await loadData();
+ }else if(session){
+   await db.auth.signOut(); showLoginError("Ce compte n'est pas autorisé à accéder à l'administration.");
+ }
+}
+
+function showApp(email){
+ document.getElementById("loginPage").classList.add("hidden");
+ document.getElementById("app").classList.remove("hidden");
+ document.getElementById("adminEmail").textContent=email||"Administrateur";
+}
+function showLoginError(t){document.getElementById("loginMessage").innerHTML='<div class="msg">'+esc(t)+'</div>'}
+
+document.getElementById("loginForm").addEventListener("submit",async e=>{
+ e.preventDefault();
+ const btn=document.getElementById("loginBtn");btn.disabled=true;btn.textContent="⏳ Connexion...";
+ const {data,error}=await db.auth.signInWithPassword({email:document.getElementById("email").value.trim(),password:document.getElementById("password").value});
+ if(error){showLoginError(error.message);btn.disabled=false;btn.textContent="🔐 Se connecter";return}
+ if(data.user.id!==ADMIN_UID){await db.auth.signOut();showLoginError("Ce compte n'est pas autorisé.");btn.disabled=false;btn.textContent="🔐 Se connecter";return}
+ showApp(data.user.email);await loadData();btn.disabled=false;btn.textContent="🔐 Se connecter";
+});
+
+async function loadData(){
+ const m=document.getElementById("dataMessage");m.innerHTML="";
+ const {data,error}=await db.from("ressortissants").select("*");
+ if(error){m.innerHTML='<div class="msg">❌ '+esc(error.message)+'</div>';return}
+ rows=data||[];
+ updateStats();populateCountries();render();
+}
+function updateStats(){
+ document.getElementById("total").textContent=rows.length;
+ document.getElementById("hommes").textContent=rows.filter(r=>String(r.sexe||"").toLowerCase()==="homme").length;
+ document.getElementById("femmes").textContent=rows.filter(r=>String(r.sexe||"").toLowerCase()==="femme").length;
+ document.getElementById("paysCount").textContent=new Set(rows.map(r=>r.pays).filter(Boolean)).size;
+}
+function populateCountries(){
+ const s=document.getElementById("country"),old=s.value;
+ const countries=[...new Set(rows.map(r=>r.pays).filter(Boolean))].sort();
+ s.innerHTML='<option value="">Tous les pays</option>'+countries.map(x=>'<option value="'+esc(x)+'">'+esc(x)+'</option>').join("");
+ s.value=old;
+}
+function render(){
+ const q=document.getElementById("search").value.toLowerCase().trim(),country=document.getElementById("country").value,gender=document.getElementById("gender").value;
+ const filtered=rows.filter(r=>{
+   const text=Object.values(r).join(" ").toLowerCase();
+   return (!q||text.includes(q))&&(!country||r.pays===country)&&(!gender||r.sexe===gender);
+ });
+ document.getElementById("tbody").innerHTML=filtered.map((r,i)=>'<tr>'+
+ '<td class="num">'+esc(r.numero_recensement)+'</td>'+
+ '<td>'+esc(r.nom)+'</td><td>'+esc(r.prenom)+'</td><td>'+esc(r.sexe)+'</td>'+
+ '<td>'+esc(r.ville)+'</td><td>'+esc(r.pays)+'</td><td>'+esc(r.profession)+'</td>'+
+ '<td>'+esc(r.created_at||"")+'</td>'+
+ '<td><button class="btn secondary" onclick="showDetail('+rows.indexOf(r)+')">Voir</button></td></tr>').join("");
+}
+function showDetail(i){
+ const r=rows[i];if(!r)return;
+ document.getElementById("detail").innerHTML=Object.entries(r).map(([k,v])=>'<div><b>'+esc(k)+'</b>'+esc(v??"")+'</div>').join("");
+ document.getElementById("detailPanel").classList.remove("hidden");
+ document.getElementById("detailPanel").scrollIntoView({behavior:"smooth"});
+}
+function exportCSV(){
+ if(!rows.length){alert("Aucune donnée à exporter.");return}
+ const keys=[...new Set(rows.flatMap(r=>Object.keys(r)))];
+ const csv=[keys, ...rows.map(r=>keys.map(k=>r[k]??""))].map(row=>row.map(v=>'"'+String(v).replaceAll('"','""')+'"').join(";")).join("\r\n");
+ const blob=new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8"});
+ const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="recenses-bassara.csv";a.click();URL.revokeObjectURL(a.href);
+}
+async function logout(){await db.auth.signOut();location.reload()}
+checkSession();
+</script>
+</body>
+</html>
