@@ -1,1264 +1,1550 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#17365D">
-
-<title>Recensement Bassara — Retrouvons-nous</title>
-
-<style>
-:root{
-  --b:#12365f;
-  --b2:#1d527f;
-  --g:#4f8f2f;
-  --bg:#f3f6fa;
-  --t:#101828;
-  --m:#475467;
-  --line:#d6dde6;
-}
-
-*{box-sizing:border-box}
-
-html{
-  scroll-behavior:smooth
-}
-
-body{
-  margin:0;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
-  background:var(--bg);
-  color:var(--t);
-  line-height:1.55
-}
-
-.wrap{
-  width:min(1120px,92%);
-  margin:auto
-}
-
-a{
-  text-decoration:none;
-  color:inherit
-}
-
-.btn{
-  border:0;
-  border-radius:12px;
-  padding:13px 18px;
-  font-weight:800;
-  cursor:pointer;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center
-}
-
-.primary{
-  background:var(--b);
-  color:#fff
-}
-
-.green{
-  background:var(--g);
-  color:#fff
-}
-
-.light{
-  background:#edf3f8;
-  color:var(--b)
-}
-
-header{
-  position:sticky;
-  top:0;
-  z-index:20;
-  background:#fffffff2;
-  border-bottom:1px solid var(--line);
-  backdrop-filter:blur(12px)
-}
-
-.nav{
-  height:70px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between
-}
-
-.brand{
-  font-weight:900;
-  color:var(--b);
-  display:flex;
-  align-items:center;
-  gap:10px
-}
-
-.mark{
-  width:44px;
-  height:44px;
-  border-radius:12px;
-  background:var(--b);
-  color:#fff;
-  display:grid;
-  place-items:center;
-  font-weight:900
-}
-
-.links{
-  display:flex;
-  gap:20px;
-  align-items:center;
-  font-size:14px;
-  font-weight:700
-}
-
-.menu{
-  display:none;
-  border:0;
-  background:none;
-  font-size:26px
-}
-
-.hero{
-  background:linear-gradient(135deg,var(--b),var(--b2));
-  color:#fff;
-  padding:75px 0
-}
-
-.heroGrid{
-  display:grid;
-  grid-template-columns:1.25fr .75fr;
-  gap:35px;
-  align-items:center
-}
-
-.hero h1{
-  font-size:clamp(36px,5vw,60px);
-  line-height:1.05;
-  margin:12px 0
-}
-
-.hero p{
-  font-size:18px;
-  color:#e6edf6
-}
-
-.actions{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-top:24px
-}
-
-.heroCard{
-  background:#fff;
-  color:#101828;
-  border:1px solid #d7dee8;
-  border-radius:20px;
-  padding:24px;
-  box-shadow:0 20px 50px #071b3540
-}
-
-.heroCard h3{
-  color:#12365f;
-  font-size:22px;
-  margin:14px 0 8px
-}
-
-.heroCard p{
-  color:#344054!important;
-  font-size:16px;
-  line-height:1.6
-}
-
-.heroCard .big{
-  font-size:46px;
-  font-weight:900;
-  color:var(--g)
-}
-
-.section{
-  padding:65px 0;
-  color:#101828
-}
-
-.head{
-  max-width:720px;
-  margin-bottom:30px
-}
-
-.head h2{
-  font-size:34px;
-  color:#12365f;
-  margin:5px 0;
-  font-weight:850
-}
-
-.head p{
-  color:#344054
-}
-
-.cards{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:15px
-}
-
-.card{
-  background:#fff;
-  border:1px solid var(--line);
-  border-radius:17px;
-  padding:21px
-}
-
-.card h3{
-  margin:9px 0 5px
-}
-
-.card p{
-  color:var(--m);
-  font-size:14px;
-  margin:0
-}
-
-.formGrid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:18px
-}
-
-.box{
-  background:#fff;
-  border:1px solid var(--line);
-  border-radius:18px;
-  padding:24px
-}
-
-.box h3{
-  color:var(--b);
-  margin-top:0
-}
-
-.full{
-  grid-column:1/-1
-}
-
-label{
-  font-size:13px;
-  font-weight:850;
-  color:#1d2939;
-  display:block;
-  margin:12px 0 5px
-}
-
-input,
-select,
-textarea{
-  width:100%;
-  padding:12px;
-  border:1px solid #98a2b3;
-  border-radius:10px;
-  font:inherit;
-  background:#fff;
-  color:#101828
-}
-
-textarea{
-  min-height:95px
-}
-
-.check{
-  display:flex;
-  gap:9px;
-  align-items:flex-start;
-  font-size:13px;
-  color:#344054;
-  margin:15px 0
-}
-
-.check input{
-  width:auto;
-  margin-top:4px
-}
-
-.notice{
-  font-size:12px;
-  color:var(--m)
-}
-
-.success{
-  background:#eef7e9;
-  border:1px solid #cde4bf;
-  color:#3f6e2d;
-  padding:15px;
-  border-radius:12px;
-  margin-top:15px
-}
-
-.error{
-  background:#fff1f1;
-  border:1px solid #f0b5b5;
-  color:#9b1c1c;
-  padding:15px;
-  border-radius:12px;
-  margin-top:15px
-}
-
-.hidden{
-  display:none
-}
-
-.search{
-  display:grid;
-  grid-template-columns:2fr 1fr 1fr auto;
-  gap:9px
-}
-
-.result{
-  background:#fff;
-  border:1px solid var(--line);
-  border-radius:13px;
-  padding:16px;
-  margin-top:10px
-}
-
-.badge{
-  display:inline-block;
-  background:#edf5e9;
-  color:#477b2e;
-  border-radius:30px;
-  padding:4px 9px;
-  font-size:11px;
-  font-weight:800
-}
-
-footer{
-  background:#0e2540;
-  color:#dbe6f2;
-  padding:40px 0
-}
-
-.foot{
-  display:grid;
-  grid-template-columns:2fr 1fr 1fr;
-  gap:25px
-}
-
-.geo{
-  display:inline-block;
-  margin-top:12px;
-  padding:9px 12px;
-  border-radius:10px;
-  background:#eaf2f8;
-  color:#12365f;
-  font-size:13px;
-  border:1px solid #cbd9e6
-}
-
-.hero .geo{
-  background:#fff;
-  color:#12365f;
-  border-color:#fff
-}
-
-@media(max-width:850px){
-
-  .links{
-    display:none
-  }
-
-  .menu{
-    display:block
-  }
-
-  .heroGrid,
-  .formGrid{
-    grid-template-columns:1fr
-  }
-
-  .cards{
-    grid-template-columns:1fr 1fr
-  }
-
-  .search{
-    grid-template-columns:1fr 1fr
-  }
-
-  .heroCard{
-    order:-1
-  }
-}
-
-@media(max-width:520px){
-
-  .cards,
-  .search{
-    grid-template-columns:1fr
-  }
-
-  .section{
-    padding:48px 0
-  }
-}
-</style>
-
-<!-- SUPABASE -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="theme-color" content="#12365f">
+
+  <title>Recensement Bassara — Retrouvons-nous</title>
+
+  <!-- SUPABASE -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    :root {
+      --blue: #12365f;
+      --blue2: #1d527f;
+      --green: #4f8f2f;
+      --bg: #f3f6fa;
+      --text: #101828;
+      --muted: #475467;
+      --border: #d6dde6;
+      --white: #ffffff;
+      --danger: #9b1c1c;
+      --danger-bg: #fff1f1;
+      --success: #3f6e2d;
+      --success-bg: #eef7e9;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Arial,
+        sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .wrap {
+      width: min(1120px, 92%);
+      margin: auto;
+    }
+
+    /* =========================
+       BOUTONS
+    ========================= */
+
+    .btn {
+      border: 0;
+      border-radius: 12px;
+      padding: 13px 18px;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.2s;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      opacity: 0.95;
+    }
+
+    .primary {
+      background: var(--blue);
+      color: white;
+    }
+
+    .green {
+      background: var(--green);
+      color: white;
+    }
+
+    .light {
+      background: #edf3f8;
+      color: var(--blue);
+    }
+
+    /* =========================
+       HEADER
+    ========================= */
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255,255,255,0.95);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(12px);
+    }
+
+    .nav {
+      min-height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      font-weight: 900;
+      color: var(--blue);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .mark {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--blue);
+      color: white;
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      font-size: 20px;
+    }
+
+    .brand small {
+      font-size: 10px;
+      font-weight: 600;
+    }
+
+    .links {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .links a:hover {
+      color: var(--green);
+    }
+
+    .menu {
+      display: none;
+      border: 0;
+      background: none;
+      font-size: 28px;
+      cursor: pointer;
+    }
+
+    /* =========================
+       HERO
+    ========================= */
+
+    .hero {
+      background: linear-gradient(135deg, var(--blue), var(--blue2));
+      color: white;
+      padding: 75px 0;
+    }
+
+    .heroGrid {
+      display: grid;
+      grid-template-columns: 1.25fr 0.75fr;
+      gap: 35px;
+      align-items: center;
+    }
+
+    .hero h1 {
+      font-size: clamp(36px, 5vw, 60px);
+      line-height: 1.05;
+      margin: 12px 0;
+    }
+
+    .hero p {
+      font-size: 18px;
+      color: #e6edf6;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
+
+    .heroCard {
+      background: white;
+      color: var(--text);
+      border: 1px solid #d7dee8;
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 20px 50px rgba(7,27,53,0.25);
+    }
+
+    .heroCard .big {
+      font-size: 46px;
+      font-weight: 900;
+      color: var(--green);
+    }
+
+    .heroCard h3 {
+      color: var(--blue);
+      font-size: 22px;
+      margin: 14px 0 8px;
+    }
+
+    .heroCard p {
+      color: #344054 !important;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .geo {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 9px 12px;
+      border-radius: 10px;
+      background: white;
+      color: var(--blue);
+      font-size: 13px;
+      border: 1px solid white;
+    }
+
+    /* =========================
+       SECTIONS
+    ========================= */
+
+    .section {
+      padding: 65px 0;
+    }
+
+    .head {
+      max-width: 720px;
+      margin-bottom: 30px;
+    }
+
+    .head h2 {
+      font-size: 34px;
+      color: var(--blue);
+      margin: 5px 0;
+      font-weight: 850;
+    }
+
+    .head p {
+      color: #344054;
+    }
+
+    /* =========================
+       CARDS
+    ========================= */
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+    }
+
+    .card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      padding: 21px;
+    }
+
+    .card h3 {
+      margin: 9px 0 5px;
+      color: var(--text);
+    }
+
+    .card p {
+      color: var(--muted);
+      font-size: 14px;
+      margin: 0;
+    }
+
+    /* =========================
+       FORMULAIRE
+    ========================= */
+
+    .formGrid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .box {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 24px;
+    }
+
+    .box h3 {
+      color: var(--blue);
+      margin-top: 0;
+    }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      font-size: 13px;
+      font-weight: 850;
+      color: #1d2939;
+      display: block;
+      margin: 12px 0 5px;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #98a2b3;
+      border-radius: 10px;
+      font: inherit;
+      background: white;
+      color: var(--text);
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: 2px solid rgba(18,54,95,0.15);
+      border-color: var(--blue);
+    }
+
+    textarea {
+      min-height: 95px;
+      resize: vertical;
+    }
+
+    .check {
+      display: flex;
+      gap: 9px;
+      align-items: flex-start;
+      font-size: 13px;
+      color: #344054;
+      margin: 15px 0;
+    }
+
+    .check input {
+      width: auto;
+      margin-top: 4px;
+    }
+
+    .notice {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    /* =========================
+       MESSAGES
+    ========================= */
+
+    .success {
+      background: var(--success-bg);
+      border: 1px solid #cde4bf;
+      color: var(--success);
+      padding: 18px;
+      border-radius: 12px;
+      margin-top: 15px;
+    }
+
+    .error {
+      background: var(--danger-bg);
+      border: 1px solid #f0b5b5;
+      color: var(--danger);
+      padding: 15px;
+      border-radius: 12px;
+      margin-top: 15px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* =========================
+       RECHERCHE
+    ========================= */
+
+    .search {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr auto;
+      gap: 9px;
+    }
+
+    .result {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      padding: 16px;
+      margin-top: 10px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #edf5e9;
+      color: #477b2e;
+      border-radius: 30px;
+      padding: 4px 9px;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    footer {
+      background: #0e2540;
+      color: #dbe6f2;
+      padding: 40px 0;
+    }
+
+    .foot {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 25px;
+    }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 850px) {
+
+      .links {
+        display: none;
+      }
+
+      .menu {
+        display: block;
+      }
+
+      .heroGrid,
+      .formGrid {
+        grid-template-columns: 1fr;
+      }
+
+      .cards {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .search {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .heroCard {
+        order: -1;
+      }
+    }
+
+    @media (max-width: 520px) {
+
+      .cards,
+      .search {
+        grid-template-columns: 1fr;
+      }
+
+      .section {
+        padding: 48px 0;
+      }
+
+      .hero {
+        padding: 55px 0;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
+<!-- =========================
+     HEADER
+========================= -->
+
 <header>
 
-<div class="wrap nav">
+  <div class="wrap nav">
 
-<a class="brand" href="#accueil">
+    <a class="brand" href="#accueil">
 
-<span class="mark">B</span>
+      <span class="mark">B</span>
 
-<span>
-BASSARA<br>
-<small style="font-weight:600">Recensement</small>
-</span>
+      <span>
+        BASSARA<br>
+        <small>RECENSEMENT</small>
+      </span>
 
-</a>
+    </a>
 
-<nav class="links">
+    <nav class="links">
 
-<a href="#objectif">Objectif</a>
+      <a href="#objectif">
+        Objectif
+      </a>
 
-<a href="#inscription">S'inscrire</a>
+      <a href="#inscription">
+        S'inscrire
+      </a>
 
-<a href="#recherche">Recherche</a>
+      <a href="#recherche">
+        Recherche
+      </a>
 
-<a href="#confidentialite">Confidentialité</a>
+      <a href="#confidentialite">
+        Confidentialité
+      </a>
 
-<a class="btn green" href="#inscription">
-📝 Je suis de Bassara
-</a>
+      <a class="btn green" href="#inscription">
+        📝 Je suis de Bassara
+      </a>
 
-</nav>
+    </nav>
 
-<button class="menu" onclick="toggleMenu()">☰</button>
+    <button
+      class="menu"
+      onclick="toggleMenu()"
+      aria-label="Menu"
+    >
+      ☰
+    </button>
 
-</div>
+  </div>
 
 </header>
 
 
-<div id="mobileMenu"
-class="hidden"
-style="background:#fff;padding:12px">
-
-<div class="wrap"
-style="display:grid;gap:10px">
-
-<a href="#objectif">Objectif</a>
-
-<a href="#inscription">S'inscrire</a>
-
-<a href="#recherche">Recherche</a>
-
-<a href="#confidentialite">Confidentialité</a>
-
-</div>
-
-</div>
-
-
-<!-- ACCUEIL -->
-
-<section id="accueil" class="hero">
-
-<div class="wrap heroGrid">
-
-<div>
-
-<small>
-COMMUNAUTÉ DE BASSARA — KOUBIA, LABÉ 🇬🇳
-</small>
-
-<h1>
-Retrouvons tous les ressortissants de Bassara.
-</h1>
-
-<p>
-Une campagne de recensement pour mieux connaître les ressortissants de
-<strong>Bassara, district de Fafaya, sous-préfecture et préfecture de Koubia, région de Labé, en République de Guinée</strong>,
-créer des liens et faciliter les initiatives au service de notre communauté.
-</p>
-
-<div class="actions">
-
-<a class="btn green" href="#inscription">
-📝 Je m'inscris
-</a>
-
-<a class="btn light" href="#objectif">
-Découvrir le projet
-</a>
-
-</div>
-
-<div class="geo">
-
-📍 <strong>
-Bassara — District de Fafaya, sous-préfecture de Koubia,
-préfecture de Koubia, région de Labé, République de Guinée 🇬🇳
-</strong>
-
-</div>
-
-</div>
-
-
-<div class="heroCard">
-
-<div class="big">🌍</div>
-
-<h3>
-Une communauté, un réseau.
-</h3>
-
-<p>
-<strong>
-Que vous soyez à Bassara, à Conakry ou à l'étranger
-</strong>,
-votre inscription contribue à retrouver notre communauté et à créer un réseau de ressortissants.
-</p>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- OBJECTIF -->
-
-<section id="objectif" class="section">
-
-<div class="wrap">
-
-<div class="head">
-
-<h2>
-Pourquoi ce recensement ?
-</h2>
-
-<p>
-L'objectif est de créer un annuaire communautaire fiable et sécurisé des ressortissants de
-<strong>Bassara</strong>.
-</p>
-
-</div>
-
-
-<div class="cards">
-
-<div class="card">
-
-👥
-
-<h3>
-Nous retrouver
-</h3>
-
-<p>
-Identifier les ressortissants de Bassara en Guinée et dans la diaspora.
-</p>
-
-</div>
-
-
-<div class="card">
-
-🤝
-
-<h3>
-Créer des liens
-</h3>
-
-<p>
-Faciliter les contacts et les initiatives communautaires.
-</p>
-
-</div>
-
-
-<div class="card">
-
-📊
-
-<h3>
-Mieux connaître
-</h3>
-
-<p>
-Comprendre la répartition géographique, professionnelle et éducative.
-</p>
-
-</div>
-
-
-<div class="card">
-
-🚀
-
-<h3>
-Agir ensemble
-</h3>
-
-<p>
-Mobiliser les compétences et les bonnes volontés autour de projets.
-</p>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- INSCRIPTION -->
-
-<section id="inscription"
-class="section"
-style="background:#fff">
-
-<div class="wrap">
-
-<div class="head">
-
-<h2>
-📝 Je suis ressortissant(e) de Bassara
-</h2>
-
-<p>
-Remplissez uniquement les informations nécessaires.
-</p>
-
-</div>
-
-
-<form id="registration" class="formGrid">
-
-
-<div class="box">
-
-<h3>Identité</h3>
-
-<label>Nom *</label>
-
-<input id="nom" required>
-
-<label>Prénom(s) *</label>
-
-<input id="prenom" required>
-
-<label>Date de naissance</label>
-
-<input id="naissance" type="date">
-
-<label>Sexe</label>
-
-<select id="sexe">
-
-<option value="">Sélectionner</option>
-
-<option>Homme</option>
-
-<option>Femme</option>
-
-<option>Autre / préfère ne pas préciser</option>
-
-</select>
-
-</div>
-
-
-<div class="box">
-
-<h3>Origine à Bassara</h3>
-
-<p class="notice">
-
-Bassara — District de Fafaya, sous-préfecture et préfecture de Koubia,
-région de Labé, Guinée.
-
-</p>
-
-<label>
-Localité / quartier / village d'origine *
-</label>
-
-<input
-id="origine"
-required
-placeholder="Ex. Bassara centre"
->
-
-<label>Nom du père</label>
-
-<input id="pere">
-
-<label>Nom de la mère</label>
-
-<input id="mere">
-
-<label>Famille / lignée</label>
-
-<input id="famille">
-
-</div>
-
-
-<div class="box">
-
-<h3>Résidence actuelle</h3>
-
-<label>Pays *</label>
-
-<input
-id="pays"
-required
-placeholder="Guinée"
->
-
-<label>Ville *</label>
-
-<input
-id="ville"
-required
-placeholder="Conakry"
->
-
-<label>Quartier / zone</label>
-
-<input id="zone">
-
-<label>Statut</label>
-
-<select id="statut">
-
-<option>
-Résident à Bassara
-</option>
-
-<option>
-Résident ailleurs en Guinée
-</option>
-
-<option>
-Diaspora
-</option>
-
-</select>
-
-</div>
-
-
-<div class="box">
-
-<h3>
-Études & activité
-</h3>
-
-<label>Niveau d'études</label>
-
-<select id="etudes">
-
-<option value="">
-Sélectionner
-</option>
-
-<option>
-Primaire
-</option>
-
-<option>
-Secondaire
-</option>
-
-<option>
-Universitaire
-</option>
-
-<option>
-Formation professionnelle
-</option>
-
-<option>
-Autre
-</option>
-
-</select>
-
-<label>
-Profession / activité
-</label>
-
-<input id="profession">
-
-<label>
-Secteur / domaine
-</label>
-
-<input id="secteur">
-
-<label>
-Compétences que vous souhaitez partager
-</label>
-
-<textarea
-id="competences"
-placeholder="Informatique, santé, agriculture, commerce..."
-></textarea>
-
-</div>
-
-
-<div class="box">
-
-<h3>
-Contact
-</h3>
-
-<label>Téléphone</label>
-
-<input
-id="telephone"
-type="tel"
->
-
-<label>WhatsApp</label>
-
-<input
-id="whatsapp"
-type="tel"
->
-
-<label>Email</label>
-
-<input
-id="email"
-type="email"
->
-
-<label>
-Préférence de contact
-</label>
-
-<select id="contactPref">
-
-<option>WhatsApp</option>
-
-<option>Téléphone</option>
-
-<option>Email</option>
-
-<option>Aucune</option>
-
-</select>
-
-</div>
-
-
-<div class="box">
-
-<h3>
-Informations complémentaires
-</h3>
-
-<label>
-Comment souhaitez-vous contribuer à Bassara ?
-</label>
-
-<textarea
-id="contribution"
-placeholder="Bénévolat, compétences, projet, soutien..."
-></textarea>
-
-
-<label class="check">
-
-<input
-id="publicContact"
-type="checkbox"
->
-
-<span>
-J'accepte que mon téléphone/WhatsApp puisse être partagé uniquement avec les responsables autorisés du recensement pour me contacter.
-</span>
-
-</label>
-
-
-<label class="check">
-
-<input
-id="consent"
-type="checkbox"
-required
->
-
-<span>
-J'accepte que mes informations soient enregistrées dans la base du recensement de Bassara et utilisées uniquement pour les objectifs présentés sur ce site. *
-</span>
-
-</label>
-
-</div>
-
-
-<div class="full">
-
-<button
-id="submitBtn"
-class="btn green"
-style="width:100%;font-size:16px"
-type="submit"
->
-
-✅ Enregistrer mon inscription
-
-</button>
-
-
-<p class="notice">
-
-Les inscriptions sont enregistrées dans la base centrale sécurisée.
-
-</p>
-
+<!-- MENU MOBILE -->
 
 <div
-id="formError"
-class="error hidden"
-></div>
-
-</div>
-
-</form>
-
-
-<div
-id="success"
-class="success hidden"
-></div>
-
-</div>
-
-</section>
-
-
-<!-- RECHERCHE -->
-
-<section id="recherche"
-class="section">
-
-<div class="wrap">
-
-<div class="head">
-
-<h2>
-🔎 Recherche communautaire
-</h2>
-
-<p>
-La consultation des informations personnelles reste réservée aux utilisateurs autorisés.
-</p>
-
-</div>
-
-
-<div class="box">
-
-<div class="search">
-
-<input
-id="q"
-placeholder="Nom, prénom, profession..."
+  id="mobileMenu"
+  class="hidden"
+  style="background:#fff;padding:15px;border-bottom:1px solid #ddd"
 >
 
-<input
-id="qPays"
-placeholder="Pays"
->
+  <div
+    class="wrap"
+    style="display:grid;gap:12px"
+  >
 
-<input
-id="qVille"
-placeholder="Ville"
->
+    <a href="#objectif">
+      Objectif
+    </a>
 
-<button
-class="btn primary"
-onclick="searchPeople()"
->
+    <a href="#inscription">
+      S'inscrire
+    </a>
 
-Rechercher
+    <a href="#recherche">
+      Recherche
+    </a>
 
-</button>
+    <a href="#confidentialite">
+      Confidentialité
+    </a>
 
-</div>
-
-
-<div id="results">
-
-<p class="notice">
-Recherche disponible pour les utilisateurs autorisés.
-</p>
+  </div>
 
 </div>
 
-</div>
 
-</div>
-
-</section>
-
-
-<!-- CONFIDENTIALITE -->
+<!-- =========================
+     ACCUEIL
+========================= -->
 
 <section
-id="confidentialite"
-class="section"
-style="background:#fff"
+  id="accueil"
+  class="hero"
 >
 
-<div class="wrap">
+  <div class="wrap heroGrid">
 
-<div class="head">
+    <div>
 
-<h2>
-🔐 Confidentialité
-</h2>
+      <small>
+        COMMUNAUTÉ DE BASSARA — KOUBIA, LABÉ 🇬🇳
+      </small>
 
-<p>
-La confiance est essentielle à ce projet.
-</p>
+      <h1>
+        Retrouvons tous les ressortissants de Bassara.
+      </h1>
 
-</div>
+      <p>
 
+        Une campagne de recensement pour mieux connaître les ressortissants de
 
-<div class="cards">
+        <strong>
+          Bassara, district de Fafaya, sous-préfecture et préfecture de Koubia,
+          région de Labé, en République de Guinée
+        </strong>,
 
+        créer des liens et faciliter les initiatives au service de notre communauté.
 
-<div class="card">
+      </p>
 
-🛡️
+      <div class="actions">
 
-<h3>
-Données protégées
-</h3>
+        <a
+          class="btn green"
+          href="#inscription"
+        >
+          📝 Je m'inscris
+        </a>
 
-<p>
-Les informations personnelles ne sont pas publiées librement.
-</p>
+        <a
+          class="btn light"
+          href="#objectif"
+        >
+          Découvrir le projet
+        </a>
 
-</div>
+      </div>
 
+      <div class="geo">
 
-<div class="card">
+        📍
 
-🎯
+        <strong>
+          Bassara — District de Fafaya, sous-préfecture de Koubia,
+          préfecture de Koubia, région de Labé, République de Guinée 🇬🇳
+        </strong>
 
-<h3>
-Usage limité
-</h3>
+      </div>
 
-<p>
-Les données sont destinées aux objectifs du recensement et aux initiatives communautaires autorisées.
-</p>
-
-</div>
-
-
-<div class="card">
-
-✏️
-
-<h3>
-Mise à jour
-</h3>
-
-<p>
-Les demandes de correction seront traitées selon la procédure prévue par l'association.
-</p>
-
-</div>
+    </div>
 
 
-<div class="card">
+    <div class="heroCard">
 
-🗑️
+      <div class="big">
+        🌍
+      </div>
 
-<h3>
-Suppression
-</h3>
+      <h3>
+        Une communauté, un réseau.
+      </h3>
 
-<p>
-La suppression des données sera soumise à la procédure définie par le projet.
-</p>
+      <p>
 
-</div>
+        <strong>
+          Que vous soyez à Bassara, à Conakry ou à l'étranger
+        </strong>,
 
+        votre inscription contribue à retrouver notre communauté et à créer
+        un réseau de ressortissants.
 
-</div>
+      </p>
 
-</div>
+    </div>
+
+  </div>
 
 </section>
 
 
-<!-- FOOTER -->
+<!-- =========================
+     OBJECTIF
+========================= -->
+
+<section
+  id="objectif"
+  class="section"
+>
+
+  <div class="wrap">
+
+    <div class="head">
+
+      <h2>
+        Pourquoi ce recensement ?
+      </h2>
+
+      <p>
+
+        L'objectif est de créer un annuaire communautaire fiable et sécurisé
+        des ressortissants de <strong>Bassara</strong>.
+
+      </p>
+
+    </div>
+
+
+    <div class="cards">
+
+      <div class="card">
+
+        👥
+
+        <h3>
+          Nous retrouver
+        </h3>
+
+        <p>
+          Identifier les ressortissants de Bassara en Guinée et dans la diaspora.
+        </p>
+
+      </div>
+
+
+      <div class="card">
+
+        🤝
+
+        <h3>
+          Créer des liens
+        </h3>
+
+        <p>
+          Faciliter les contacts et les initiatives communautaires.
+        </p>
+
+      </div>
+
+
+      <div class="card">
+
+        📊
+
+        <h3>
+          Mieux connaître
+        </h3>
+
+        <p>
+          Comprendre la répartition géographique, professionnelle et éducative.
+        </p>
+
+      </div>
+
+
+      <div class="card">
+
+        🚀
+
+        <h3>
+          Agir ensemble
+        </h3>
+
+        <p>
+          Mobiliser les compétences et les bonnes volontés autour de projets.
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     INSCRIPTION
+========================= -->
+
+<section
+  id="inscription"
+  class="section"
+  style="background:#fff"
+>
+
+  <div class="wrap">
+
+    <div class="head">
+
+      <h2>
+        📝 Je suis ressortissant(e) de Bassara
+      </h2>
+
+      <p>
+        Remplissez les informations nécessaires.
+      </p>
+
+    </div>
+
+
+    <form
+      id="registration"
+      class="formGrid"
+    >
+
+
+      <!-- IDENTITÉ -->
+
+      <div class="box">
+
+        <h3>
+          Identité
+        </h3>
+
+        <label for="nom">
+          Nom *
+        </label>
+
+        <input
+          id="nom"
+          required
+        >
+
+
+        <label for="prenom">
+          Prénom(s) *
+        </label>
+
+        <input
+          id="prenom"
+          required
+        >
+
+
+        <label for="naissance">
+          Date de naissance
+        </label>
+
+        <input
+          id="naissance"
+          type="date"
+        >
+
+
+        <label for="sexe">
+          Sexe
+        </label>
+
+        <select id="sexe">
+
+          <option value="">
+            Sélectionner
+          </option>
+
+          <option>
+            Homme
+          </option>
+
+          <option>
+            Femme
+          </option>
+
+          <option>
+            Autre / préfère ne pas préciser
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <!-- ORIGINE -->
+
+      <div class="box">
+
+        <h3>
+          Origine à Bassara
+        </h3>
+
+        <p class="notice">
+
+          Bassara — District de Fafaya,
+          sous-préfecture et préfecture de Koubia,
+          région de Labé, Guinée.
+
+        </p>
+
+
+        <label for="origine">
+          Localité / quartier / village d'origine *
+        </label>
+
+        <input
+          id="origine"
+          required
+          placeholder="Ex. Bassara centre"
+        >
+
+
+        <label for="pere">
+          Nom du père
+        </label>
+
+        <input id="pere">
+
+
+        <label for="mere">
+          Nom de la mère
+        </label>
+
+        <input id="mere">
+
+
+        <label for="famille">
+          Famille / lignée
+        </label>
+
+        <input id="famille">
+
+      </div>
+
+
+      <!-- RÉSIDENCE -->
+
+      <div class="box">
+
+        <h3>
+          Résidence actuelle
+        </h3>
+
+
+        <label for="pays">
+          Pays *
+        </label>
+
+        <input
+          id="pays"
+          required
+          placeholder="Guinée"
+        >
+
+
+        <label for="ville">
+          Ville *
+        </label>
+
+        <input
+          id="ville"
+          required
+          placeholder="Conakry"
+        >
+
+
+        <label for="zone">
+          Quartier / zone
+        </label>
+
+        <input id="zone">
+
+
+        <label for="statut">
+          Statut
+        </label>
+
+        <select id="statut">
+
+          <option>
+            Résident à Bassara
+          </option>
+
+          <option>
+            Résident ailleurs en Guinée
+          </option>
+
+          <option>
+            Diaspora
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <!-- ÉTUDES -->
+
+      <div class="box">
+
+        <h3>
+          Études & activité
+        </h3>
+
+
+        <label for="etudes">
+          Niveau d'études
+        </label>
+
+        <select id="etudes">
+
+          <option value="">
+            Sélectionner
+          </option>
+
+          <option>
+            Primaire
+          </option>
+
+          <option>
+            Secondaire
+          </option>
+
+          <option>
+            Universitaire
+          </option>
+
+          <option>
+            Formation professionnelle
+          </option>
+
+          <option>
+            Autre
+          </option>
+
+        </select>
+
+
+        <label for="profession">
+          Profession / activité
+        </label>
+
+        <input id="profession">
+
+
+        <label for="secteur">
+          Secteur / domaine
+        </label>
+
+        <input id="secteur">
+
+
+        <label for="competences">
+          Compétences que vous souhaitez partager
+        </label>
+
+        <textarea
+          id="competences"
+          placeholder="Informatique, santé, agriculture, commerce..."
+        ></textarea>
+
+      </div>
+
+
+      <!-- CONTACT -->
+
+      <div class="box">
+
+        <h3>
+          Contact
+        </h3>
+
+
+        <label for="telephone">
+          Téléphone
+        </label>
+
+        <input
+          id="telephone"
+          type="tel"
+        >
+
+
+        <label for="whatsapp">
+          WhatsApp
+        </label>
+
+        <input
+          id="whatsapp"
+          type="tel"
+        >
+
+
+        <label for="email">
+          Email
+        </label>
+
+        <input
+          id="email"
+          type="email"
+        >
+
+
+        <label for="contactPref">
+          Préférence de contact
+        </label>
+
+        <select id="contactPref">
+
+          <option>
+            WhatsApp
+          </option>
+
+          <option>
+            Téléphone
+          </option>
+
+          <option>
+            Email
+          </option>
+
+          <option>
+            Aucune
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <!-- COMPLÉMENT -->
+
+      <div class="box">
+
+        <h3>
+          Informations complémentaires
+        </h3>
+
+
+        <label for="contribution">
+          Comment souhaitez-vous contribuer à Bassara ?
+        </label>
+
+        <textarea
+          id="contribution"
+          placeholder="Bénévolat, compétences, projet, soutien..."
+        ></textarea>
+
+
+        <label class="check">
+
+          <input
+            id="publicContact"
+            type="checkbox"
+          >
+
+          <span>
+
+            J'accepte que mon téléphone/WhatsApp puisse être partagé
+            uniquement avec les responsables autorisés du recensement
+            pour me contacter.
+
+          </span>
+
+        </label>
+
+
+        <label class="check">
+
+          <input
+            id="consent"
+            type="checkbox"
+            required
+          >
+
+          <span>
+
+            J'accepte que mes informations soient enregistrées dans la
+            base du recensement de Bassara et utilisées uniquement pour
+            les objectifs présentés sur ce site. *
+
+          </span>
+
+        </label>
+
+      </div>
+
+
+      <!-- BOUTON -->
+
+      <div class="full">
+
+        <button
+          id="submitBtn"
+          class="btn green"
+          style="width:100%;font-size:16px"
+          type="submit"
+        >
+
+          ✅ Enregistrer mon inscription
+
+        </button>
+
+
+        <p class="notice">
+
+          Les inscriptions sont enregistrées dans la base centrale sécurisée.
+
+        </p>
+
+
+        <div
+          id="formError"
+          class="error hidden"
+        ></div>
+
+      </div>
+
+    </form>
+
+
+    <div
+      id="success"
+      class="success hidden"
+    ></div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     RECHERCHE
+========================= -->
+
+<section
+  id="recherche"
+  class="section"
+>
+
+  <div class="wrap">
+
+    <div class="head">
+
+      <h2>
+        🔎 Recherche communautaire
+      </h2>
+
+      <p>
+
+        La consultation des informations personnelles reste réservée
+        aux utilisateurs autorisés.
+
+      </p>
+
+    </div>
+
+
+    <div class="box">
+
+      <div class="search">
+
+        <input
+          id="q"
+          placeholder="Nom, prénom, profession..."
+        >
+
+        <input
+          id="qPays"
+          placeholder="Pays"
+        >
+
+        <input
+          id="qVille"
+          placeholder="Ville"
+        >
+
+        <button
+          class="btn primary"
+          onclick="searchPeople()"
+        >
+          Rechercher
+        </button>
+
+      </div>
+
+
+      <div id="results">
+
+        <p class="notice">
+
+          🔐 La recherche des données personnelles nécessite
+          une session administrateur autorisée.
+
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     CONFIDENTIALITÉ
+========================= -->
+
+<section
+  id="confidentialite"
+  class="section"
+  style="background:#fff"
+>
+
+  <div class="wrap">
+
+    <div class="head">
+
+      <h2>
+        🔐 Confidentialité
+      </h2>
+
+      <p>
+        La confiance est essentielle à ce projet.
+      </p>
+
+    </div>
+
+
+    <div class="cards">
+
+      <div class="card">
+
+        🛡️
+
+        <h3>
+          Données protégées
+        </h3>
+
+        <p>
+          Les informations personnelles ne sont pas publiées librement.
+        </p>
+
+      </div>
+
+
+      <div class="card">
+
+        🎯
+
+        <h3>
+          Usage limité
+        </h3>
+
+        <p>
+          Les données sont destinées aux objectifs du recensement
+          et aux initiatives communautaires autorisées.
+        </p>
+
+      </div>
+
+
+      <div class="card">
+
+        ✏️
+
+        <h3>
+          Mise à jour
+        </h3>
+
+        <p>
+          Les demandes de correction seront traitées selon
+          la procédure prévue par le projet.
+        </p>
+
+      </div>
+
+
+      <div class="card">
+
+        🗑️
+
+        <h3>
+          Suppression
+        </h3>
+
+        <p>
+          La suppression des données sera soumise à la procédure
+          définie par le projet.
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     FOOTER
+========================= -->
 
 <footer>
 
-<div class="wrap foot">
+  <div class="wrap foot">
 
-<div>
+    <div>
 
-<b>
-BASSARA — RECENSEMENT
-</b>
+      <b>
+        BASSARA — RECENSEMENT
+      </b>
 
-<p>
-Bassara — District de Fafaya, sous-préfecture et préfecture de Koubia,
-région de Labé, République de Guinée 🇬🇳
-</p>
+      <p>
 
-<p>
-Retrouvons-nous pour mieux construire ensemble.
-</p>
+        Bassara — District de Fafaya,
+        sous-préfecture et préfecture de Koubia,
+        région de Labé, République de Guinée 🇬🇳
 
-</div>
+      </p>
 
+      <p>
+        Retrouvons-nous pour mieux construire ensemble.
+      </p>
 
-<div>
-
-<b>
-Navigation
-</b>
-
-<p>
-
-<a href="#objectif">
-Objectif
-</a>
-
-<br>
-
-<a href="#inscription">
-Inscription
-</a>
-
-<br>
-
-<a href="#confidentialite">
-Confidentialité
-</a>
-
-</p>
-
-</div>
+    </div>
 
 
-<div>
+    <div>
 
-<b>
-Projet
-</b>
+      <b>
+        Navigation
+      </b>
 
-<p>
-Version 2 — base centrale Supabase.
-</p>
+      <p>
 
-</div>
+        <a href="#objectif">
+          Objectif
+        </a>
 
-</div>
+        <br>
+
+        <a href="#inscription">
+          Inscription
+        </a>
+
+        <br>
+
+        <a href="#recherche">
+          Recherche
+        </a>
+
+        <br>
+
+        <a href="#confidentialite">
+          Confidentialité
+        </a>
+
+      </p>
+
+    </div>
 
 
-<div
-class="wrap"
-style="border-top:1px solid #ffffff22;margin-top:25px;padding-top:18px;font-size:12px"
->
+    <div>
 
-© <span id="year"></span>
-Recensement Bassara
+      <b>
+        Projet
+      </b>
 
-</div>
+      <p>
+        Version 1 — Base centrale Supabase.
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <div
+    class="wrap"
+    style="
+      border-top:1px solid #ffffff22;
+      margin-top:25px;
+      padding-top:18px;
+      font-size:12px;
+    "
+  >
+
+    © <span id="year"></span>
+    Recensement Bassara
+
+  </div>
 
 </footer>
 
+
+<!-- =========================
+     JAVASCRIPT
+========================= -->
 
 <script>
 
 /* =====================================================
    CONFIGURATION SUPABASE
-   ===================================================== */
+===================================================== */
 
 const SUPABASE_URL =
-"https://gxsokrwqefletxitejde.supabase.co";
+  "https://gxsokrwqefletxitejde.supabase.co";
 
 const SUPABASE_PUBLISHABLE_KEY =
-"sb_publishable_4z1GPpx-LMGbKNXXPoHT3A_zD0Q60XC";
-
-
-const {
-  createClient
-} = window.supabase;
+  "sb_publishable_4z1GPpx-LMGbKNXXPoHT3A_zD0Q60XC";
 
 
 const db =
-createClient(
-  SUPABASE_URL,
-  SUPABASE_PUBLISHABLE_KEY
-);
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
 
 
 /* =====================================================
    INITIALISATION
-   ===================================================== */
+===================================================== */
 
 document.getElementById("year").textContent =
-new Date().getFullYear();
+  new Date().getFullYear();
 
 
-function toggleMenu(){
+/* =====================================================
+   MENU
+===================================================== */
+
+function toggleMenu() {
 
   document
-  .getElementById("mobileMenu")
-  .classList.toggle("hidden");
-
-}
-
-
-function v(id){
-
-  const element =
-  document.getElementById(id);
-
-  return element
-  ? element.value.trim()
-  : "";
+    .getElementById("mobileMenu")
+    .classList.toggle("hidden");
 
 }
 
 
 /* =====================================================
-   MESSAGE D'ERREUR
-   ===================================================== */
+   RÉCUPÉRATION VALEUR
+===================================================== */
 
-function showError(message){
+function v(id) {
+
+  const element =
+    document.getElementById(id);
+
+  return element
+    ? element.value.trim()
+    : "";
+
+}
+
+
+/* =====================================================
+   MESSAGE ERREUR
+===================================================== */
+
+function showError(message) {
 
   const error =
-  document.getElementById("formError");
+    document.getElementById("formError");
 
   error.textContent =
-  message;
+    message;
 
   error.classList.remove("hidden");
 
@@ -1266,452 +1552,286 @@ function showError(message){
 
 
 /* =====================================================
-   ENREGISTREMENT SUPABASE
-   ===================================================== */
+   INSCRIPTION
+===================================================== */
 
 document
-.getElementById("registration")
-.addEventListener(
-"submit",
-async function(event){
+  .getElementById("registration")
+  .addEventListener(
+    "submit",
+    async function(event) {
 
-  event.preventDefault();
-
-
-  const success =
-  document.getElementById("success");
-
-  const error =
-  document.getElementById("formError");
-
-  const button =
-  document.getElementById("submitBtn");
+      event.preventDefault();
 
 
-  success.classList.add("hidden");
+      const success =
+        document.getElementById("success");
 
-  error.classList.add("hidden");
+      const error =
+        document.getElementById("formError");
 
-
-  button.disabled = true;
-
-  button.textContent =
-  "⏳ Enregistrement...";
-
-
-  try{
+      const button =
+        document.getElementById("submitBtn");
 
 
-    /* =========================
-       CONSENTEMENT
-       ========================= */
+      success.classList.add("hidden");
 
-    const consent =
-    document.getElementById("consent")
-    .checked;
+      error.classList.add("hidden");
 
 
-    if(!consent){
+      button.disabled = true;
 
-      throw new Error(
-        "Vous devez accepter le consentement."
-      );
+      button.textContent =
+        "⏳ Enregistrement...";
+
+
+      try {
+
+        /* =========================
+           CONSENTEMENT
+        ========================= */
+
+        const consent =
+          document
+            .getElementById("consent")
+            .checked;
+
+
+        if (!consent) {
+
+          throw new Error(
+            "Vous devez accepter le consentement."
+          );
+
+        }
+
+
+        /* =========================
+           NUMÉRO
+        ========================= */
+
+        const numero =
+          "BAS-" + Date.now();
+
+
+        /* =========================
+           DONNÉES
+        ========================= */
+
+        const personne = {
+
+          numero_recensement:
+            numero,
+
+          nom:
+            v("nom"),
+
+          prenom:
+            v("prenom"),
+
+          date_naissance:
+            v("naissance") || null,
+
+          sexe:
+            v("sexe") || null,
+
+          origine:
+            v("origine"),
+
+          nom_pere:
+            v("pere") || null,
+
+          nom_mere:
+            v("mere") || null,
+
+          famille:
+            v("famille") || null,
+
+          pays:
+            v("pays"),
+
+          ville:
+            v("ville"),
+
+          zone:
+            v("zone") || null,
+
+          statut:
+            v("statut") || null,
+
+          niveau_etudes:
+            v("etudes") || null,
+
+          profession:
+            v("profession") || null,
+
+          secteur:
+            v("secteur") || null,
+
+          competences:
+            v("competences") || null,
+
+          telephone:
+            v("telephone") || null,
+
+          whatsapp:
+            v("whatsapp") || null,
+
+          email:
+            v("email") || null,
+
+          contact_pref:
+            v("contactPref") || null,
+
+          contribution:
+            v("contribution") || null,
+
+          contact_partage_autorise:
+            document
+              .getElementById("publicContact")
+              .checked,
+
+          consentement:
+            true
+
+        };
+
+
+        /* =================================================
+           IMPORTANT :
+
+           ON FAIT UNIQUEMENT INSERT.
+
+           PAS DE .SELECT()
+           PAS DE .SINGLE()
+
+           Cela évite que la RLS SELECT administrateur
+           bloque l'inscription publique.
+        ================================================= */
+
+        const {
+          error: supabaseError
+        } = await db
+          .from("ressortissants")
+          .insert([personne]);
+
+
+        /* =========================
+           ERREUR SUPABASE
+        ========================= */
+
+        if (supabaseError) {
+
+          console.error(
+            "Erreur Supabase :",
+            supabaseError
+          );
+
+          throw new Error(
+            supabaseError.message
+          );
+
+        }
+
+
+        /* =========================
+           SUCCÈS
+        ========================= */
+
+        success.innerHTML = `
+
+          <strong>
+            ✅ Inscription enregistrée avec succès.
+          </strong>
+
+          <br><br>
+
+          Votre numéro de recensement est :
+
+          <strong
+            style="font-size:20px"
+          >
+            ${numero}
+          </strong>
+
+          <br><br>
+
+          Conservez précieusement ce numéro.
+
+        `;
+
+
+        success.classList.remove(
+          "hidden"
+        );
+
+
+        /* Réinitialiser le formulaire */
+
+        event.target.reset();
+
+
+        /* Aller au message */
+
+        success.scrollIntoView({
+          behavior: "smooth",
+          block: "center"
+        });
+
+
+      }
+
+      catch (err) {
+
+        console.error(err);
+
+
+        showError(
+          "❌ Impossible d'enregistrer l'inscription : "
+          +
+          (err.message || "Erreur inconnue")
+        );
+
+      }
+
+
+      finally {
+
+        button.disabled =
+          false;
+
+        button.textContent =
+          "✅ Enregistrer mon inscription";
+
+      }
 
     }
-
-
-    /* =========================
-       NUMÉRO DE RECENSEMENT
-       ========================= */
-
-    const numero =
-    "BAS-" + Date.now();
-
-
-    /* =========================
-       DONNÉES
-       ========================= */
-
-    const personne = {
-
-      numero_recensement:
-      numero,
-
-      nom:
-      v("nom"),
-
-      prenom:
-      v("prenom"),
-
-      date_naissance:
-      v("naissance") || null,
-
-      sexe:
-      v("sexe") || null,
-
-      origine:
-      v("origine"),
-
-      nom_pere:
-      v("pere") || null,
-
-      nom_mere:
-      v("mere") || null,
-
-      famille:
-      v("famille") || null,
-
-      pays:
-      v("pays"),
-
-      ville:
-      v("ville"),
-
-      zone:
-      v("zone") || null,
-
-      statut:
-      v("statut") || null,
-
-      niveau_etudes:
-      v("etudes") || null,
-
-      profession:
-      v("profession") || null,
-
-      secteur:
-      v("secteur") || null,
-
-      competences:
-      v("competences") || null,
-
-      telephone:
-      v("telephone") || null,
-
-      whatsapp:
-      v("whatsapp") || null,
-
-      email:
-      v("email") || null,
-
-      contact_pref:
-      v("contactPref") || null,
-
-      contribution:
-      v("contribution") || null,
-
-      contact_partage_autorise:
-      document
-      .getElementById("publicContact")
-      .checked,
-
-      consentement:
-      true
-
-    };
-
-
-    /* =========================
-       INSERTION SUPABASE
-       ========================= */
-
-    const {
-      data,
-      error: supabaseError
-    } = await db
-
-      .from("ressortissants")
-
-      .insert([personne])
-
-      .select(
-        "id,numero_recensement,nom,prenom"
-      )
-
-      .single();
-
-
-    if(supabaseError){
-
-      console.error(
-        "Erreur Supabase:",
-        supabaseError
-      );
-
-      throw new Error(
-        supabaseError.message
-      );
-
-    }
-
-
-    /* =========================
-       SUCCÈS
-       ========================= */
-
-    success.innerHTML = `
-
-      <strong>
-      ✅ Inscription enregistrée avec succès.
-      </strong>
-
-      <br><br>
-
-      Votre numéro de recensement est :
-
-      <strong
-      style="font-size:20px"
-      >
-
-      ${data.numero_recensement}
-
-      </strong>
-
-      <br><br>
-
-      Conservez précieusement ce numéro.
-
-    `;
-
-
-    success.classList.remove(
-      "hidden"
-    );
-
-
-    /* Réinitialisation */
-
-    event.target.reset();
-
-
-    success.scrollIntoView({
-      behavior:"smooth",
-      block:"center"
-    });
-
-
-  }
-
-  catch(error){
-
-    console.error(error);
-
-
-    showError(
-      "❌ Impossible d'enregistrer l'inscription : "
-      +
-      error.message
-    );
-
-  }
-
-
-  finally{
-
-    button.disabled =
-    false;
-
-    button.textContent =
-    "✅ Enregistrer mon inscription";
-
-  }
-
-});
+  );
 
 
 /* =====================================================
    RECHERCHE
-   ===================================================== */
 
-async function searchPeople(){
+   La recherche reste protégée pour la Version 1.
+   Elle sera utilisée par l'espace administrateur.
+===================================================== */
+
+async function searchPeople() {
 
   const results =
-  document.getElementById("results");
+    document.getElementById("results");
 
 
-  results.innerHTML =
-  "<p class='notice'>Recherche en cours...</p>";
+  results.innerHTML = `
 
+    <p class="notice">
 
-  try{
+      🔐 La recherche des données personnelles
+      est réservée aux utilisateurs autorisés.
 
-    const q =
-    v("q");
+    </p>
 
-    const pays =
-    v("qPays");
-
-    const ville =
-    v("qVille");
-
-
-    let query =
-    db
-
-    .from("ressortissants")
-
-    .select(
-      "nom,prenom,pays,ville,profession,origine"
-    )
-
-    .order(
-      "created_at",
-      {
-        ascending:false
-      }
-    )
-
-    .limit(20);
-
-
-    if(q){
-
-      query =
-      query.or(
-        "nom.ilike.%"+q+"%,"
-        +
-        "prenom.ilike.%"+q+"%,"
-        +
-        "profession.ilike.%"+q+"%"
-      );
-
-    }
-
-
-    if(pays){
-
-      query =
-      query.ilike(
-        "pays",
-        "%"+pays+"%"
-      );
-
-    }
-
-
-    if(ville){
-
-      query =
-      query.ilike(
-        "ville",
-        "%"+ville+"%"
-      );
-
-    }
-
-
-    const {
-      data,
-      error
-    } = await query;
-
-
-    if(error){
-
-      throw error;
-
-    }
-
-
-    if(!data || !data.length){
-
-      results.innerHTML =
-      "<p class='notice'>Aucun résultat.</p>";
-
-      return;
-
-    }
-
-
-    results.innerHTML =
-    data.map(
-      person => `
-
-      <div class="result">
-
-        <b>
-          ${escapeHtml(person.prenom || "")}
-          ${escapeHtml(person.nom || "")}
-        </b>
-
-        <span class="badge">
-
-          ${escapeHtml(person.pays || "")}
-          —
-          ${escapeHtml(person.ville || "")}
-
-        </span>
-
-        <div class="notice">
-
-          ${escapeHtml(
-            person.profession ||
-            "Profession non renseignée"
-          )}
-
-          • Origine :
-
-          ${escapeHtml(
-            person.origine || ""
-          )}
-
-        </div>
-
-      </div>
-
-      `
-    ).join("");
-
-
-  }
-
-  catch(error){
-
-    console.error(error);
-
-    results.innerHTML = `
-
-      <p class="notice">
-
-      🔐 La recherche est protégée.
-      L'accès aux données est soumis aux
-      politiques de sécurité Supabase.
-
-      </p>
-
-    `;
-
-  }
-
-}
-
-
-/* =====================================================
-   PROTECTION CONTRE L'INJECTION HTML
-   ===================================================== */
-
-function escapeHtml(value){
-
-  return String(value)
-
-  .replace(
-    /[&<>'"]/g,
-
-    function(character){
-
-      return {
-
-        "&":"&amp;",
-        "<":"&lt;",
-        ">":"&gt;",
-        "'":"&#39;",
-        "\"":"&quot;"
-
-      }[character];
-
-    }
-
-  );
+  `;
 
 }
 
