@@ -206,7 +206,7 @@ document.getElementById("recensementForm").addEventListener("submit",async e=>{
       <p><strong>${esc(currentCard.nom)} ${esc(currentCard.prenom)}</strong></p>
       <p>Numéro : <strong>${esc(currentCard.numero)}</strong></p>
       <p>📍 ${esc(currentCard.ville||"")} — ${esc(currentCard.pays||"")}</p>
-      <button type="button" class="btn green download" onclick="downloadCard()">📥 Télécharger ma carte</button>
+      <button type="button" class="btn green download" onclick="downloadCard()">📥 Télécharger / partager ma carte</button><p style="font-size:12px;color:#475467;margin:8px 0 0">Sur iPhone, le menu Partager peut proposer directement « Enregistrer dans Photos ».</p>
     </div>
     <p>⚠️ Conservez précieusement cette carte et votre numéro.</p>
    </div>`;
@@ -221,16 +221,21 @@ document.getElementById("recensementForm").addEventListener("submit",async e=>{
  }
 });
 
-function downloadCard(){
+async function downloadCard(){
  if(!currentCard){alert("Les informations de la carte sont introuvables.");return}
- const c=document.createElement("canvas");c.width=1200;c.height=720;
+
+ const c=document.createElement("canvas");
+ c.width=1200;c.height=720;
  const x=c.getContext("2d");
+
  x.fillStyle="#eef3f8";x.fillRect(0,0,1200,720);
  x.fillStyle="#fff";x.beginPath();x.roundRect(50,50,1100,620,35);x.fill();
  x.fillStyle="#12365f";x.beginPath();x.roundRect(50,50,1100,165,35);x.fill();x.fillRect(50,140,1100,75);
+
  x.fillStyle="#fff";x.font="bold 70px Arial";x.fillText("B",90,160);
  x.font="bold 42px Arial";x.fillText("BASSARA",185,120);
  x.font="22px Arial";x.fillText("CARTE DE RECENSEMENT",185,165);
+
  x.fillStyle="#12365f";x.font="bold 25px Arial";x.fillText("RESSORTISSANT(E)",95,285);
  x.fillStyle="#101828";x.font="bold 42px Arial";x.fillText((currentCard.nom+" "+currentCard.prenom).toUpperCase(),95,345);
  x.fillStyle="#475467";x.font="22px Arial";x.fillText("Origine : "+(currentCard.origine||"Bassara"),95,395);
@@ -240,7 +245,66 @@ function downloadCard(){
  x.fillStyle="#475467";x.font="20px Arial";x.fillText("Date d'inscription : "+currentCard.date,95,590);
  x.fillStyle="#4f8f2f";x.beginPath();x.arc(1030,500,52,0,Math.PI*2);x.fill();
  x.fillStyle="#fff";x.font="bold 45px Arial";x.fillText("✓",1014,515);
- const a=document.createElement("a");a.download="Carte-Recensement-"+currentCard.numero+".png";a.href=c.toDataURL("image/png");a.click();
+
+ const filename="Carte-Recensement-"+currentCard.numero+".png";
+ const dataUrl=c.toDataURL("image/png");
+
+ /* iPhone/iPad : Safari bloque souvent le téléchargement direct d'un
+    canvas avec <a download>. On utilise d'abord le menu Partager natif. */
+ try{
+   const blob=await new Promise(resolve=>c.toBlob(resolve,"image/png"));
+   if(blob && navigator.canShare){
+     const file=new File([blob],filename,{type:"image/png"});
+     if(navigator.canShare({files:[file]})){
+       await navigator.share({
+         files:[file],
+         title:"Carte de recensement de Bassara",
+         text:"Ma carte de recensement — "+currentCard.numero
+       });
+       return;
+     }
+   }
+ }catch(err){
+   if(err && err.name==="AbortError") return;
+   console.log("Partage iPhone non disponible :",err);
+ }
+
+ /* Fallback iPhone : afficher la carte en plein écran.
+    L'utilisateur peut alors faire un appui long > Enregistrer dans Photos. */
+ const win=window.open("", "_blank");
+ if(win){
+   win.document.write(`
+     <!doctype html>
+     <html lang="fr">
+     <head>
+       <meta name="viewport" content="width=device-width,initial-scale=1">
+       <title>${filename}</title>
+       <style>
+         body{margin:0;background:#eef3f8;font-family:Arial,sans-serif;text-align:center;padding:20px}
+         img{max-width:100%;height:auto;border-radius:12px;box-shadow:0 8px 30px #0002}
+         p{color:#12365f;font-weight:700;line-height:1.5}
+         .btn{display:inline-block;background:#4f8f2f;color:white;padding:13px 18px;border-radius:10px;text-decoration:none;font-weight:800}
+       </style>
+     </head>
+     <body>
+       <p>📱 Sur iPhone : faites un <strong>appui long sur la carte</strong>, puis choisissez<br>
+       <strong>« Enregistrer dans Photos »</strong>.</p>
+       <img src="${dataUrl}" alt="Carte de recensement">
+       <p><a class="btn" href="${dataUrl}" download="${filename}">📥 Enregistrer la carte</a></p>
+     </body>
+     </html>
+   `);
+   win.document.close();
+   return;
+ }
+
+ /* Dernier fallback pour les navigateurs qui acceptent download. */
+ const a=document.createElement("a");
+ a.download=filename;
+ a.href=dataUrl;
+ document.body.appendChild(a);
+ a.click();
+ a.remove();
 }
 </script>
 </body>
