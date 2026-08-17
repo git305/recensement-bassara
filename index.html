@@ -3,9 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <meta name="theme-color" content="#12365f">
 
   <title>Bassara — Recensement</title>
@@ -68,10 +66,6 @@
       margin: auto;
     }
 
-    /* =========================
-       BOUTONS
-    ========================== */
-
     .btn {
       border: 0;
       border-radius: 12px;
@@ -90,11 +84,6 @@
     .btn:hover {
       transform: translateY(-1px);
       opacity: .95;
-    }
-
-    .primary {
-      background: var(--blue);
-      color: white;
     }
 
     .green {
@@ -132,8 +121,7 @@
 
       background: rgba(255,255,255,.96);
 
-      border-bottom:
-        1px solid var(--border);
+      border-bottom: 1px solid var(--border);
 
       backdrop-filter: blur(12px);
     }
@@ -300,7 +288,7 @@
     }
 
     /* =========================
-       CARDS
+       OBJECTIFS
     ========================== */
 
     .cards {
@@ -437,7 +425,7 @@
     }
 
     /* =========================
-       MODE SIMPLE AVEC IMAGES
+       MODE SIMPLE
     ========================== */
 
     .accessBox {
@@ -602,9 +590,7 @@
 
     .successNumber {
       font-size: 22px;
-
       font-weight: 900;
-
       color: var(--green);
     }
 
@@ -1066,7 +1052,7 @@
 
 
     <!-- =================================================
-         MODE SIMPLE
+         MODE SIMPLE AVEC IMAGES
     ================================================== -->
 
     <div class="accessBox">
@@ -1387,7 +1373,7 @@
         </div>
 
 
-        <!-- ACTIVITÉ -->
+        <!-- PROFESSION -->
 
         <label>
           💼 Activité principale
@@ -2134,6 +2120,7 @@
 
 <script>
 
+
 /* =====================================================
    SUPABASE
 ===================================================== */
@@ -2328,6 +2315,17 @@ function voiceTo(id) {
     };
 
 
+  recognition.onerror =
+    function(event) {
+
+      console.error(
+        "Erreur vocale :",
+        event.error
+      );
+
+    };
+
+
   recognition.start();
 
 }
@@ -2390,14 +2388,14 @@ function generateNumber() {
 
 
 /* =====================================================
-   DONNÉES DE LA CARTE
+   CARTE
 ===================================================== */
 
 let currentCard = null;
 
 
 /* =====================================================
-   FORMULAIRE
+   FORMULAIRE D'INSCRIPTION
 ===================================================== */
 
 document
@@ -2427,6 +2425,10 @@ document
         "";
 
 
+      /* =========================================
+         CONSENTEMENT
+      ========================================== */
+
       const consent =
         document.getElementById(
           "consentement"
@@ -2455,7 +2457,7 @@ document
       try {
 
         /* =========================================
-           RÉCUPÉRER LES DONNÉES
+           RÉCUPÉRATION DES DONNÉES
         ========================================== */
 
         const formData =
@@ -2479,7 +2481,7 @@ document
 
 
         /* =========================================
-           NUMÉRO
+           NUMÉRO UNIQUE
         ========================================== */
 
         personne.numero_recensement =
@@ -2487,7 +2489,7 @@ document
 
 
         /* =========================================
-           CONSENTEMENT
+           CONSENTEMENTS
         ========================================== */
 
         personne.consentement =
@@ -2504,10 +2506,16 @@ document
 
         /* =========================================
            INSERTION SUPABASE
+
+           IMPORTANT :
+           Aucun .select() ici.
+
+           La personne peut INSERT,
+           mais le site public ne lit pas
+           les données de la table.
         ========================================== */
 
         const {
-          data,
           error
         } = await db
 
@@ -2517,19 +2525,13 @@ document
 
           .insert(
             [personne]
-          )
-
-          .select(
-            "numero_recensement"
-          )
-
-          .single();
+          );
 
 
         if (error) {
 
           console.error(
-            "Supabase:",
+            "Erreur Supabase :",
             error
           );
 
@@ -2538,14 +2540,16 @@ document
         }
 
 
+        /* =========================================
+           NUMÉRO DE LA CARTE
+        ========================================== */
+
         const numero =
-          data?.numero_recensement
-          ||
           personne.numero_recensement;
 
 
         /* =========================================
-           CARTE
+           INFORMATIONS CARTE
         ========================================== */
 
         currentCard = {
@@ -2694,8 +2698,11 @@ document
 
 
         message.scrollIntoView({
+
           behavior: "smooth",
+
           block: "center"
+
         });
 
 
@@ -2711,7 +2718,7 @@ document
         showError(
           error.message
           ||
-          "Erreur inconnue."
+          "Une erreur est survenue lors de l'inscription."
         );
 
       }
@@ -2720,6 +2727,7 @@ document
 
         button.disabled =
           false;
+
 
         button.textContent =
           "✅ Enregistrer mon inscription";
@@ -2759,7 +2767,7 @@ function showError(text) {
 
 
 /* =====================================================
-   TÉLÉCHARGER LA CARTE
+   TÉLÉCHARGEMENT DE LA CARTE
 ===================================================== */
 
 function downloadCard() {
@@ -2778,6 +2786,10 @@ function downloadCard() {
   const card =
     currentCard;
 
+
+  /* =========================================
+     CRÉATION DU CANVAS
+  ========================================== */
 
   const canvas =
     document.createElement(
@@ -2799,7 +2811,9 @@ function downloadCard() {
     );
 
 
-  /* FOND */
+  /* =========================================
+     FOND
+  ========================================== */
 
   ctx.fillStyle =
     "#eef3f8";
@@ -2813,7 +2827,9 @@ function downloadCard() {
   );
 
 
-  /* CARTE */
+  /* =========================================
+     CARTE BLANCHE
+  ========================================== */
 
   ctx.fillStyle =
     "#ffffff";
@@ -2834,7 +2850,9 @@ function downloadCard() {
   ctx.fill();
 
 
-  /* BANDEAU */
+  /* =========================================
+     BANDEAU BLEU
+  ========================================== */
 
   ctx.fillStyle =
     "#12365f";
@@ -2863,7 +2881,9 @@ function downloadCard() {
   );
 
 
-  /* LOGO */
+  /* =========================================
+     LOGO
+  ========================================== */
 
   ctx.fillStyle =
     "#ffffff";
@@ -2880,7 +2900,9 @@ function downloadCard() {
   );
 
 
-  /* TITRE */
+  /* =========================================
+     TITRE
+  ========================================== */
 
   ctx.font =
     "bold 42px Arial";
@@ -2904,7 +2926,9 @@ function downloadCard() {
   );
 
 
-  /* NOM */
+  /* =========================================
+     NOM
+  ========================================== */
 
   ctx.fillStyle =
     "#12365f";
@@ -2929,18 +2953,24 @@ function downloadCard() {
     "bold 42px Arial";
 
 
-  ctx.fillText(
+  const fullName =
     (
       card.nom +
       " " +
       card.prenom
-    ).toUpperCase(),
+    ).toUpperCase();
+
+
+  ctx.fillText(
+    fullName,
     95,
     345
   );
 
 
-  /* ORIGINE */
+  /* =========================================
+     ORIGINE
+  ========================================== */
 
   ctx.fillStyle =
     "#475467";
@@ -2961,7 +2991,9 @@ function downloadCard() {
   );
 
 
-  /* RÉSIDENCE */
+  /* =========================================
+     RÉSIDENCE
+  ========================================== */
 
   ctx.fillText(
     "Résidence : " +
@@ -2979,7 +3011,9 @@ function downloadCard() {
   );
 
 
-  /* NUMÉRO */
+  /* =========================================
+     NUMÉRO
+  ========================================== */
 
   ctx.fillStyle =
     "#4f8f2f";
@@ -3011,7 +3045,9 @@ function downloadCard() {
   );
 
 
-  /* DATE */
+  /* =========================================
+     DATE
+  ========================================== */
 
   ctx.fillStyle =
     "#475467";
@@ -3029,7 +3065,9 @@ function downloadCard() {
   );
 
 
-  /* VALIDATION */
+  /* =========================================
+     VALIDATION
+  ========================================== */
 
   ctx.fillStyle =
     "#4f8f2f";
@@ -3065,7 +3103,9 @@ function downloadCard() {
   );
 
 
-  /* TÉLÉCHARGEMENT */
+  /* =========================================
+     TÉLÉCHARGEMENT
+  ========================================== */
 
   const link =
     document.createElement(
