@@ -19,62 +19,40 @@
     Bassara — Recensement
   </title>
 
-
-  <!-- =========================
+  <!-- =====================================================
        SUPABASE
-  ========================== -->
+  ====================================================== -->
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-
-  <!-- =========================
-       STYLE
-  ========================== -->
 
   <style>
 
     :root {
-
       --blue: #12365f;
       --blue2: #1d527f;
-
       --green: #4f8f2f;
-
+      --green-dark: #3f7525;
       --bg: #f3f6fa;
-
       --text: #101828;
-
       --muted: #475467;
-
       --border: #d6dde6;
-
       --white: #ffffff;
-
       --danger: #9b1c1c;
-
       --danger-bg: #fff1f1;
-
       --success: #3f6e2d;
-
       --success-bg: #eef7e9;
-
     }
-
 
     * {
       box-sizing: border-box;
     }
 
-
     html {
       scroll-behavior: smooth;
     }
 
-
     body {
-
       margin: 0;
-
       font-family:
         -apple-system,
         BlinkMacSystemFont,
@@ -83,220 +61,165 @@
         sans-serif;
 
       background: var(--bg);
-
       color: var(--text);
-
       line-height: 1.55;
-
     }
-
 
     a {
       text-decoration: none;
       color: inherit;
     }
 
-
-    .wrap {
-
-      width: min(1120px, 92%);
-
-      margin: auto;
-
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
     }
 
+    .wrap {
+      width: min(1120px, 92%);
+      margin: auto;
+    }
 
-    /* =========================
+    /* =====================================================
        BOUTONS
-    ========================== */
+    ====================================================== */
 
     .btn {
-
       border: 0;
-
       border-radius: 12px;
-
       padding: 13px 18px;
-
       font-weight: 800;
-
       cursor: pointer;
 
       display: inline-flex;
-
       align-items: center;
-
       justify-content: center;
 
       transition: 0.2s;
-
     }
-
 
     .btn:hover {
-
       transform: translateY(-1px);
-
       opacity: 0.95;
-
     }
-
 
     .primary {
-
       background: var(--blue);
-
       color: white;
-
     }
-
 
     .green {
-
       background: var(--green);
+      color: white;
+    }
 
+    .download {
+      background: var(--green);
       color: white;
 
+      padding: 14px 20px;
+      margin-top: 18px;
+
+      font-size: 15px;
     }
 
+    .download:hover {
+      background: var(--green-dark);
+    }
 
     .light {
-
       background: #edf3f8;
-
       color: var(--blue);
-
     }
 
-
-    /* =========================
+    /* =====================================================
        HEADER
-    ========================== */
+    ====================================================== */
 
     header {
-
       position: sticky;
-
       top: 0;
-
       z-index: 50;
 
-      background: rgba(255,255,255,0.95);
+      background: rgba(255,255,255,0.96);
 
       border-bottom: 1px solid var(--border);
 
       backdrop-filter: blur(12px);
-
     }
 
-
     .nav {
-
       min-height: 70px;
 
       display: flex;
-
       align-items: center;
-
       justify-content: space-between;
 
       gap: 20px;
-
     }
 
-
     .brand {
-
       font-weight: 900;
-
       color: var(--blue);
 
       display: flex;
-
       align-items: center;
 
       gap: 10px;
-
     }
 
-
     .mark {
-
       width: 44px;
-
       height: 44px;
 
       border-radius: 12px;
 
       background: var(--blue);
-
       color: white;
 
       display: grid;
-
       place-items: center;
 
       font-weight: 900;
-
       font-size: 20px;
-
     }
-
 
     .brand small {
-
       font-size: 10px;
-
       font-weight: 600;
-
     }
 
-
     .links {
-
       display: flex;
-
       gap: 20px;
-
       align-items: center;
 
       font-size: 14px;
-
       font-weight: 700;
-
     }
-
 
     .links a:hover {
-
       color: var(--green);
-
     }
 
-
     .menu {
-
       display: none;
 
       border: 0;
-
       background: none;
 
       font-size: 28px;
-
       cursor: pointer;
-
     }
 
-
-    /* =========================
+    /* =====================================================
        HERO
-    ========================== */
+    ====================================================== */
 
     .hero {
-
       background:
-
         linear-gradient(
           135deg,
           var(--blue),
@@ -306,12 +229,9 @@
       color: white;
 
       padding: 75px 0;
-
     }
 
-
     .heroGrid {
-
       display: grid;
 
       grid-template-columns:
@@ -321,48 +241,33 @@
       gap: 35px;
 
       align-items: center;
-
     }
 
-
     .hero h1 {
-
       font-size:
         clamp(36px, 5vw, 60px);
 
       line-height: 1.05;
 
       margin: 12px 0;
-
     }
-
 
     .hero p {
-
       font-size: 18px;
-
       color: #e6edf6;
-
     }
 
-
     .actions {
-
       display: flex;
-
       gap: 10px;
 
       flex-wrap: wrap;
 
       margin-top: 24px;
-
     }
 
-
     .heroCard {
-
       background: white;
-
       color: var(--text);
 
       border: 1px solid #d7dee8;
@@ -374,82 +279,42 @@
       box-shadow:
         0 20px 50px
         rgba(7,27,53,0.25);
-
     }
 
-
     .heroCard .big {
-
       font-size: 46px;
-
       font-weight: 900;
 
       color: var(--green);
-
     }
 
-
     .heroCard h3 {
-
       color: var(--blue);
 
       font-size: 22px;
 
       margin: 14px 0 8px;
-
     }
-
 
     .heroCard p {
-
       color: #344054 !important;
-
       font-size: 16px;
-
     }
 
-
-    .geo {
-
-      display: inline-block;
-
-      margin-top: 15px;
-
-      padding: 9px 12px;
-
-      border-radius: 10px;
-
-      background: white;
-
-      color: var(--blue);
-
-      font-size: 13px;
-
-    }
-
-
-    /* =========================
+    /* =====================================================
        SECTIONS
-    ========================== */
+    ====================================================== */
 
     .section {
-
       padding: 65px 0;
-
     }
-
 
     .head {
-
       max-width: 720px;
-
       margin-bottom: 30px;
-
     }
 
-
     .head h2 {
-
       font-size: 34px;
 
       color: var(--blue);
@@ -457,35 +322,26 @@
       margin: 5px 0;
 
       font-weight: 850;
-
     }
-
 
     .head p {
-
       color: #344054;
-
     }
 
-
-    /* =========================
+    /* =====================================================
        CARDS
-    ========================== */
+    ====================================================== */
 
     .cards {
-
       display: grid;
 
       grid-template-columns:
         repeat(4, 1fr);
 
       gap: 15px;
-
     }
 
-
     .card {
-
       background: white;
 
       border: 1px solid var(--border);
@@ -493,46 +349,34 @@
       border-radius: 17px;
 
       padding: 21px;
-
     }
-
 
     .card h3 {
-
       margin: 9px 0 5px;
-
     }
 
-
     .card p {
-
       color: var(--muted);
 
       font-size: 14px;
 
       margin: 0;
-
     }
 
-
-    /* =========================
+    /* =====================================================
        FORMULAIRE
-    ========================== */
+    ====================================================== */
 
     .formGrid {
-
       display: grid;
 
       grid-template-columns:
         1fr 1fr;
 
       gap: 18px;
-
     }
 
-
     .box {
-
       background: white;
 
       border: 1px solid var(--border);
@@ -540,28 +384,18 @@
       border-radius: 18px;
 
       padding: 24px;
-
     }
-
 
     .box h3 {
-
       color: var(--blue);
-
       margin-top: 0;
-
     }
-
 
     .full {
-
       grid-column: 1 / -1;
-
     }
 
-
     label {
-
       font-size: 13px;
 
       font-weight: 850;
@@ -571,14 +405,11 @@
       display: block;
 
       margin: 12px 0 5px;
-
     }
-
 
     input,
     select,
     textarea {
-
       width: 100%;
 
       padding: 12px;
@@ -587,39 +418,27 @@
 
       border-radius: 10px;
 
-      font: inherit;
-
       background: white;
 
       color: var(--text);
-
     }
-
 
     input:focus,
     select:focus,
     textarea:focus {
-
       outline:
         2px solid
         rgba(18,54,95,0.15);
 
       border-color: var(--blue);
-
     }
-
 
     textarea {
-
       min-height: 95px;
-
       resize: vertical;
-
     }
 
-
     .check {
-
       display: flex;
 
       gap: 9px;
@@ -631,51 +450,53 @@
       color: #344054;
 
       margin: 15px 0;
-
     }
-
 
     .check input {
-
       width: auto;
-
       margin-top: 4px;
-
     }
-
 
     .notice {
-
       font-size: 12px;
-
       color: var(--muted);
-
     }
 
-
-    /* =========================
+    /* =====================================================
        MESSAGES
-    ========================== */
+    ====================================================== */
 
     .success {
-
       background: var(--success-bg);
 
       border: 1px solid #cde4bf;
 
       color: var(--success);
 
-      padding: 20px;
+      padding: 22px;
 
       border-radius: 14px;
 
       margin-top: 15px;
-
     }
 
+    .success strong.number {
+      font-size: 21px;
+    }
+
+    .successCard {
+      margin-top: 20px;
+
+      padding: 18px;
+
+      background: white;
+
+      border-radius: 14px;
+
+      border: 1px solid #cde4bf;
+    }
 
     .error {
-
       background: var(--danger-bg);
 
       border: 1px solid #f0b5b5;
@@ -687,35 +508,26 @@
       border-radius: 12px;
 
       margin-top: 15px;
-
     }
-
 
     .hidden {
-
       display: none !important;
-
     }
 
-
-    /* =========================
+    /* =====================================================
        RECHERCHE
-    ========================== */
+    ====================================================== */
 
     .search {
-
       display: grid;
 
       grid-template-columns:
         2fr 1fr 1fr auto;
 
       gap: 9px;
-
     }
 
-
     .result {
-
       background: white;
 
       border: 1px solid var(--border);
@@ -725,12 +537,9 @@
       padding: 16px;
 
       margin-top: 10px;
-
     }
 
-
     .badge {
-
       display: inline-block;
 
       background: #edf5e9;
@@ -744,40 +553,32 @@
       font-size: 11px;
 
       font-weight: 800;
-
     }
 
-
-    /* =========================
+    /* =====================================================
        FOOTER
-    ========================== */
+    ====================================================== */
 
     footer {
-
       background: #0e2540;
 
       color: #dbe6f2;
 
       padding: 40px 0;
-
     }
 
-
     .foot {
-
       display: grid;
 
       grid-template-columns:
         2fr 1fr 1fr;
 
       gap: 25px;
-
     }
 
-
-    /* =========================
+    /* =====================================================
        MOBILE
-    ========================== */
+    ====================================================== */
 
     @media (max-width: 850px) {
 
@@ -795,15 +596,16 @@
       }
 
       .cards {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns:
+          1fr 1fr;
       }
 
       .search {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns:
+          1fr 1fr;
       }
 
     }
-
 
     @media (max-width: 520px) {
 
@@ -830,9 +632,9 @@
 <body>
 
 
-<!-- =========================
+<!-- =====================================================
      HEADER
-========================== -->
+====================================================== -->
 
 <header>
 
@@ -902,9 +704,9 @@
 </header>
 
 
-<!-- =========================
+<!-- =====================================================
      MENU MOBILE
-========================== -->
+====================================================== -->
 
 <div
   id="mobileMenu"
@@ -945,9 +747,9 @@
 </div>
 
 
-<!-- =========================
+<!-- =====================================================
      HERO
-========================== -->
+====================================================== -->
 
 <section
   id="accueil"
@@ -976,11 +778,9 @@
         <strong>
           Bassara, district de Fafaya,
           sous-préfecture et préfecture de Koubia,
-          région de Labé, en République de Guinée
-        </strong>,
-
-        créer des liens et faciliter les initiatives
-        au service de notre communauté.
+          région de Labé,
+          République de Guinée.
+        </strong>
 
       </p>
 
@@ -994,27 +794,12 @@
           📝 Je m'inscris
         </a>
 
-
         <a
           class="btn light"
-          href="#objectif"
+          href="#recherche"
         >
-          Découvrir le projet
+          🔎 Rechercher
         </a>
-
-      </div>
-
-
-      <div class="geo">
-
-        📍
-
-        <strong>
-          Bassara — District de Fafaya,
-          sous-préfecture de Koubia,
-          préfecture de Koubia,
-          région de Labé, Guinée 🇬🇳
-        </strong>
 
       </div>
 
@@ -1024,27 +809,22 @@
     <div class="heroCard">
 
       <div class="big">
-        🌍
+        B
       </div>
 
-
       <h3>
-        Une communauté, un réseau.
+        Recensement de Bassara
       </h3>
 
-
       <p>
-
-        <strong>
-          Que vous soyez à Bassara,
-          à Conakry ou à l'étranger
-        </strong>,
-
-        votre inscription contribue à retrouver
-        notre communauté et à créer un réseau
-        de ressortissants.
-
+        Une base communautaire destinée
+        à mieux connaître les ressortissants,
+        leurs compétences et leurs besoins.
       </p>
+
+      <strong>
+        🇬🇳 Bassara — Guinée
+      </strong>
 
     </div>
 
@@ -1053,9 +833,9 @@
 </section>
 
 
-<!-- =========================
+<!-- =====================================================
      OBJECTIF
-========================== -->
+====================================================== -->
 
 <section
   id="objectif"
@@ -1067,16 +847,14 @@
     <div class="head">
 
       <h2>
-        Pourquoi ce recensement ?
+        🎯 Objectif du recensement
       </h2>
 
-
       <p>
-
-        L'objectif est de créer un annuaire
-        communautaire fiable et sécurisé
-        des ressortissants de Bassara.
-
+        Ce recensement permet à la communauté de Bassara
+        de mieux connaître ses ressortissants et de
+        préparer des projets adaptés aux besoins
+        de la communauté.
       </p>
 
     </div>
@@ -1086,15 +864,17 @@
 
       <div class="card">
 
-        👥
+        <div style="font-size:30px;">
+          👥
+        </div>
 
         <h3>
-          Nous retrouver
+          Identifier
         </h3>
 
         <p>
           Identifier les ressortissants de Bassara
-          en Guinée et dans la diaspora.
+          vivant en Guinée ou à l'étranger.
         </p>
 
       </div>
@@ -1102,15 +882,17 @@
 
       <div class="card">
 
-        🤝
+        <div style="font-size:30px;">
+          🎓
+        </div>
 
         <h3>
-          Créer des liens
+          Compétences
         </h3>
 
         <p>
-          Faciliter les contacts et les initiatives
-          communautaires.
+          Connaître les compétences,
+          professions et domaines d'activité.
         </p>
 
       </div>
@@ -1118,15 +900,17 @@
 
       <div class="card">
 
-        📊
+        <div style="font-size:30px;">
+          🤝
+        </div>
 
         <h3>
-          Mieux connaître
+          Solidarité
         </h3>
 
         <p>
-          Comprendre la répartition géographique,
-          professionnelle et éducative.
+          Faciliter la solidarité et
+          l'entraide entre ressortissants.
         </p>
 
       </div>
@@ -1134,15 +918,17 @@
 
       <div class="card">
 
-        🚀
+        <div style="font-size:30px;">
+          🚀
+        </div>
 
         <h3>
-          Agir ensemble
+          Projets
         </h3>
 
         <p>
-          Mobiliser les compétences et les bonnes
-          volontés autour de projets.
+          Préparer des projets de développement
+          pour Bassara.
         </p>
 
       </div>
@@ -1154,14 +940,13 @@
 </section>
 
 
-<!-- =========================
+<!-- =====================================================
      INSCRIPTION
-========================== -->
+====================================================== -->
 
 <section
   id="inscription"
   class="section"
-  style="background:#fff"
 >
 
   <div class="wrap">
@@ -1169,19 +954,20 @@
     <div class="head">
 
       <h2>
-        📝 Je suis ressortissant(e) de Bassara
+        📝 S'inscrire au recensement
       </h2>
 
-
       <p>
-        Remplissez les informations nécessaires.
+        Remplissez les informations ci-dessous.
+        Après l'enregistrement, vous recevrez
+        automatiquement votre numéro de recensement.
       </p>
 
     </div>
 
 
     <form
-      id="registration"
+      id="recensementForm"
       class="formGrid"
     >
 
@@ -1191,7 +977,7 @@
       <div class="box">
 
         <h3>
-          Identité
+          👤 Identité
         </h3>
 
 
@@ -1201,26 +987,31 @@
 
         <input
           id="nom"
+          name="nom"
           required
+          placeholder="Votre nom"
         >
 
 
         <label for="prenom">
-          Prénom(s) *
+          Prénom *
         </label>
 
         <input
           id="prenom"
+          name="prenom"
           required
+          placeholder="Votre prénom"
         >
 
 
-        <label for="naissance">
+        <label for="dateNaissance">
           Date de naissance
         </label>
 
         <input
-          id="naissance"
+          id="dateNaissance"
+          name="dateNaissance"
           type="date"
         >
 
@@ -1229,55 +1020,36 @@
           Sexe
         </label>
 
-        <select id="sexe">
+        <select
+          id="sexe"
+          name="sexe"
+        >
 
           <option value="">
             Sélectionner
           </option>
 
-          <option>
-            Homme
+          <option value="Masculin">
+            Masculin
           </option>
 
-          <option>
-            Femme
-          </option>
-
-          <option>
-            Autre / préfère ne pas préciser
+          <option value="Féminin">
+            Féminin
           </option>
 
         </select>
 
-      </div>
-
-
-      <!-- ORIGINE -->
-
-      <div class="box">
-
-        <h3>
-          Origine à Bassara
-        </h3>
-
-
-        <p class="notice">
-
-          Bassara — District de Fafaya,
-          sous-préfecture et préfecture de Koubia,
-          région de Labé, Guinée.
-
-        </p>
-
 
         <label for="origine">
-          Localité / quartier / village d'origine *
+          Origine *
         </label>
 
         <input
           id="origine"
+          name="origine"
           required
-          placeholder="Ex. Bassara centre"
+          placeholder="Ex : Bassara"
+          value="Bassara"
         >
 
 
@@ -1285,31 +1057,43 @@
           Nom du père
         </label>
 
-        <input id="pere">
+        <input
+          id="pere"
+          name="pere"
+          placeholder="Nom du père"
+        >
 
 
         <label for="mere">
           Nom de la mère
         </label>
 
-        <input id="mere">
+        <input
+          id="mere"
+          name="mere"
+          placeholder="Nom de la mère"
+        >
 
 
         <label for="famille">
-          Famille / lignée
+          Famille
         </label>
 
-        <input id="famille">
+        <input
+          id="famille"
+          name="famille"
+          placeholder="Nom de famille / lignée"
+        >
 
       </div>
 
 
-      <!-- RÉSIDENCE -->
+      <!-- LOCALISATION -->
 
       <div class="box">
 
         <h3>
-          Résidence actuelle
+          📍 Localisation
         </h3>
 
 
@@ -1319,8 +1103,9 @@
 
         <input
           id="pays"
+          name="pays"
           required
-          placeholder="Guinée"
+          placeholder="Ex : Guinée"
         >
 
 
@@ -1330,34 +1115,50 @@
 
         <input
           id="ville"
+          name="ville"
           required
-          placeholder="Conakry"
+          placeholder="Ex : Conakry"
         >
 
 
         <label for="zone">
-          Quartier / zone
+          Zone / quartier
         </label>
 
-        <input id="zone">
+        <input
+          id="zone"
+          name="zone"
+          placeholder="Quartier, secteur..."
+        >
 
 
         <label for="statut">
           Statut
         </label>
 
-        <select id="statut">
+        <select
+          id="statut"
+          name="statut"
+        >
 
-          <option>
-            Résident à Bassara
+          <option value="">
+            Sélectionner
           </option>
 
-          <option>
-            Résident ailleurs en Guinée
+          <option value="Résident">
+            Résident
           </option>
 
-          <option>
+          <option value="Diaspora">
             Diaspora
+          </option>
+
+          <option value="Étudiant">
+            Étudiant
+          </option>
+
+          <option value="Autre">
+            Autre
           </option>
 
         </select>
@@ -1365,69 +1166,56 @@
       </div>
 
 
-      <!-- ÉTUDES -->
+      <!-- PROFESSION -->
 
       <div class="box">
 
         <h3>
-          Études & activité
+          🎓 Études et profession
         </h3>
 
 
-        <label for="etudes">
+        <label for="niveauEtudes">
           Niveau d'études
         </label>
 
-        <select id="etudes">
-
-          <option value="">
-            Sélectionner
-          </option>
-
-          <option>
-            Primaire
-          </option>
-
-          <option>
-            Secondaire
-          </option>
-
-          <option>
-            Universitaire
-          </option>
-
-          <option>
-            Formation professionnelle
-          </option>
-
-          <option>
-            Autre
-          </option>
-
-        </select>
+        <input
+          id="niveauEtudes"
+          name="niveauEtudes"
+          placeholder="Ex : Université, Master..."
+        >
 
 
         <label for="profession">
-          Profession / activité
+          Profession
         </label>
 
-        <input id="profession">
+        <input
+          id="profession"
+          name="profession"
+          placeholder="Votre profession"
+        >
 
 
         <label for="secteur">
-          Secteur / domaine
+          Secteur
         </label>
 
-        <input id="secteur">
+        <input
+          id="secteur"
+          name="secteur"
+          placeholder="Ex : Informatique, santé..."
+        >
 
 
         <label for="competences">
-          Compétences que vous souhaitez partager
+          Compétences
         </label>
 
         <textarea
           id="competences"
-          placeholder="Informatique, santé, agriculture, commerce..."
+          name="competences"
+          placeholder="Vos compétences..."
         ></textarea>
 
       </div>
@@ -1438,7 +1226,7 @@
       <div class="box">
 
         <h3>
-          Contact
+          📞 Contact
         </h3>
 
 
@@ -1448,7 +1236,9 @@
 
         <input
           id="telephone"
+          name="telephone"
           type="tel"
+          placeholder="+224..."
         >
 
 
@@ -1458,7 +1248,9 @@
 
         <input
           id="whatsapp"
+          name="whatsapp"
           type="tel"
+          placeholder="+224..."
         >
 
 
@@ -1468,7 +1260,9 @@
 
         <input
           id="email"
+          name="email"
           type="email"
+          placeholder="exemple@email.com"
         >
 
 
@@ -1476,22 +1270,25 @@
           Préférence de contact
         </label>
 
-        <select id="contactPref">
+        <select
+          id="contactPref"
+          name="contactPref"
+        >
 
-          <option>
+          <option value="">
+            Sélectionner
+          </option>
+
+          <option value="WhatsApp">
             WhatsApp
           </option>
 
-          <option>
+          <option value="Téléphone">
             Téléphone
           </option>
 
-          <option>
+          <option value="Email">
             Email
-          </option>
-
-          <option>
-            Aucune
           </option>
 
         </select>
@@ -1499,21 +1296,22 @@
       </div>
 
 
-      <!-- INFORMATIONS COMPLÉMENTAIRES -->
+      <!-- CONTRIBUTION -->
 
-      <div class="box">
+      <div class="box full">
 
         <h3>
-          Informations complémentaires
+          🤝 Contribution à la communauté
         </h3>
 
 
         <label for="contribution">
-          Comment souhaitez-vous contribuer à Bassara ?
+          Comment souhaitez-vous contribuer ?
         </label>
 
         <textarea
           id="contribution"
+          name="contribution"
           placeholder="Bénévolat, compétences, projet, soutien..."
         ></textarea>
 
@@ -1526,11 +1324,10 @@
           >
 
           <span>
-
-            J'accepte que mon téléphone/WhatsApp puisse
-            être partagé uniquement avec les responsables
-            autorisés du recensement pour me contacter.
-
+            J'accepte que mon téléphone/WhatsApp
+            puisse être partagé uniquement avec
+            les responsables autorisés du recensement
+            pour me contacter.
           </span>
 
         </label>
@@ -1539,36 +1336,29 @@
         <label class="check">
 
           <input
-            id="consent"
+            id="consentement"
             type="checkbox"
             required
           >
 
           <span>
-
-            J'accepte que mes informations soient enregistrées
-            dans la base du recensement de Bassara et utilisées
-            uniquement pour les objectifs présentés sur ce site. *
-
+            J'accepte que mes informations soient
+            enregistrées dans la base du recensement
+            de Bassara et utilisées uniquement pour
+            les objectifs présentés sur ce site. *
           </span>
 
         </label>
 
-      </div>
-
-
-      <!-- BOUTON -->
-
-      <div class="full">
 
         <button
-          id="submitBtn"
+          type="submit"
           class="btn green"
           style="
             width:100%;
-            font-size:16px;
+            margin-top:10px;
           "
-          type="submit"
+          id="submitButton"
         >
 
           ✅ Enregistrer mon inscription
@@ -1585,36 +1375,29 @@
 
 
         <div
-          id="formError"
-          class="error hidden"
+          id="message"
         ></div>
 
       </div>
 
+
     </form>
-
-
-    <!-- =========================
-         SUCCÈS
-    ========================== -->
-
-    <div
-      id="success"
-      class="success hidden"
-    ></div>
 
   </div>
 
 </section>
 
 
-<!-- =========================
+<!-- =====================================================
      RECHERCHE
-========================== -->
+====================================================== -->
 
 <section
   id="recherche"
   class="section"
+  style="
+    background:#eef3f8;
+  "
 >
 
   <div class="wrap">
@@ -1625,13 +1408,11 @@
         🔎 Recherche communautaire
       </h2>
 
-
       <p>
-
-        Prototype de recherche.
-        L'accès aux informations personnelles
-        sera réservé aux utilisateurs autorisés.
-
+        Recherchez un ressortissant enregistré.
+        Les informations personnelles sont affichées
+        uniquement selon les règles d'accès prévues
+        par la base de données.
       </p>
 
     </div>
@@ -1642,45 +1423,31 @@
       <div class="search">
 
         <input
-          id="q"
+          id="searchText"
           placeholder="Nom, prénom, profession..."
         >
 
-
         <input
-          id="qPays"
+          id="searchPays"
           placeholder="Pays"
         >
 
-
         <input
-          id="qVille"
+          id="searchVille"
           placeholder="Ville"
         >
 
-
         <button
           class="btn primary"
-          onclick="searchPeople()"
+          onclick="rechercher()"
         >
-
           Rechercher
-
         </button>
 
       </div>
 
 
-      <div id="results">
-
-        <p class="notice">
-
-          🔐 La recherche des données personnelles
-          est réservée aux utilisateurs autorisés.
-
-        </p>
-
-      </div>
+      <div id="searchResults"></div>
 
     </div>
 
@@ -1689,14 +1456,13 @@
 </section>
 
 
-<!-- =========================
+<!-- =====================================================
      CONFIDENTIALITÉ
-========================== -->
+====================================================== -->
 
 <section
   id="confidentialite"
   class="section"
-  style="background:#fff"
 >
 
   <div class="wrap">
@@ -1707,79 +1473,13 @@
         🔐 Confidentialité
       </h2>
 
-
       <p>
-        La confiance est essentielle à ce projet.
+        Les informations collectées sont destinées
+        au recensement des ressortissants de Bassara.
+        Les informations personnelles doivent être
+        utilisées conformément aux autorisations
+        et règles de confidentialité du projet.
       </p>
-
-    </div>
-
-
-    <div class="cards">
-
-      <div class="card">
-
-        🛡️
-
-        <h3>
-          Données protégées
-        </h3>
-
-        <p>
-          Les informations personnelles ne sont
-          pas publiées librement.
-        </p>
-
-      </div>
-
-
-      <div class="card">
-
-        🎯
-
-        <h3>
-          Usage limité
-        </h3>
-
-        <p>
-          Les données sont destinées aux objectifs
-          du recensement et aux initiatives
-          communautaires autorisées.
-        </p>
-
-      </div>
-
-
-      <div class="card">
-
-        ✏️
-
-        <h3>
-          Mise à jour
-        </h3>
-
-        <p>
-          Les demandes de correction seront traitées
-          selon la procédure prévue par le projet.
-        </p>
-
-      </div>
-
-
-      <div class="card">
-
-        🗑️
-
-        <h3>
-          Suppression
-        </h3>
-
-        <p>
-          La suppression des données sera soumise
-          à la procédure définie par le projet.
-        </p>
-
-      </div>
 
     </div>
 
@@ -1788,9 +1488,9 @@
 </section>
 
 
-<!-- =========================
+<!-- =====================================================
      FOOTER
-========================== -->
+====================================================== -->
 
 <footer>
 
@@ -1798,22 +1498,13 @@
 
     <div>
 
-      <b>
-        BASSARA — RECENSEMENT
-      </b>
-
-
-      <p>
-
-        Bassara — District de Fafaya,
-        sous-préfecture et préfecture de Koubia,
-        région de Labé, République de Guinée 🇬🇳
-
-      </p>
-
+      <h3>
+        BASSARA
+      </h3>
 
       <p>
-        Retrouvons-nous pour mieux construire ensemble.
+        Recensement communautaire
+        des ressortissants de Bassara.
       </p>
 
     </div>
@@ -1821,35 +1512,20 @@
 
     <div>
 
-      <b>
+      <strong>
         Navigation
-      </b>
-
+      </strong>
 
       <p>
-
         <a href="#objectif">
           Objectif
         </a>
+      </p>
 
-        <br>
-
+      <p>
         <a href="#inscription">
           Inscription
         </a>
-
-        <br>
-
-        <a href="#recherche">
-          Recherche
-        </a>
-
-        <br>
-
-        <a href="#confidentialite">
-          Confidentialité
-        </a>
-
       </p>
 
     </div>
@@ -1857,47 +1533,28 @@
 
     <div>
 
-      <b>
-        Projet
-      </b>
-
+      <strong>
+        Recherche
+      </strong>
 
       <p>
-        Version 1 — Base centrale Supabase.
+        <a href="#recherche">
+          Rechercher un ressortissant
+        </a>
       </p>
 
     </div>
-
-  </div>
-
-
-  <div
-    class="wrap"
-    style="
-      border-top:1px solid #ffffff22;
-      margin-top:25px;
-      padding-top:18px;
-      font-size:12px;
-    "
-  >
-
-    ©
-
-    <span id="year"></span>
-
-    Recensement Bassara
 
   </div>
 
 </footer>
 
 
-<!-- =========================
+<!-- =====================================================
      JAVASCRIPT
-========================== -->
+====================================================== -->
 
 <script>
-
 
 /* =====================================================
    SUPABASE
@@ -1906,10 +1563,8 @@
 const SUPABASE_URL =
   "https://gxsokrwqefletxitejde.supabase.co";
 
-
 const SUPABASE_PUBLISHABLE_KEY =
   "sb_publishable_4z1GPpx-LMGbKNXXPoHT3A_zD0Q60XC";
-
 
 const db =
   window.supabase.createClient(
@@ -1919,61 +1574,61 @@ const db =
 
 
 /* =====================================================
-   ANNÉE
-===================================================== */
-
-document
-  .getElementById("year")
-  .textContent =
-  new Date().getFullYear();
-
-
-/* =====================================================
    MENU MOBILE
 ===================================================== */
 
 function toggleMenu() {
 
-  document
-    .getElementById("mobileMenu")
-    .classList
-    .toggle("hidden");
+  const menu =
+    document.getElementById("mobileMenu");
+
+  menu.classList.toggle("hidden");
 
 }
 
 
 /* =====================================================
-   VALEUR D'UN CHAMP
+   UTILITAIRE
 ===================================================== */
 
-function v(id) {
+function valeur(id) {
 
   const element =
     document.getElementById(id);
 
-  return element
-    ? element.value.trim()
-    : "";
+  if (!element) {
+    return "";
+  }
+
+  return element.value.trim();
 
 }
 
 
 /* =====================================================
-   AFFICHER ERREUR
+   GÉNÉRATION NUMÉRO RECENSEMENT
 ===================================================== */
 
-function showError(message) {
+function genererNumeroRecensement() {
 
-  const error =
-    document.getElementById("formError");
+  const temps =
+    Date.now().toString();
 
-  error.textContent =
-    message;
+  const hasard =
+    Math.floor(
+      Math.random() * 900
+    ) + 100;
 
-  error.classList
-    .remove("hidden");
+  return "BAS-" + temps + hasard;
 
 }
+
+
+/* =====================================================
+   DONNÉES DE LA CARTE
+===================================================== */
+
+let carteRecensement = null;
 
 
 /* =====================================================
@@ -1981,7 +1636,7 @@ function showError(message) {
 ===================================================== */
 
 document
-  .getElementById("registration")
+  .getElementById("recensementForm")
   .addEventListener(
     "submit",
     async function(event) {
@@ -1989,67 +1644,63 @@ document
       event.preventDefault();
 
 
-      const success =
-        document.getElementById("success");
-
-
-      const error =
-        document.getElementById("formError");
-
-
       const button =
-        document.getElementById("submitBtn");
+        document.getElementById(
+          "submitButton"
+        );
+
+      const message =
+        document.getElementById(
+          "message"
+        );
 
 
-      success.classList
-        .add("hidden");
+      message.innerHTML = "";
 
 
-      error.classList
-        .add("hidden");
+      /* Vérification consentement */
+
+      const consentement =
+        document.getElementById(
+          "consentement"
+        ).checked;
 
 
-      button.disabled =
-        true;
+      if (!consentement) {
+
+        message.innerHTML = `
+          <div class="error">
+            ❌ Vous devez accepter
+            l'enregistrement de vos informations.
+          </div>
+        `;
+
+        return;
+
+      }
 
 
-      button.textContent =
-        "⏳ Enregistrement...";
+      /* Désactivation bouton */
+
+      button.disabled = true;
+
+      button.style.opacity = "0.6";
+
+      button.innerHTML =
+        "⏳ Enregistrement en cours...";
 
 
       try {
 
-
-        /* =========================
-           CONSENTEMENT
-        ========================== */
-
-        const consent =
-          document
-            .getElementById("consent")
-            .checked;
-
-
-        if (!consent) {
-
-          throw new Error(
-            "Vous devez accepter le consentement."
-          );
-
-        }
-
-
-        /* =========================
-           NUMÉRO
-        ========================== */
+        /* Numéro */
 
         const numero =
-          "BAS-" + Date.now();
+          genererNumeroRecensement();
 
 
-        /* =========================
-           DONNÉES
-        ========================== */
+        /* =================================================
+           OBJET À ENREGISTRER
+        ================================================= */
 
         const personne = {
 
@@ -2057,72 +1708,98 @@ document
             numero,
 
           nom:
-            v("nom"),
+            valeur("nom"),
 
           prenom:
-            v("prenom"),
+            valeur("prenom"),
 
           date_naissance:
-            v("naissance") || null,
+            valeur("dateNaissance")
+              || null,
 
           sexe:
-            v("sexe") || null,
+            valeur("sexe")
+              || null,
 
           origine:
-            v("origine"),
+            valeur("origine"),
 
           nom_pere:
-            v("pere") || null,
+            valeur("pere")
+              || null,
 
           nom_mere:
-            v("mere") || null,
+            valeur("mere")
+              || null,
 
           famille:
-            v("famille") || null,
+            valeur("famille")
+              || null,
 
           pays:
-            v("pays"),
+            valeur("pays"),
 
           ville:
-            v("ville"),
+            valeur("ville"),
 
           zone:
-            v("zone") || null,
+            valeur("zone")
+              || null,
 
           statut:
-            v("statut") || null,
+            valeur("statut")
+              || null,
 
           niveau_etudes:
-            v("etudes") || null,
+            valeur("niveauEtudes")
+              || null,
 
           profession:
-            v("profession") || null,
+            valeur("profession")
+              || null,
 
           secteur:
-            v("secteur") || null,
+            valeur("secteur")
+              || null,
 
           competences:
-            v("competences") || null,
+            valeur("competences")
+              || null,
 
           telephone:
-            v("telephone") || null,
+            valeur("telephone")
+              || null,
 
           whatsapp:
-            v("whatsapp") || null,
+            valeur("whatsapp")
+              || null,
 
           email:
-            v("email") || null,
+            valeur("email")
+              || null,
 
           contact_pref:
-            v("contactPref") || null,
+            valeur("contactPref")
+              || null,
 
           contribution:
-            v("contribution") || null,
+            valeur("contribution")
+              || null,
 
           contact_partage_autorise:
             document
-              .getElementById("publicContact")
+              .getElementById(
+                "publicContact"
+              )
               .checked,
+
+          /*
+            IMPORTANT :
+
+            La politique RLS actuelle
+            autorise l'inscription publique
+            lorsque consentement = true.
+          */
 
           consentement:
             true
@@ -2131,109 +1808,60 @@ document
 
 
         /* =================================================
-           INSERTION SUPABASE
-
-           IMPORTANT :
-           PAS DE .SELECT()
-           PAS DE .SINGLE()
-
-           L'inscription publique effectue uniquement
-           un INSERT.
+           ENREGISTREMENT SUPABASE
         ================================================= */
 
         const {
-          error: supabaseError
+          data,
+          error
         } = await db
           .from("ressortissants")
-          .insert([personne]);
+          .insert([personne])
+          .select()
+          .single();
 
 
-        /* =========================
-           ERREUR SUPABASE
-        ========================== */
-
-        if (supabaseError) {
+        if (error) {
 
           console.error(
-            "Erreur Supabase :",
-            supabaseError
+            "Supabase error:",
+            error
           );
 
-          throw new Error(
-            supabaseError.message
-          );
+          throw error;
 
         }
 
 
-        /* =========================
-           SUCCÈS
-        ========================== */
-
-        success.innerHTML = `
-
-          <strong>
-            ✅ Inscription enregistrée avec succès.
-          </strong>
-
-          <br><br>
-
-          Votre numéro de recensement est :
-
-          <strong
-            style="
-              font-size:20px;
-            "
-          >
-            ${numero}
-          </strong>
-
-          <br><br>
-
-          <button
-            type="button"
-            class="btn primary"
-            onclick="telechargerCarteRecensement()"
-          >
-
-            📥 Télécharger ma carte de recensement
-
-          </button>
-
-
-          <p style="
-            margin-top:12px;
-          ">
-
-            Conservez cette carte précieusement.
-            Elle constitue votre preuve
-            d'enregistrement au recensement de Bassara.
-
-          </p>
-
-        `;
-
-
-        success.classList
-          .remove("hidden");
-
-
         /* =================================================
-           STOCKAGE TEMPORAIRE DES INFORMATIONS DE LA CARTE
-
-           Elles restent uniquement dans le navigateur.
+           INFORMATIONS POUR LA CARTE
         ================================================= */
 
-        window.carteRecensement = {
+        carteRecensement = {
 
           numero:
-            numero,
+            data?.numero_recensement
+              || numero,
 
           nom:
-            personne.nom,
+            data?.nom
+              || personne.nom,
 
           prenom:
-            personne.prenom,
+            data?.prenom
+              || personne.prenom,
+
+          origine:
+            data?.origine
+              || personne.origine,
+
+          pays:
+            data?.pays
+              || personne.pays,
+
+          ville:
+            data?.ville
+              || personne.ville,
 
           date:
             new Date()
@@ -2241,55 +1869,116 @@ document
         };
 
 
-        /* =========================
-           RESET FORMULAIRE
-        ========================== */
+        /* =================================================
+           MESSAGE DE SUCCÈS
+        ================================================= */
 
-        event.target.reset();
+        message.innerHTML = `
+
+          <div class="success">
+
+            <strong>
+              ✅ Inscription enregistrée avec succès.
+            </strong>
+
+            <br><br>
+
+            Votre numéro de recensement est :
+
+            <br>
+
+            <strong class="number">
+              ${echapperHTML(
+                carteRecensement.numero
+              )}
+            </strong>
+
+            <br><br>
+
+            Conservez précieusement ce numéro.
+
+            <div class="successCard">
+
+              <strong>
+                🎫 Votre carte de recensement
+              </strong>
+
+              <p>
+                Vous pouvez télécharger une petite
+                carte attestant votre inscription
+                au recensement de Bassara.
+              </p>
+
+              <button
+                type="button"
+                class="btn download"
+                onclick="telechargerCarteRecensement()"
+              >
+                📥 Télécharger ma carte de recensement
+              </button>
+
+            </div>
+
+          </div>
+
+        `;
 
 
-        /* =========================
-           SCROLL
-        ========================== */
+        /*
+          On réinitialise le formulaire
+          après réussite.
+        */
 
-        success.scrollIntoView({
-
-          behavior: "smooth",
-
-          block: "center"
-
-        });
-
-
-      }
-
-
-      catch (err) {
-
-        console.error(err);
-
-
-        showError(
-
-          "❌ Impossible d'enregistrer l'inscription : "
-          +
-          (
-            err.message
-            ||
-            "Erreur inconnue"
+        document
+          .getElementById(
+            "recensementForm"
           )
+          .reset();
 
-        );
+
+        /* On remet Bassara */
+
+        document
+          .getElementById(
+            "origine"
+          )
+          .value = "Bassara";
+
 
       }
 
+      catch(error) {
+
+        console.error(error);
+
+
+        message.innerHTML = `
+
+          <div class="error">
+
+            ❌ Impossible d'enregistrer
+            l'inscription :
+
+            <br><br>
+
+            ${echapperHTML(
+              error.message
+                || "Erreur inconnue"
+            )}
+
+          </div>
+
+        `;
+
+      }
 
       finally {
 
-        button.disabled =
-          false;
+        button.disabled = false;
 
-        button.textContent =
+        button.style.opacity = "1";
+
+        button.innerHTML =
           "✅ Enregistrer mon inscription";
 
       }
@@ -2299,17 +1988,28 @@ document
 
 
 /* =====================================================
-   CARTE DE RECENSEMENT
+   PROTECTION AFFICHAGE HTML
+===================================================== */
+
+function echapperHTML(texte) {
+
+  return String(texte)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+
+}
+
+
+/* =====================================================
+   TÉLÉCHARGER LA CARTE
 ===================================================== */
 
 function telechargerCarteRecensement() {
 
-
-  /* =========================
-     VÉRIFICATION
-  ========================== */
-
-  if (!window.carteRecensement) {
+  if (!carteRecensement) {
 
     alert(
       "Les informations de la carte sont introuvables."
@@ -2321,36 +2021,33 @@ function telechargerCarteRecensement() {
 
 
   const data =
-    window.carteRecensement;
+    carteRecensement;
 
 
-  /* =========================
+  /* =================================================
      CANVAS
-  ========================== */
+  ================================================= */
 
   const canvas =
-    document.createElement("canvas");
+    document.createElement(
+      "canvas"
+    );
 
 
-  canvas.width =
-    1200;
-
-
-  canvas.height =
-    700;
+  canvas.width = 1200;
+  canvas.height = 700;
 
 
   const ctx =
     canvas.getContext("2d");
 
 
-  /* =========================
+  /* =================================================
      FOND
-  ========================== */
+  ================================================= */
 
   ctx.fillStyle =
-    "#eef2f6";
-
+    "#eef3f8";
 
   ctx.fillRect(
     0,
@@ -2360,16 +2057,15 @@ function telechargerCarteRecensement() {
   );
 
 
-  /* =========================
+  /* =================================================
      CARTE BLANCHE
-  ========================== */
+  ================================================= */
 
   ctx.fillStyle =
     "#ffffff";
 
 
   ctx.beginPath();
-
 
   ctx.roundRect(
     60,
@@ -2379,13 +2075,12 @@ function telechargerCarteRecensement() {
     35
   );
 
-
   ctx.fill();
 
 
-  /* =========================
+  /* =================================================
      BANDEAU BLEU
-  ========================== */
+  ================================================= */
 
   ctx.fillStyle =
     "#12365f";
@@ -2393,49 +2088,57 @@ function telechargerCarteRecensement() {
 
   ctx.beginPath();
 
-
   ctx.roundRect(
     60,
     60,
     1080,
-    160,
+    165,
     35
   );
-
 
   ctx.fill();
 
 
-  /* =========================
-     LOGO
-  ========================== */
+  /*
+    Correction des coins inférieurs
+    du bandeau.
+  */
+
+  ctx.fillRect(
+    60,
+    160,
+    1080,
+    65
+  );
+
+
+  /* =================================================
+     LOGO B
+  ================================================= */
 
   ctx.fillStyle =
     "#ffffff";
 
-
   ctx.font =
-    "bold 70px Arial";
-
+    "bold 72px Arial";
 
   ctx.fillText(
     "B",
     110,
-    160
+    165
   );
 
 
-  /* =========================
+  /* =================================================
      TITRE
-  ========================== */
+  ================================================= */
 
   ctx.font =
-    "bold 40px Arial";
-
+    "bold 42px Arial";
 
   ctx.fillText(
     "BASSARA",
-    200,
+    205,
     125
   );
 
@@ -2443,25 +2146,22 @@ function telechargerCarteRecensement() {
   ctx.font =
     "22px Arial";
 
-
   ctx.fillText(
     "CARTE DE RECENSEMENT",
-    200,
+    205,
     165
   );
 
 
-  /* =========================
-     TEXTE
-  ========================== */
+  /* =================================================
+     IDENTITÉ
+  ================================================= */
 
   ctx.fillStyle =
     "#12365f";
 
-
   ctx.font =
-    "bold 25px Arial";
-
+    "bold 24px Arial";
 
   ctx.fillText(
     "RESSORTISSANT(E)",
@@ -2470,13 +2170,8 @@ function telechargerCarteRecensement() {
   );
 
 
-  /* =========================
-     NOM
-  ========================== */
-
   ctx.fillStyle =
     "#101828";
-
 
   ctx.font =
     "bold 42px Arial";
@@ -2484,10 +2179,8 @@ function telechargerCarteRecensement() {
 
   const nomComplet =
     (
-      data.nom
-      +
-      " "
-      +
+      data.nom +
+      " " +
       data.prenom
     ).toUpperCase();
 
@@ -2495,101 +2188,91 @@ function telechargerCarteRecensement() {
   ctx.fillText(
     nomComplet,
     110,
-    340
+    345
   );
 
 
-  /* =========================
+  /* =================================================
+     ORIGINE
+  ================================================= */
+
+  ctx.fillStyle =
+    "#475467";
+
+  ctx.font =
+    "22px Arial";
+
+  ctx.fillText(
+    "Origine : " +
+    data.origine,
+    110,
+    390
+  );
+
+
+  ctx.fillText(
+    "Localisation : " +
+    data.ville +
+    ", " +
+    data.pays,
+    110,
+    425
+  );
+
+
+  /* =================================================
      NUMÉRO
-  ========================== */
+  ================================================= */
 
   ctx.fillStyle =
     "#4f8f2f";
 
-
   ctx.font =
-    "bold 28px Arial";
-
+    "bold 25px Arial";
 
   ctx.fillText(
     "NUMÉRO DE RECENSEMENT",
     110,
-    415
+    485
   );
 
 
   ctx.fillStyle =
     "#101828";
 
-
   ctx.font =
-    "bold 42px Arial";
-
+    "bold 44px Arial";
 
   ctx.fillText(
     data.numero,
     110,
-    465
+    535
   );
 
 
-  /* =========================
+  /* =================================================
      DATE
-  ========================== */
-
-  const date =
-    data.date.toLocaleDateString(
-      "fr-FR"
-    );
-
+  ================================================= */
 
   ctx.fillStyle =
     "#475467";
 
-
   ctx.font =
     "20px Arial";
 
-
   ctx.fillText(
-    "Date d'inscription : " + date,
+    "Date d'inscription : " +
+    data.date.toLocaleDateString(
+      "fr-FR"
+    ),
     110,
-    520
+    580
   );
 
 
-  /* =========================
-     MESSAGE
-  ========================== */
-
-  ctx.font =
-    "18px Arial";
-
-
-  ctx.fillText(
-    "Cette carte atteste que cette personne",
-    110,
-    565
-  );
-
-
-  ctx.fillText(
-    "est enregistrée dans le recensement",
-    110,
-    592
-  );
-
-
-  ctx.fillText(
-    "des ressortissants de Bassara.",
-    110,
-    619
-  );
-
-
-  /* =========================
-     PETIT SYMBOLE
-  ========================== */
+  /* =================================================
+     LOGO VALIDATION
+  ================================================= */
 
   ctx.fillStyle =
     "#4f8f2f";
@@ -2597,15 +2280,13 @@ function telechargerCarteRecensement() {
 
   ctx.beginPath();
 
-
   ctx.arc(
     1040,
-    500,
-    45,
+    510,
+    50,
     0,
     Math.PI * 2
   );
-
 
   ctx.fill();
 
@@ -2613,31 +2294,29 @@ function telechargerCarteRecensement() {
   ctx.fillStyle =
     "#ffffff";
 
-
   ctx.font =
-    "bold 40px Arial";
-
+    "bold 45px Arial";
 
   ctx.fillText(
     "✓",
-    1025,
-    515
+    1024,
+    525
   );
 
 
-  /* =========================
+  /* =================================================
      TÉLÉCHARGEMENT
-  ========================== */
+  ================================================= */
 
   const lien =
-    document.createElement("a");
+    document.createElement(
+      "a"
+    );
 
 
   lien.download =
-    "Carte-Recensement-"
-    +
-    data.numero
-    +
+    "Carte-Recensement-" +
+    data.numero +
     ".png";
 
 
@@ -2647,7 +2326,17 @@ function telechargerCarteRecensement() {
     );
 
 
+  document.body.appendChild(
+    lien
+  );
+
+
   lien.click();
+
+
+  document.body.removeChild(
+    lien
+  );
 
 }
 
@@ -2656,22 +2345,282 @@ function telechargerCarteRecensement() {
    RECHERCHE
 ===================================================== */
 
-async function searchPeople() {
+async function rechercher() {
+
+  const texte =
+    document
+      .getElementById(
+        "searchText"
+      )
+      .value
+      .trim();
+
+  const pays =
+    document
+      .getElementById(
+        "searchPays"
+      )
+      .value
+      .trim();
+
+  const ville =
+    document
+      .getElementById(
+        "searchVille"
+      )
+      .value
+      .trim();
+
 
   const results =
-    document.getElementById("results");
+    document
+      .getElementById(
+        "searchResults"
+      );
 
 
   results.innerHTML = `
-
-    <p class="notice">
-
-      🔐 La recherche des données personnelles
-      est réservée aux utilisateurs autorisés.
-
+    <p>
+      ⏳ Recherche en cours...
     </p>
-
   `;
+
+
+  try {
+
+    let query =
+      db
+        .from("ressortissants")
+        .select(`
+          id,
+          numero_recensement,
+          nom,
+          prenom,
+          origine,
+          pays,
+          ville,
+          zone,
+          statut,
+          niveau_etudes,
+          profession,
+          secteur,
+          competences,
+          telephone,
+          whatsapp,
+          email,
+          contact_pref,
+          contribution,
+          contact_partage_autorise,
+          consentement,
+          created_at
+        `)
+        .eq(
+          "consentement",
+          true
+        )
+        .order(
+          "created_at",
+          {
+            ascending: false
+          }
+        )
+        .limit(50);
+
+
+    if (texte) {
+
+      query =
+        query.or(
+          "nom.ilike.%" +
+          texte +
+          "%," +
+          "prenom.ilike.%" +
+          texte +
+          "%," +
+          "profession.ilike.%" +
+          texte +
+          "%," +
+          "competences.ilike.%" +
+          texte +
+          "%"
+        );
+
+    }
+
+
+    if (pays) {
+
+      query =
+        query.ilike(
+          "pays",
+          "%" + pays + "%"
+        );
+
+    }
+
+
+    if (ville) {
+
+      query =
+        query.ilike(
+          "ville",
+          "%" + ville + "%"
+        );
+
+    }
+
+
+    const {
+      data,
+      error
+    } = await query;
+
+
+    if (error) {
+      throw error;
+    }
+
+
+    if (!data || data.length === 0) {
+
+      results.innerHTML = `
+
+        <div class="result">
+
+          ❌ Aucun ressortissant
+          trouvé avec ces critères.
+
+        </div>
+
+      `;
+
+      return;
+
+    }
+
+
+    results.innerHTML =
+      data
+        .map(
+          personne => {
+
+            const contactAutorise =
+              personne
+                .contact_partage_autorise;
+
+
+            return `
+
+              <div class="result">
+
+                <span class="badge">
+                  Ressortissant enregistré
+                </span>
+
+                <h3>
+                  ${echapperHTML(
+                    personne.nom
+                  )}
+                  ${echapperHTML(
+                    personne.prenom
+                  )}
+                </h3>
+
+                <p>
+                  <strong>
+                    Numéro :
+                  </strong>
+
+                  ${echapperHTML(
+                    personne.numero_recensement
+                  )}
+                </p>
+
+                <p>
+                  <strong>
+                    Origine :
+                  </strong>
+
+                  ${echapperHTML(
+                    personne.origine || ""
+                  )}
+                </p>
+
+                <p>
+                  <strong>
+                    Localisation :
+                  </strong>
+
+                  ${echapperHTML(
+                    personne.ville || ""
+                  )},
+                  ${echapperHTML(
+                    personne.pays || ""
+                  )}
+                </p>
+
+                ${
+                  personne.profession
+                    ? `
+                      <p>
+                        <strong>
+                          Profession :
+                        </strong>
+
+                        ${echapperHTML(
+                          personne.profession
+                        )}
+                      </p>
+                    `
+                    : ""
+                }
+
+                ${
+                  contactAutorise &&
+                  personne.telephone
+                    ? `
+                      <p>
+                        📞
+                        ${echapperHTML(
+                          personne.telephone
+                        )}
+                      </p>
+                    `
+                    : ""
+                }
+
+              </div>
+
+            `;
+
+          }
+        )
+        .join("");
+
+  }
+
+  catch(error) {
+
+    console.error(error);
+
+
+    results.innerHTML = `
+
+      <div class="error">
+
+        ❌ Erreur pendant la recherche :
+
+        <br><br>
+
+        ${echapperHTML(
+          error.message
+        )}
+
+      </div>
+
+    `;
+
+  }
 
 }
 
