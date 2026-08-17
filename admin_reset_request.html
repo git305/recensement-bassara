@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#12365f">
+<title>Bassara — Mot de passe administrateur</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;display:grid;place-items:center;padding:20px;background:#f3f6fa;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;color:#101828}
+.box{width:min(430px,100%);background:#fff;border:1px solid #d8e0e8;border-radius:20px;padding:30px;box-shadow:0 15px 40px #12365f18}
+.logo{width:58px;height:58px;border-radius:15px;background:#12365f;color:#fff;display:grid;place-items:center;font-size:30px;font-weight:900}
+h1{color:#12365f;font-size:27px;margin-bottom:8px}
+p{color:#667085;line-height:1.5}
+label{display:block;font-size:13px;font-weight:800;margin:16px 0 6px}
+input{width:100%;padding:13px;border:1px solid #98a2b3;border-radius:10px;font-size:16px}
+button{width:100%;border:0;border-radius:10px;padding:13px;margin-top:18px;background:#4f8f2f;color:#fff;font-weight:800;font-size:16px;cursor:pointer}
+button:disabled{opacity:.6}
+.msg{margin-top:15px;padding:13px;border-radius:10px;background:#eef7e9;color:#3f6e2d}
+.error{background:#fff1f1;color:#b42318}
+.back{display:block;text-align:center;margin-top:18px;color:#12365f;font-weight:700;text-decoration:none}
+</style>
+</head>
+<body>
+<div class="box">
+<div class="logo">B</div>
+<h1>Mot de passe oublié ?</h1>
+<p>Entrez l'adresse e-mail de votre compte administrateur. Supabase vous enverra un lien pour créer un nouveau mot de passe.</p>
+
+<form id="form">
+<label for="email">Adresse e-mail</label>
+<input id="email" type="email" value="internetgr74@gmail.com" autocomplete="email" required>
+<button id="btn" type="submit">📩 Recevoir le lien</button>
+</form>
+
+<div id="message"></div>
+<a class="back" href="admin_bassara.html">← Retour à l'administration</a>
+</div>
+
+<script>
+const SUPABASE_URL="https://gxsokrwqefletxitejde.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY="sb_publishable_4z1GPpx-LMGbKNXXPoHT3A_zD0Q60XC";
+const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
+
+document.getElementById("form").addEventListener("submit",async function(e){
+ e.preventDefault();
+ const btn=document.getElementById("btn");
+ const message=document.getElementById("message");
+ const email=document.getElementById("email").value.trim();
+
+ btn.disabled=true;
+ btn.textContent="⏳ Envoi...";
+ message.innerHTML="";
+
+ /*
+  * Après clic sur le lien reçu par e-mail, Supabase revient vers
+  * admin_reset.html avec une session permettant de définir le nouveau mot de passe.
+  */
+ const redirectTo=new URL("admin_reset.html",window.location.href).href;
+
+ const {error}=await db.auth.resetPasswordForEmail(email,{redirectTo});
+
+ if(error){
+   message.innerHTML='<div class="msg error">❌ '+escapeHtml(error.message)+'</div>';
+ }else{
+   message.innerHTML='<div class="msg">✅ Un lien de récupération a été envoyé. Vérifiez votre boîte e-mail et vos spams.</div>';
+ }
+ btn.disabled=false;
+ btn.textContent="📩 Recevoir le lien";
+});
+
+function escapeHtml(v){
+ return String(v??"")
+ .replaceAll("&","&amp;")
+ .replaceAll("<","&lt;")
+ .replaceAll(">","&gt;")
+ .replaceAll('"',"&quot;")
+ .replaceAll("'","&#039;");
+}
+</script>
+</body>
+</html>
