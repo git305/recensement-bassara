@@ -2,7 +2,6 @@
 <html lang="fr">
 
 <head>
-
   <meta charset="UTF-8">
 
   <meta
@@ -15,13 +14,7 @@
     content="#12365f"
   >
 
-  <title>
-    Bassara — Recensement
-  </title>
-
-  <!-- =====================================================
-       SUPABASE
-  ====================================================== -->
+  <title>Bassara — Recensement</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -37,10 +30,10 @@
       --muted: #475467;
       --border: #d6dde6;
       --white: #ffffff;
-      --danger: #9b1c1c;
-      --danger-bg: #fff1f1;
       --success: #3f6e2d;
       --success-bg: #eef7e9;
+      --danger: #9b1c1c;
+      --danger-bg: #fff1f1;
     }
 
     * {
@@ -59,7 +52,6 @@
         "Segoe UI",
         Arial,
         sans-serif;
-
       background: var(--bg);
       color: var(--text);
       line-height: 1.55;
@@ -82,9 +74,9 @@
       margin: auto;
     }
 
-    /* =====================================================
+    /* =========================
        BOUTONS
-    ====================================================== */
+    ========================== */
 
     .btn {
       border: 0;
@@ -96,13 +88,14 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      gap: 8px;
 
-      transition: 0.2s;
+      transition: .2s;
     }
 
     .btn:hover {
       transform: translateY(-1px);
-      opacity: 0.95;
+      opacity: .95;
     }
 
     .primary {
@@ -118,11 +111,7 @@
     .download {
       background: var(--green);
       color: white;
-
-      padding: 14px 20px;
-      margin-top: 18px;
-
-      font-size: 15px;
+      margin-top: 12px;
     }
 
     .download:hover {
@@ -134,18 +123,23 @@
       color: var(--blue);
     }
 
-    /* =====================================================
+    .hidden {
+      display: none !important;
+    }
+
+    /* =========================
        HEADER
-    ====================================================== */
+    ========================== */
 
     header {
       position: sticky;
       top: 0;
       z-index: 50;
 
-      background: rgba(255,255,255,0.96);
+      background: rgba(255,255,255,.96);
 
-      border-bottom: 1px solid var(--border);
+      border-bottom:
+        1px solid var(--border);
 
       backdrop-filter: blur(12px);
     }
@@ -166,7 +160,6 @@
 
       display: flex;
       align-items: center;
-
       gap: 10px;
     }
 
@@ -182,13 +175,12 @@
       display: grid;
       place-items: center;
 
-      font-weight: 900;
       font-size: 20px;
+      font-weight: 900;
     }
 
     .brand small {
       font-size: 10px;
-      font-weight: 600;
     }
 
     .links {
@@ -211,12 +203,13 @@
       background: none;
 
       font-size: 28px;
+
       cursor: pointer;
     }
 
-    /* =====================================================
+    /* =========================
        HERO
-    ====================================================== */
+    ========================== */
 
     .hero {
       background:
@@ -235,8 +228,7 @@
       display: grid;
 
       grid-template-columns:
-        1.25fr
-        0.75fr;
+        1.25fr .75fr;
 
       gap: 35px;
 
@@ -270,73 +262,58 @@
       background: white;
       color: var(--text);
 
-      border: 1px solid #d7dee8;
-
       border-radius: 20px;
 
       padding: 24px;
 
       box-shadow:
         0 20px 50px
-        rgba(7,27,53,0.25);
+        rgba(7,27,53,.25);
     }
 
     .heroCard .big {
-      font-size: 46px;
+      font-size: 55px;
       font-weight: 900;
-
       color: var(--green);
     }
 
     .heroCard h3 {
       color: var(--blue);
-
       font-size: 22px;
-
-      margin: 14px 0 8px;
     }
 
-    .heroCard p {
-      color: #344054 !important;
-      font-size: 16px;
-    }
-
-    /* =====================================================
+    /* =========================
        SECTIONS
-    ====================================================== */
+    ========================== */
 
     .section {
       padding: 65px 0;
     }
 
     .head {
-      max-width: 720px;
+      max-width: 760px;
       margin-bottom: 30px;
     }
 
     .head h2 {
       font-size: 34px;
-
       color: var(--blue);
-
       margin: 5px 0;
-
-      font-weight: 850;
     }
 
     .head p {
       color: #344054;
     }
 
-    /* =====================================================
+    /* =========================
        CARDS
-    ====================================================== */
+    ========================== */
 
     .cards {
       display: grid;
 
       grid-template-columns:
-        repeat(4, 1fr);
+        repeat(4,1fr);
 
       gap: 15px;
     }
@@ -344,7 +321,8 @@
     .card {
       background: white;
 
-      border: 1px solid var(--border);
+      border:
+        1px solid var(--border);
 
       border-radius: 17px;
 
@@ -357,15 +335,13 @@
 
     .card p {
       color: var(--muted);
-
       font-size: 14px;
-
       margin: 0;
     }
 
-    /* =====================================================
+    /* =========================
        FORMULAIRE
-    ====================================================== */
+    ========================== */
 
     .formGrid {
       display: grid;
@@ -376,10 +352,15 @@
       gap: 18px;
     }
 
+    .full {
+      grid-column: 1 / -1;
+    }
+
     .box {
       background: white;
 
-      border: 1px solid var(--border);
+      border:
+        1px solid var(--border);
 
       border-radius: 18px;
 
@@ -391,20 +372,17 @@
       margin-top: 0;
     }
 
-    .full {
-      grid-column: 1 / -1;
-    }
-
     label {
+      display: block;
+
       font-size: 13px;
 
       font-weight: 850;
 
       color: #1d2939;
 
-      display: block;
-
-      margin: 12px 0 5px;
+      margin:
+        12px 0 5px;
     }
 
     input,
@@ -414,7 +392,8 @@
 
       padding: 12px;
 
-      border: 1px solid #98a2b3;
+      border:
+        1px solid #98a2b3;
 
       border-radius: 10px;
 
@@ -428,9 +407,10 @@
     textarea:focus {
       outline:
         2px solid
-        rgba(18,54,95,0.15);
+        rgba(18,54,95,.15);
 
-      border-color: var(--blue);
+      border-color:
+        var(--blue);
     }
 
     textarea {
@@ -462,16 +442,162 @@
       color: var(--muted);
     }
 
-    /* =====================================================
-       MESSAGES
-    ====================================================== */
+    /* =========================
+       MODE SIMPLE
+    ========================== */
 
-    .success {
+    .accessBox {
+      background: #f8fbff;
+
+      border:
+        2px solid #d6e4f2;
+
+      border-radius: 18px;
+
+      padding: 20px;
+
+      margin-bottom: 18px;
+    }
+
+    .accessHead {
+      display: flex;
+
+      justify-content: space-between;
+
+      align-items: center;
+
+      gap: 15px;
+
+      flex-wrap: wrap;
+    }
+
+    .accessHead h3 {
+      margin: 0;
+      color: var(--blue);
+    }
+
+    .modeHint {
+      margin: 8px 0 0;
+
+      color: var(--muted);
+
+      font-size: 13px;
+    }
+
+    .modeBtn {
+      background: white;
+
+      border:
+        2px solid var(--blue);
+
+      color: var(--blue);
+
+      border-radius: 12px;
+
+      padding: 11px 15px;
+
+      font-weight: 800;
+
+      cursor: pointer;
+    }
+
+    .visualGrid {
+      display: grid;
+
+      grid-template-columns:
+        repeat(4,1fr);
+
+      gap: 10px;
+
+      margin-top: 15px;
+    }
+
+    .visualChoice {
+      border:
+        2px solid #d6dde6;
+
+      background: white;
+
+      border-radius: 15px;
+
+      padding: 15px 8px;
+
+      text-align: center;
+
+      cursor: pointer;
+
+      min-height: 105px;
+
+      font-weight: 800;
+
+      color: var(--blue);
+    }
+
+    .visualChoice .ico {
+      font-size: 36px;
+
+      display: block;
+
+      margin-bottom: 5px;
+    }
+
+    .visualChoice small {
+      display: block;
+
+      color: var(--muted);
+
+      font-weight: 600;
+    }
+
+    .visualChoice.active {
+      border-color: var(--green);
+
       background: var(--success-bg);
 
-      border: 1px solid #cde4bf;
+      box-shadow:
+        0 0 0 2px
+        rgba(79,143,47,.12);
+    }
 
-      color: var(--success);
+    .fieldRow {
+      display: flex;
+
+      gap: 7px;
+
+      align-items: end;
+    }
+
+    .fieldRow > div {
+      flex: 1;
+    }
+
+    .speakBtn {
+      border: 0;
+
+      background: #edf3f8;
+
+      color: var(--blue);
+
+      border-radius: 9px;
+
+      padding: 7px 10px;
+
+      cursor: pointer;
+    }
+
+    /* =========================
+       MESSAGES
+    ========================== */
+
+    .success {
+      background:
+        var(--success-bg);
+
+      border:
+        1px solid #cde4bf;
+
+      color:
+        var(--success);
 
       padding: 22px;
 
@@ -480,28 +606,21 @@
       margin-top: 15px;
     }
 
-    .success strong.number {
-      font-size: 21px;
-    }
-
-    .successCard {
-      margin-top: 20px;
-
-      padding: 18px;
-
-      background: white;
-
-      border-radius: 14px;
-
-      border: 1px solid #cde4bf;
+    .successNumber {
+      font-size: 22px;
+      font-weight: 900;
+      color: var(--green);
     }
 
     .error {
-      background: var(--danger-bg);
+      background:
+        var(--danger-bg);
 
-      border: 1px solid #f0b5b5;
+      border:
+        1px solid #f0b5b5;
 
-      color: var(--danger);
+      color:
+        var(--danger);
 
       padding: 15px;
 
@@ -510,54 +629,32 @@
       margin-top: 15px;
     }
 
-    .hidden {
-      display: none !important;
-    }
-
-    /* =====================================================
-       RECHERCHE
-    ====================================================== */
-
-    .search {
-      display: grid;
-
-      grid-template-columns:
-        2fr 1fr 1fr auto;
-
-      gap: 9px;
-    }
-
-    .result {
+    .cardPreview {
       background: white;
 
-      border: 1px solid var(--border);
+      border:
+        2px solid #d5dfeb;
 
-      border-radius: 13px;
+      border-radius: 16px;
 
-      padding: 16px;
+      padding: 18px;
 
-      margin-top: 10px;
+      margin-top: 18px;
+
+      max-width: 650px;
     }
 
-    .badge {
-      display: inline-block;
+    .cardPreviewTitle {
+      color: var(--blue);
 
-      background: #edf5e9;
+      font-weight: 900;
 
-      color: #477b2e;
-
-      border-radius: 30px;
-
-      padding: 4px 9px;
-
-      font-size: 11px;
-
-      font-weight: 800;
+      font-size: 20px;
     }
 
-    /* =====================================================
+    /* =========================
        FOOTER
-    ====================================================== */
+    ========================== */
 
     footer {
       background: #0e2540;
@@ -576,11 +673,11 @@
       gap: 25px;
     }
 
-    /* =====================================================
+    /* =========================
        MOBILE
-    ====================================================== */
+    ========================== */
 
-    @media (max-width: 850px) {
+    @media(max-width:850px) {
 
       .links {
         display: none;
@@ -600,18 +697,19 @@
           1fr 1fr;
       }
 
-      .search {
+      .visualGrid {
         grid-template-columns:
           1fr 1fr;
       }
 
     }
 
-    @media (max-width: 520px) {
+    @media(max-width:520px) {
 
       .cards,
-      .search {
-        grid-template-columns: 1fr;
+      .visualGrid {
+        grid-template-columns:
+          1fr 1fr;
       }
 
       .section {
@@ -620,6 +718,14 @@
 
       .hero {
         padding: 55px 0;
+      }
+
+      .fieldRow {
+        display: block;
+      }
+
+      .speakBtn {
+        margin-top: 6px;
       }
 
     }
@@ -672,10 +778,6 @@
 
       <a href="#inscription">
         S'inscrire
-      </a>
-
-      <a href="#recherche">
-        Recherche
       </a>
 
       <a href="#confidentialite">
@@ -734,10 +836,6 @@
       S'inscrire
     </a>
 
-    <a href="#recherche">
-      Recherche
-    </a>
-
     <a href="#confidentialite">
       Confidentialité
     </a>
@@ -748,7 +846,7 @@
 
 
 <!-- =====================================================
-     HERO
+     ACCUEIL
 ====================================================== -->
 
 <section
@@ -778,8 +876,7 @@
         <strong>
           Bassara, district de Fafaya,
           sous-préfecture et préfecture de Koubia,
-          région de Labé,
-          République de Guinée.
+          région de Labé, République de Guinée.
         </strong>
 
       </p>
@@ -796,9 +893,9 @@
 
         <a
           class="btn light"
-          href="#recherche"
+          href="#objectif"
         >
-          🔎 Rechercher
+          Découvrir le projet
         </a>
 
       </div>
@@ -817,9 +914,11 @@
       </h3>
 
       <p>
+
         Une base communautaire destinée
         à mieux connaître les ressortissants,
         leurs compétences et leurs besoins.
+
       </p>
 
       <strong>
@@ -851,10 +950,11 @@
       </h2>
 
       <p>
-        Ce recensement permet à la communauté de Bassara
-        de mieux connaître ses ressortissants et de
-        préparer des projets adaptés aux besoins
-        de la communauté.
+
+        Ce recensement permet à la communauté
+        de Bassara de mieux connaître ses ressortissants
+        et de préparer des projets adaptés.
+
       </p>
 
     </div>
@@ -864,7 +964,7 @@
 
       <div class="card">
 
-        <div style="font-size:30px;">
+        <div style="font-size:30px">
           👥
         </div>
 
@@ -873,7 +973,7 @@
         </h3>
 
         <p>
-          Identifier les ressortissants de Bassara
+          Identifier les ressortissants
           vivant en Guinée ou à l'étranger.
         </p>
 
@@ -882,7 +982,7 @@
 
       <div class="card">
 
-        <div style="font-size:30px;">
+        <div style="font-size:30px">
           🎓
         </div>
 
@@ -891,8 +991,8 @@
         </h3>
 
         <p>
-          Connaître les compétences,
-          professions et domaines d'activité.
+          Connaître les compétences
+          et domaines d'activité.
         </p>
 
       </div>
@@ -900,7 +1000,7 @@
 
       <div class="card">
 
-        <div style="font-size:30px;">
+        <div style="font-size:30px">
           🤝
         </div>
 
@@ -909,8 +1009,8 @@
         </h3>
 
         <p>
-          Faciliter la solidarité et
-          l'entraide entre ressortissants.
+          Faciliter l'entraide
+          entre ressortissants.
         </p>
 
       </div>
@@ -918,7 +1018,7 @@
 
       <div class="card">
 
-        <div style="font-size:30px;">
+        <div style="font-size:30px">
           🚀
         </div>
 
@@ -927,7 +1027,7 @@
         </h3>
 
         <p>
-          Préparer des projets de développement
+          Préparer des projets
           pour Bassara.
         </p>
 
@@ -954,17 +1054,488 @@
     <div class="head">
 
       <h2>
-        📝 S'inscrire au recensement
+        📝 Inscription au recensement
       </h2>
 
       <p>
+
         Remplissez les informations ci-dessous.
-        Après l'enregistrement, vous recevrez
-        automatiquement votre numéro de recensement.
+        Si vous avez des difficultés à lire ou à écrire,
+        utilisez le mode simple avec images.
+
       </p>
 
     </div>
 
+
+    <!-- =================================================
+         MODE SIMPLE
+    ================================================== -->
+
+    <div class="accessBox">
+
+      <div class="accessHead">
+
+        <div>
+
+          <h3>
+            🖼️ Mode simple avec images
+          </h3>
+
+          <p class="modeHint">
+
+            Pour les personnes qui ont des difficultés
+            à lire ou à écrire.
+
+            Appuyez simplement sur les images.
+
+          </p>
+
+        </div>
+
+
+        <button
+          type="button"
+          id="modeButton"
+          class="modeBtn"
+          onclick="toggleSimpleMode()"
+        >
+
+          🖼️ Activer le mode simple
+
+        </button>
+
+      </div>
+
+
+      <div
+        id="simpleMode"
+        class="hidden"
+      >
+
+
+        <!-- SEXE -->
+
+        <label>
+          👤 Sexe
+        </label>
+
+
+        <div class="visualGrid">
+
+          <button
+            type="button"
+            class="visualChoice"
+            data-target="sexe"
+            data-value="Homme"
+          >
+
+            <span class="ico">
+              👨
+            </span>
+
+            Homme
+
+            <small>
+              Appuyer ici
+            </small>
+
+          </button>
+
+
+          <button
+            type="button"
+            class="visualChoice"
+            data-target="sexe"
+            data-value="Femme"
+          >
+
+            <span class="ico">
+              👩
+            </span>
+
+            Femme
+
+            <small>
+              Appuyer ici
+            </small>
+
+          </button>
+
+        </div>
+
+
+        <!-- PAYS -->
+
+        <label>
+          🌍 Pays
+        </label>
+
+
+        <div class="visualGrid">
+
+          <button
+            type="button"
+            class="visualChoice"
+            data-target="pays"
+            data-value="Guinée"
+          >
+
+            <span class="ico">
+              🇬🇳
+            </span>
+
+            Guinée
+
+          </button>
+
+
+          <button
+            type="button"
+            class="visualChoice"
+            data-target="pays"
+            data-value="Sénégal"
+          >
+
+            <span class="ico">
+              🇸🇳
+            </span>
+
+            Sénégal
+
+          </button>
+
+
+          <button
+            type="button"
+            class="visualChoice"
+            data-target="pays"
+            data-value="France"
+          >
+
+            <span class="ico">
+              🇫🇷
+            </span>
+
+            France
+
+          </button>
+
+
+          <button
+            type="button"
+            class="visualChoice"
+            data-target="pays"
+            data-value="Autre"
+          >
+
+            <span class="ico">
+              🌍
+            </span>
+
+            Autre pays
+
+          </button>
+
+        </div>
+
+
+        <!-- SITUATION -->
+
+        <label>
+          👨‍👩‍👧 Situation
+        </label>
+
+
+        <div class="visualGrid">
+
+          <button
+            type="button"
+            class="visualChoice"
+            data-target="statut"
+            data-value="Célibataire"
+          >
+
+            <span class="ico">
+              👤
+            </span>
+
+            Célibataire
+
+          </button>
+
+
+          <button
+            type="button"
+            class="visualChoice"
+            data-target="statut"
+            data-value="Marié(e)"
+          >
+
+            <span class="ico">
+              💍
+            </span>
+
+            Marié(e)
+
+          </button>
+
+
+          <button
+            type="button"
+            class="visualChoice"
+            data-target="statut"
+            data-value="Veuf(ve)"
+          >
+
+            <span class="ico">
+              👪
+            </span>
+
+            Veuf(ve)
+
+          </button>
+
+
+          <button
+            type="button"
+            class="visualChoice"
+            data-target="statut"
+            data-value="Autre"
+          >
+
+            <span class="ico">
+              ❤️
+            </span>
+
+            Autre
+
+          </button>
+
+        </div>
+
+
+        <!-- ÉTUDES -->
+
+        <label>
+          🎓 Niveau d'études
+        </label>
+
+
+        <div class="visualGrid">
+
+          <button
+            type="button"
+            class="visualChoice"
+            data-target="niveau_etudes"
+            data-value="Aucun"
+          >
+
+            <span class="ico">
+              📖
+            </span>
+
+            Aucun
+
+          </button>
+
+
+          <button
+            type="button"
+            class="visualChoice"
+            data-target="niveau_etudes"
+            data-value="Primaire"
+          >
+
+            <span class="ico">
+              🏫
+            </span>
+
+            Primaire
+
+          </button>
+
+
+          <button
+            type="button"
+            class="visualChoice"
+            data-target="niveau_etudes"
+            data-value="Secondaire"
+          >
+
+            <span class="ico">
+              📚
+            </span>
+
+            Secondaire
+
+          </button>
+
+
+          <button
+            type="button"
+            class="visualChoice"
+            data-target="niveau_etudes"
+            data-value="Supérieur"
+          >
+
+            <span class="ico">
+              🎓
+            </span>
+
+            Supérieur
+
+          </button>
+
+        </div>
+
+
+        <!-- ACTIVITÉ -->
+
+        <label>
+          💼 Activité principale
+        </label>
+
+
+        <div class="visualGrid">
+
+          <button
+            type="button"
+            class="visualChoice"
+            data-target="profession"
+            data-value="Agriculteur"
+          >
+
+            <span class="ico">
+              👨‍🌾
+            </span>
+
+            Agriculture
+
+          </button>
+
+
+          <button
+            type="button"
+            class="visualChoice"
+            data-target="profession"
+            data-value="Enseignant"
+          >
+
+            <span class="ico">
+              👨‍🏫
+            </span>
+
+            Enseignement
+
+          </button>
+
+
+          <button
+            type="button"
+            class="visualChoice"
+            data-target="profession"
+            data-value="Commerce"
+          >
+
+            <span class="ico">
+              🏪
+            </span>
+
+            Commerce
+
+          </button>
+
+
+          <button
+            type="button"
+            class="visualChoice"
+            data-target="profession"
+            data-value="Artisan"
+          >
+
+            <span class="ico">
+              🔧
+            </span>
+
+            Artisan
+
+          </button>
+
+
+          <button
+            type="button"
+            class="visualChoice"
+            data-target="profession"
+            data-value="Étudiant"
+          >
+
+            <span class="ico">
+              🎓
+            </span>
+
+            Étudiant
+
+          </button>
+
+
+          <button
+            type="button"
+            class="visualChoice"
+            data-target="profession"
+            data-value="Informatique"
+          >
+
+            <span class="ico">
+              💻
+            </span>
+
+            Informatique
+
+          </button>
+
+
+          <button
+            type="button"
+            class="visualChoice"
+            data-target="profession"
+            data-value="Santé"
+          >
+
+            <span class="ico">
+              🏥
+            </span>
+
+            Santé
+
+          </button>
+
+
+          <button
+            type="button"
+            class="visualChoice"
+            data-target="profession"
+            data-value="Autre"
+          >
+
+            <span class="ico">
+              ➕
+            </span>
+
+            Autre
+
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- =================================================
+         FORMULAIRE
+    ================================================== -->
 
     <form
       id="recensementForm"
@@ -1005,13 +1576,13 @@
         >
 
 
-        <label for="dateNaissance">
+        <label for="date_naissance">
           Date de naissance
         </label>
 
         <input
-          id="dateNaissance"
-          name="dateNaissance"
+          id="date_naissance"
+          name="date_naissance"
           type="date"
         >
 
@@ -1026,15 +1597,15 @@
         >
 
           <option value="">
-            Sélectionner
+            Choisir
           </option>
 
-          <option value="Masculin">
-            Masculin
+          <option value="Homme">
+            Homme
           </option>
 
-          <option value="Féminin">
-            Féminin
+          <option value="Femme">
+            Femme
           </option>
 
         </select>
@@ -1047,31 +1618,28 @@
         <input
           id="origine"
           name="origine"
-          required
-          placeholder="Ex : Bassara"
           value="Bassara"
+          required
         >
 
 
-        <label for="pere">
+        <label for="nom_pere">
           Nom du père
         </label>
 
         <input
-          id="pere"
-          name="pere"
-          placeholder="Nom du père"
+          id="nom_pere"
+          name="nom_pere"
         >
 
 
-        <label for="mere">
+        <label for="nom_mere">
           Nom de la mère
         </label>
 
         <input
-          id="mere"
-          name="mere"
-          placeholder="Nom de la mère"
+          id="nom_mere"
+          name="nom_mere"
         >
 
 
@@ -1082,18 +1650,17 @@
         <input
           id="famille"
           name="famille"
-          placeholder="Nom de famille / lignée"
         >
 
       </div>
 
 
-      <!-- LOCALISATION -->
+      <!-- RÉSIDENCE -->
 
       <div class="box">
 
         <h3>
-          📍 Localisation
+          📍 Résidence
         </h3>
 
 
@@ -1101,24 +1668,69 @@
           Pays *
         </label>
 
-        <input
+        <select
           id="pays"
           name="pays"
           required
-          placeholder="Ex : Guinée"
         >
+
+          <option value="">
+            Choisir
+          </option>
+
+          <option>
+            Guinée
+          </option>
+
+          <option>
+            Sénégal
+          </option>
+
+          <option>
+            France
+          </option>
+
+          <option>
+            États-Unis
+          </option>
+
+          <option>
+            Canada
+          </option>
+
+          <option>
+            Autre
+          </option>
+
+        </select>
 
 
         <label for="ville">
           Ville *
         </label>
 
-        <input
-          id="ville"
-          name="ville"
-          required
-          placeholder="Ex : Conakry"
-        >
+        <div class="fieldRow">
+
+          <div>
+
+            <input
+              id="ville"
+              name="ville"
+              required
+              placeholder="Ex : Conakry"
+            >
+
+          </div>
+
+          <button
+            type="button"
+            class="speakBtn"
+            onclick="voiceTo('ville')"
+          >
+            🎙️
+          </button>
+
+        </div>
 
 
         <label for="zone">
@@ -1128,12 +1740,11 @@
         <input
           id="zone"
           name="zone"
-          placeholder="Quartier, secteur..."
         >
 
 
         <label for="statut">
-          Statut
+          Situation
         </label>
 
         <select
@@ -1142,22 +1753,22 @@
         >
 
           <option value="">
-            Sélectionner
+            Choisir
           </option>
 
-          <option value="Résident">
-            Résident
+          <option>
+            Célibataire
           </option>
 
-          <option value="Diaspora">
-            Diaspora
+          <option>
+            Marié(e)
           </option>
 
-          <option value="Étudiant">
-            Étudiant
+          <option>
+            Veuf(ve)
           </option>
 
-          <option value="Autre">
+          <option>
             Autre
           </option>
 
@@ -1166,35 +1777,75 @@
       </div>
 
 
-      <!-- PROFESSION -->
+      <!-- ÉTUDES -->
 
       <div class="box">
 
         <h3>
-          🎓 Études et profession
+          🎓 Études et activité
         </h3>
 
 
-        <label for="niveauEtudes">
+        <label for="niveau_etudes">
           Niveau d'études
         </label>
 
-        <input
-          id="niveauEtudes"
-          name="niveauEtudes"
-          placeholder="Ex : Université, Master..."
+        <select
+          id="niveau_etudes"
+          name="niveau_etudes"
         >
+
+          <option value="">
+            Choisir
+          </option>
+
+          <option>
+            Aucun
+          </option>
+
+          <option>
+            Primaire
+          </option>
+
+          <option>
+            Secondaire
+          </option>
+
+          <option>
+            Supérieur
+          </option>
+
+          <option>
+            Formation professionnelle
+          </option>
+
+        </select>
 
 
         <label for="profession">
           Profession
         </label>
 
-        <input
-          id="profession"
-          name="profession"
-          placeholder="Votre profession"
-        >
+        <div class="fieldRow">
+
+          <div>
+
+            <input
+              id="profession"
+              name="profession"
+            >
+
+          </div>
+
+          <button
+            type="button"
+            class="speakBtn"
+            onclick="voiceTo('profession')"
+          >
+            🎙️
+          </button>
+
+        </div>
 
 
         <label for="secteur">
@@ -1204,18 +1855,17 @@
         <input
           id="secteur"
           name="secteur"
-          placeholder="Ex : Informatique, santé..."
         >
 
 
         <label for="competences">
-          Compétences
+          Compétences / savoir-faire
         </label>
 
         <textarea
           id="competences"
           name="competences"
-          placeholder="Vos compétences..."
+          placeholder="Compétences, savoir-faire..."
         ></textarea>
 
       </div>
@@ -1262,72 +1912,63 @@
           id="email"
           name="email"
           type="email"
-          placeholder="exemple@email.com"
         >
 
 
-        <label for="contactPref">
+        <label for="contact_pref">
           Préférence de contact
         </label>
 
         <select
-          id="contactPref"
-          name="contactPref"
+          id="contact_pref"
+          name="contact_pref"
         >
 
-          <option value="">
-            Sélectionner
-          </option>
-
-          <option value="WhatsApp">
+          <option>
             WhatsApp
           </option>
 
-          <option value="Téléphone">
+          <option>
             Téléphone
           </option>
 
-          <option value="Email">
+          <option>
             Email
           </option>
 
         </select>
 
-      </div>
-
-
-      <!-- CONTRIBUTION -->
-
-      <div class="box full">
-
-        <h3>
-          🤝 Contribution à la communauté
-        </h3>
-
 
         <label for="contribution">
-          Comment souhaitez-vous contribuer ?
+          Contribution à Bassara
         </label>
 
         <textarea
           id="contribution"
           name="contribution"
-          placeholder="Bénévolat, compétences, projet, soutien..."
+          placeholder="Comment souhaitez-vous contribuer ?"
         ></textarea>
 
+      </div>
+
+
+      <!-- CONSENTEMENT -->
+
+      <div class="box full">
 
         <label class="check">
 
           <input
-            id="publicContact"
+            id="contact_partage_autorise"
             type="checkbox"
           >
 
           <span>
+
             J'accepte que mon téléphone/WhatsApp
             puisse être partagé uniquement avec
-            les responsables autorisés du recensement
-            pour me contacter.
+            les responsables autorisés du recensement.
+
           </span>
 
         </label>
@@ -1342,23 +1983,25 @@
           >
 
           <span>
+
             J'accepte que mes informations soient
             enregistrées dans la base du recensement
-            de Bassara et utilisées uniquement pour
-            les objectifs présentés sur ce site. *
+            de Bassara et utilisées uniquement
+            pour les objectifs du projet. *
+
           </span>
 
         </label>
 
 
         <button
-          type="submit"
+          id="submitButton"
           class="btn green"
+          type="submit"
           style="
             width:100%;
-            margin-top:10px;
+            font-size:17px;
           "
-          id="submitButton"
         >
 
           ✅ Enregistrer mon inscription
@@ -1368,88 +2011,17 @@
 
         <p class="notice">
 
-          Les inscriptions sont enregistrées
-          dans la base centrale sécurisée.
+          Votre inscription sera enregistrée
+          dans la base centrale.
 
         </p>
 
 
-        <div
-          id="message"
-        ></div>
+        <div id="message"></div>
 
       </div>
-
 
     </form>
-
-  </div>
-
-</section>
-
-
-<!-- =====================================================
-     RECHERCHE
-====================================================== -->
-
-<section
-  id="recherche"
-  class="section"
-  style="
-    background:#eef3f8;
-  "
->
-
-  <div class="wrap">
-
-    <div class="head">
-
-      <h2>
-        🔎 Recherche communautaire
-      </h2>
-
-      <p>
-        Recherchez un ressortissant enregistré.
-        Les informations personnelles sont affichées
-        uniquement selon les règles d'accès prévues
-        par la base de données.
-      </p>
-
-    </div>
-
-
-    <div class="box">
-
-      <div class="search">
-
-        <input
-          id="searchText"
-          placeholder="Nom, prénom, profession..."
-        >
-
-        <input
-          id="searchPays"
-          placeholder="Pays"
-        >
-
-        <input
-          id="searchVille"
-          placeholder="Ville"
-        >
-
-        <button
-          class="btn primary"
-          onclick="rechercher()"
-        >
-          Rechercher
-        </button>
-
-      </div>
-
-
-      <div id="searchResults"></div>
-
-    </div>
 
   </div>
 
@@ -1474,11 +2046,19 @@
       </h2>
 
       <p>
-        Les informations collectées sont destinées
-        au recensement des ressortissants de Bassara.
-        Les informations personnelles doivent être
-        utilisées conformément aux autorisations
-        et règles de confidentialité du projet.
+
+        Les informations personnelles sont enregistrées
+        dans la base centrale du recensement.
+        Elles ne sont plus accessibles par une recherche
+        publique sur cette page.
+
+      </p>
+
+      <p>
+
+        L'accès complet aux données sera réservé
+        à l'espace administrateur sécurisé.
+
       </p>
 
     </div>
@@ -1498,13 +2078,13 @@
 
     <div>
 
-      <h3>
-        BASSARA
-      </h3>
+      <strong>
+        BASSARA — RECENSEMENT
+      </strong>
 
       <p>
-        Recensement communautaire
-        des ressortissants de Bassara.
+        Recenser aujourd'hui
+        pour mieux construire demain.
       </p>
 
     </div>
@@ -1517,15 +2097,17 @@
       </strong>
 
       <p>
+
         <a href="#objectif">
           Objectif
         </a>
-      </p>
 
-      <p>
+        <br>
+
         <a href="#inscription">
           Inscription
         </a>
+
       </p>
 
     </div>
@@ -1534,13 +2116,11 @@
     <div>
 
       <strong>
-        Recherche
+        Communauté
       </strong>
 
       <p>
-        <a href="#recherche">
-          Rechercher un ressortissant
-        </a>
+        Bassara — Koubia — Labé — Guinée 🇬🇳
       </p>
 
     </div>
@@ -1556,6 +2136,7 @@
 
 <script>
 
+
 /* =====================================================
    SUPABASE
 ===================================================== */
@@ -1563,8 +2144,10 @@
 const SUPABASE_URL =
   "https://gxsokrwqefletxitejde.supabase.co";
 
+
 const SUPABASE_PUBLISHABLE_KEY =
   "sb_publishable_4z1GPpx-LMGbKNXXPoHT3A_zD0Q60XC";
+
 
 const db =
   window.supabase.createClient(
@@ -1574,52 +2157,252 @@ const db =
 
 
 /* =====================================================
-   MENU MOBILE
+   MENU
 ===================================================== */
 
 function toggleMenu() {
 
-  const menu =
-    document.getElementById("mobileMenu");
-
-  menu.classList.toggle("hidden");
+  document
+    .getElementById("mobileMenu")
+    .classList
+    .toggle("hidden");
 
 }
 
 
 /* =====================================================
-   UTILITAIRE
+   MODE SIMPLE
 ===================================================== */
 
-function valeur(id) {
+function toggleSimpleMode() {
 
-  const element =
+  const box =
+    document.getElementById(
+      "simpleMode"
+    );
+
+  const button =
+    document.getElementById(
+      "modeButton"
+    );
+
+
+  box.classList.toggle(
+    "hidden"
+  );
+
+
+  const actif =
+    !box.classList.contains(
+      "hidden"
+    );
+
+
+  button.textContent =
+    actif
+      ? "↩️ Revenir au mode normal"
+      : "🖼️ Activer le mode simple";
+
+}
+
+
+/* =====================================================
+   CHOIX AVEC IMAGES
+===================================================== */
+
+document
+  .querySelectorAll(
+    ".visualChoice"
+  )
+  .forEach(
+    button => {
+
+      button.addEventListener(
+        "click",
+        function() {
+
+          const target =
+            this.dataset.target;
+
+          const value =
+            this.dataset.value;
+
+
+          const field =
+            document.getElementById(
+              target
+            );
+
+
+          if (!field) {
+            return;
+          }
+
+
+          field.value =
+            value;
+
+
+          /*
+            Retirer l'état actif
+            des autres boutons
+          */
+
+          document
+            .querySelectorAll(
+              '.visualChoice[data-target="' +
+              target +
+              '"]'
+            )
+            .forEach(
+              item => {
+
+                item.classList
+                  .remove(
+                    "active"
+                  );
+
+              }
+            );
+
+
+          this.classList
+            .add(
+              "active"
+            );
+
+        }
+      );
+
+    }
+  );
+
+
+/* =====================================================
+   SAISIE VOCALE
+===================================================== */
+
+function voiceTo(id) {
+
+  const input =
     document.getElementById(id);
 
-  if (!element) {
-    return "";
+
+  const SpeechRecognition =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
+
+
+  if (!SpeechRecognition) {
+
+    alert(
+      "La saisie vocale n'est pas disponible " +
+      "sur ce navigateur. Utilisez Chrome ou Edge."
+    );
+
+    return;
+
   }
 
-  return element.value.trim();
+
+  const recognition =
+    new SpeechRecognition();
+
+
+  recognition.lang =
+    "fr-FR";
+
+
+  recognition.interimResults =
+    false;
+
+
+  recognition.maxAlternatives =
+    1;
+
+
+  recognition.onresult =
+    function(event) {
+
+      input.value =
+        event
+          .results[0][0]
+          .transcript
+          .replace(
+            /[.!?]+$/,
+            ""
+          );
+
+    };
+
+
+  recognition.onerror =
+    function() {
+
+      console.log(
+        "Saisie vocale interrompue."
+      );
+
+    };
+
+
+  recognition.start();
 
 }
 
 
 /* =====================================================
-   GÉNÉRATION NUMÉRO RECENSEMENT
+   PROTECTION HTML
 ===================================================== */
 
-function genererNumeroRecensement() {
+function escapeHtml(value) {
 
-  const temps =
-    Date.now().toString();
+  return String(
+    value ?? ""
+  )
 
-  const hasard =
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
+
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
+
+}
+
+
+/* =====================================================
+   NUMÉRO DE RECENSEMENT
+===================================================== */
+
+function generateNumber() {
+
+  return (
+    "BAS-" +
+    Date.now() +
+    "-" +
     Math.floor(
-      Math.random() * 900
-    ) + 100;
-
-  return "BAS-" + temps + hasard;
+      Math.random() * 1000
+    )
+  );
 
 }
 
@@ -1628,15 +2411,17 @@ function genererNumeroRecensement() {
    DONNÉES DE LA CARTE
 ===================================================== */
 
-let carteRecensement = null;
+let currentCard = null;
 
 
 /* =====================================================
-   INSCRIPTION
+   FORMULAIRE
 ===================================================== */
 
 document
-  .getElementById("recensementForm")
+  .getElementById(
+    "recensementForm"
+  )
   .addEventListener(
     "submit",
     async function(event) {
@@ -1649,182 +2434,125 @@ document
           "submitButton"
         );
 
+
       const message =
         document.getElementById(
           "message"
         );
 
 
-      message.innerHTML = "";
+      message.innerHTML =
+        "";
 
 
-      /* Vérification consentement */
-
-      const consentement =
+      const consent =
         document.getElementById(
           "consentement"
         ).checked;
 
 
-      if (!consentement) {
+      if (!consent) {
 
-        message.innerHTML = `
-          <div class="error">
-            ❌ Vous devez accepter
-            l'enregistrement de vos informations.
-          </div>
-        `;
+        showError(
+          "Vous devez accepter le consentement."
+        );
 
         return;
 
       }
 
 
-      /* Désactivation bouton */
+      button.disabled =
+        true;
 
-      button.disabled = true;
 
-      button.style.opacity = "0.6";
-
-      button.innerHTML =
-        "⏳ Enregistrement en cours...";
+      button.textContent =
+        "⏳ Enregistrement...";
 
 
       try {
 
-        /* Numéro */
 
-        const numero =
-          genererNumeroRecensement();
+        /* =========================================
+           RÉCUPÉRER LE FORMULAIRE
+        ========================================== */
 
-
-        /* =================================================
-           OBJET À ENREGISTRER
-        ================================================= */
-
-        const personne = {
-
-          numero_recensement:
-            numero,
-
-          nom:
-            valeur("nom"),
-
-          prenom:
-            valeur("prenom"),
-
-          date_naissance:
-            valeur("dateNaissance")
-              || null,
-
-          sexe:
-            valeur("sexe")
-              || null,
-
-          origine:
-            valeur("origine"),
-
-          nom_pere:
-            valeur("pere")
-              || null,
-
-          nom_mere:
-            valeur("mere")
-              || null,
-
-          famille:
-            valeur("famille")
-              || null,
-
-          pays:
-            valeur("pays"),
-
-          ville:
-            valeur("ville"),
-
-          zone:
-            valeur("zone")
-              || null,
-
-          statut:
-            valeur("statut")
-              || null,
-
-          niveau_etudes:
-            valeur("niveauEtudes")
-              || null,
-
-          profession:
-            valeur("profession")
-              || null,
-
-          secteur:
-            valeur("secteur")
-              || null,
-
-          competences:
-            valeur("competences")
-              || null,
-
-          telephone:
-            valeur("telephone")
-              || null,
-
-          whatsapp:
-            valeur("whatsapp")
-              || null,
-
-          email:
-            valeur("email")
-              || null,
-
-          contact_pref:
-            valeur("contactPref")
-              || null,
-
-          contribution:
-            valeur("contribution")
-              || null,
-
-          contact_partage_autorise:
-            document
-              .getElementById(
-                "publicContact"
-              )
-              .checked,
-
-          /*
-            IMPORTANT :
-
-            La politique RLS actuelle
-            autorise l'inscription publique
-            lorsque consentement = true.
-          */
-
-          consentement:
-            true
-
-        };
+        const formData =
+          new FormData(
+            event.target
+          );
 
 
-        /* =================================================
-           ENREGISTREMENT SUPABASE
-        ================================================= */
+        const personne = {};
+
+
+        formData.forEach(
+          (value, key) => {
+
+            personne[key] =
+              value.trim()
+                || null;
+
+          }
+        );
+
+
+        /* =========================================
+           NUMÉRO
+        ========================================== */
+
+        personne.numero_recensement =
+          generateNumber();
+
+
+        /* =========================================
+           CONSENTEMENT
+        ========================================== */
+
+        personne.consentement =
+          true;
+
+
+        personne.contact_partage_autorise =
+          document
+            .getElementById(
+              "contact_partage_autorise"
+            )
+            .checked;
+
+
+        /* =========================================
+           INSERTION SUPABASE
+
+           Pas de recherche publique.
+           Les données vont directement
+           dans la base centrale.
+        ========================================== */
 
         const {
           data,
           error
         } = await db
-          .from("ressortissants")
-          .insert([personne])
-          .select()
+
+          .from(
+            "ressortissants"
+          )
+
+          .insert(
+            [personne]
+          )
+
+          .select(
+            "numero_recensement"
+          )
+
           .single();
 
 
         if (error) {
 
           console.error(
-            "Supabase error:",
+            "Supabase:",
             error
           );
 
@@ -1833,152 +2561,188 @@ document
         }
 
 
-        /* =================================================
-           INFORMATIONS POUR LA CARTE
-        ================================================= */
+        const numero =
+          data?.numero_recensement
+          ||
+          personne.numero_recensement;
 
-        carteRecensement = {
+
+        /* =========================================
+           DONNÉES CARTE
+        ========================================== */
+
+        currentCard = {
 
           numero:
-            data?.numero_recensement
-              || numero,
+            numero,
 
           nom:
-            data?.nom
-              || personne.nom,
+            personne.nom,
 
           prenom:
-            data?.prenom
-              || personne.prenom,
+            personne.prenom,
 
           origine:
-            data?.origine
-              || personne.origine,
-
-          pays:
-            data?.pays
-              || personne.pays,
+            personne.origine,
 
           ville:
-            data?.ville
-              || personne.ville,
+            personne.ville,
+
+          pays:
+            personne.pays,
 
           date:
             new Date()
+              .toLocaleDateString(
+                "fr-FR"
+              )
 
         };
 
 
-        /* =================================================
-           MESSAGE DE SUCCÈS
-        ================================================= */
+        /* =========================================
+           SUCCÈS
+        ========================================== */
 
         message.innerHTML = `
 
           <div class="success">
 
             <strong>
-              ✅ Inscription enregistrée avec succès.
+              ✅ Inscription enregistrée avec succès !
             </strong>
 
-            <br><br>
+            <p>
+              Votre numéro de recensement :
+            </p>
 
-            Votre numéro de recensement est :
+            <div class="successNumber">
 
-            <br>
+              ${escapeHtml(numero)}
 
-            <strong class="number">
-              ${echapperHTML(
-                carteRecensement.numero
-              )}
-            </strong>
+            </div>
 
-            <br><br>
 
-            Conservez précieusement ce numéro.
+            <div class="cardPreview">
 
-            <div class="successCard">
+              <div class="cardPreviewTitle">
 
-              <strong>
-                🎫 Votre carte de recensement
-              </strong>
+                🪪 Votre carte de recensement
+
+              </div>
+
 
               <p>
-                Vous pouvez télécharger une petite
-                carte attestant votre inscription
-                au recensement de Bassara.
+
+                <strong>
+                  ${escapeHtml(
+                    personne.nom
+                  )}
+                  ${escapeHtml(
+                    personne.prenom
+                  )}
+                </strong>
+
               </p>
+
+
+              <p>
+
+                Numéro :
+                <strong>
+                  ${escapeHtml(numero)}
+                </strong>
+
+              </p>
+
+
+              <p>
+
+                📍
+                ${escapeHtml(
+                  personne.ville ||
+                  ""
+                )}
+
+                —
+
+                ${escapeHtml(
+                  personne.pays ||
+                  ""
+                )}
+
+              </p>
+
 
               <button
                 type="button"
                 class="btn download"
-                onclick="telechargerCarteRecensement()"
+                onclick="downloadCard()"
               >
-                📥 Télécharger ma carte de recensement
+
+                📥 Télécharger ma carte
+
               </button>
 
             </div>
+
+
+            <p>
+
+              ⚠️ Conservez précieusement
+              votre numéro de recensement.
+
+            </p>
 
           </div>
 
         `;
 
 
-        /*
-          On réinitialise le formulaire
-          après réussite.
-        */
+        /* =========================================
+           RESET
+        ========================================== */
 
-        document
-          .getElementById(
-            "recensementForm"
-          )
-          .reset();
+        event.target.reset();
 
-
-        /* On remet Bassara */
 
         document
           .getElementById(
             "origine"
           )
-          .value = "Bassara";
+          .value =
+          "Bassara";
+
+
+        message.scrollIntoView({
+          behavior: "smooth",
+          block: "center"
+        });
 
 
       }
 
       catch(error) {
 
-        console.error(error);
+        console.error(
+          error
+        );
 
 
-        message.innerHTML = `
-
-          <div class="error">
-
-            ❌ Impossible d'enregistrer
-            l'inscription :
-
-            <br><br>
-
-            ${echapperHTML(
-              error.message
-                || "Erreur inconnue"
-            )}
-
-          </div>
-
-        `;
+        showError(
+          error.message
+          ||
+          "Erreur inconnue."
+        );
 
       }
 
       finally {
 
-        button.disabled = false;
+        button.disabled =
+          false;
 
-        button.style.opacity = "1";
-
-        button.innerHTML =
+        button.textContent =
           "✅ Enregistrer mon inscription";
 
       }
@@ -1988,28 +2752,40 @@ document
 
 
 /* =====================================================
-   PROTECTION AFFICHAGE HTML
+   ERREUR
 ===================================================== */
 
-function echapperHTML(texte) {
+function showError(text) {
 
-  return String(texte)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
+  document
+    .getElementById(
+      "message"
+    )
+    .innerHTML = `
+
+      <div class="error">
+
+        ❌ Impossible d'enregistrer
+        l'inscription :
+
+        <br><br>
+
+        ${escapeHtml(text)}
+
+      </div>
+
+    `;
 
 }
 
 
 /* =====================================================
-   TÉLÉCHARGER LA CARTE
+   TÉLÉCHARGEMENT DE LA CARTE
 ===================================================== */
 
-function telechargerCarteRecensement() {
+function downloadCard() {
 
-  if (!carteRecensement) {
+  if (!currentCard) {
 
     alert(
       "Les informations de la carte sont introuvables."
@@ -2020,13 +2796,13 @@ function telechargerCarteRecensement() {
   }
 
 
-  const data =
-    carteRecensement;
+  const card =
+    currentCard;
 
 
-  /* =================================================
+  /* =========================================
      CANVAS
-  ================================================= */
+  ========================================== */
 
   const canvas =
     document.createElement(
@@ -2034,20 +2810,27 @@ function telechargerCarteRecensement() {
     );
 
 
-  canvas.width = 1200;
-  canvas.height = 700;
+  canvas.width =
+    1200;
+
+
+  canvas.height =
+    720;
 
 
   const ctx =
-    canvas.getContext("2d");
+    canvas.getContext(
+      "2d"
+    );
 
 
-  /* =================================================
+  /* =========================================
      FOND
-  ================================================= */
+  ========================================== */
 
   ctx.fillStyle =
     "#eef3f8";
+
 
   ctx.fillRect(
     0,
@@ -2057,9 +2840,9 @@ function telechargerCarteRecensement() {
   );
 
 
-  /* =================================================
-     CARTE BLANCHE
-  ================================================= */
+  /* =========================================
+     CARTE
+  ========================================== */
 
   ctx.fillStyle =
     "#ffffff";
@@ -2067,20 +2850,22 @@ function telechargerCarteRecensement() {
 
   ctx.beginPath();
 
+
   ctx.roundRect(
-    60,
-    60,
-    1080,
-    580,
+    50,
+    50,
+    1100,
+    620,
     35
   );
+
 
   ctx.fill();
 
 
-  /* =================================================
-     BANDEAU BLEU
-  ================================================= */
+  /* =========================================
+     BANDEAU
+  ========================================== */
 
   ctx.fillStyle =
     "#12365f";
@@ -2088,84 +2873,87 @@ function telechargerCarteRecensement() {
 
   ctx.beginPath();
 
+
   ctx.roundRect(
-    60,
-    60,
-    1080,
+    50,
+    50,
+    1100,
     165,
     35
   );
 
+
   ctx.fill();
 
 
-  /*
-    Correction des coins inférieurs
-    du bandeau.
-  */
-
   ctx.fillRect(
-    60,
-    160,
-    1080,
-    65
+    50,
+    140,
+    1100,
+    75
   );
 
 
-  /* =================================================
-     LOGO B
-  ================================================= */
+  /* =========================================
+     LOGO
+  ========================================== */
 
   ctx.fillStyle =
     "#ffffff";
 
+
   ctx.font =
-    "bold 72px Arial";
+    "bold 70px Arial";
+
 
   ctx.fillText(
     "B",
-    110,
-    165
+    90,
+    160
   );
 
 
-  /* =================================================
+  /* =========================================
      TITRE
-  ================================================= */
+  ========================================== */
 
   ctx.font =
     "bold 42px Arial";
 
+
   ctx.fillText(
     "BASSARA",
-    205,
-    125
+    185,
+    120
   );
 
 
   ctx.font =
     "22px Arial";
 
+
   ctx.fillText(
     "CARTE DE RECENSEMENT",
-    205,
+    185,
     165
   );
 
 
-  /* =================================================
-     IDENTITÉ
-  ================================================= */
+  /* =========================================
+     NOM
+  ========================================== */
 
   ctx.fillStyle =
     "#12365f";
 
+
   ctx.font =
-    "bold 24px Arial";
+    "bold 25px Arial";
+
 
   ctx.fillText(
     "RESSORTISSANT(E)",
-    110,
+    95,
     285
   );
 
@@ -2173,106 +2961,122 @@ function telechargerCarteRecensement() {
   ctx.fillStyle =
     "#101828";
 
+
   ctx.font =
     "bold 42px Arial";
 
 
-  const nomComplet =
-    (
-      data.nom +
-      " " +
-      data.prenom
-    ).toUpperCase();
-
-
   ctx.fillText(
-    nomComplet,
-    110,
+    (
+      card.nom +
+      " " +
+      card.prenom
+    ).toUpperCase(),
+    95,
     345
   );
 
 
-  /* =================================================
+  /* =========================================
      ORIGINE
-  ================================================= */
+  ========================================== */
 
   ctx.fillStyle =
     "#475467";
 
+
   ctx.font =
     "22px Arial";
 
+
   ctx.fillText(
     "Origine : " +
-    data.origine,
-    110,
-    390
+    (
+      card.origine ||
+      "Bassara"
+    ),
+    95,
+    395
   );
 
+
+  /* =========================================
+     LOCALISATION
+  ========================================== */
 
   ctx.fillText(
-    "Localisation : " +
-    data.ville +
-    ", " +
-    data.pays,
-    110,
-    425
+    "Résidence : " +
+    (
+      card.ville ||
+      "—"
+    ) +
+    " — " +
+    (
+      card.pays ||
+      "—"
+    ),
+    95,
+    430
   );
 
 
-  /* =================================================
+  /* =========================================
      NUMÉRO
-  ================================================= */
+  ========================================== */
 
   ctx.fillStyle =
     "#4f8f2f";
 
+
   ctx.font =
-    "bold 25px Arial";
+    "bold 27px Arial";
+
 
   ctx.fillText(
     "NUMÉRO DE RECENSEMENT",
-    110,
-    485
+    95,
+    495
   );
 
 
   ctx.fillStyle =
     "#101828";
 
+
   ctx.font =
     "bold 44px Arial";
 
+
   ctx.fillText(
-    data.numero,
-    110,
-    535
+    card.numero,
+    95,
+    545
   );
 
 
-  /* =================================================
+  /* =========================================
      DATE
-  ================================================= */
+  ========================================== */
 
   ctx.fillStyle =
     "#475467";
 
+
   ctx.font =
     "20px Arial";
 
+
   ctx.fillText(
     "Date d'inscription : " +
-    data.date.toLocaleDateString(
-      "fr-FR"
-    ),
-    110,
-    580
+    card.date,
+    95,
+    590
   );
 
 
-  /* =================================================
-     LOGO VALIDATION
-  ================================================= */
+  /* =========================================
+     VALIDATION
+  ========================================== */
 
   ctx.fillStyle =
     "#4f8f2f";
@@ -2280,13 +3084,15 @@ function telechargerCarteRecensement() {
 
   ctx.beginPath();
 
+
   ctx.arc(
-    1040,
-    510,
-    50,
+    1030,
+    500,
+    52,
     0,
     Math.PI * 2
   );
+
 
   ctx.fill();
 
@@ -2294,338 +3100,55 @@ function telechargerCarteRecensement() {
   ctx.fillStyle =
     "#ffffff";
 
+
   ctx.font =
     "bold 45px Arial";
 
+
   ctx.fillText(
     "✓",
-    1024,
-    525
+    1014,
+    515
   );
 
 
-  /* =================================================
-     TÉLÉCHARGEMENT
-  ================================================= */
+  /* =========================================
+     TÉLÉCHARGER
+  ========================================== */
 
-  const lien =
+  const link =
     document.createElement(
       "a"
     );
 
 
-  lien.download =
+  link.download =
     "Carte-Recensement-" +
-    data.numero +
+    card.numero +
     ".png";
 
 
-  lien.href =
+  link.href =
     canvas.toDataURL(
       "image/png"
     );
 
 
   document.body.appendChild(
-    lien
+    link
   );
 
 
-  lien.click();
+  link.click();
 
 
   document.body.removeChild(
-    lien
+    link
   );
-
-}
-
-
-/* =====================================================
-   RECHERCHE
-===================================================== */
-
-async function rechercher() {
-
-  const texte =
-    document
-      .getElementById(
-        "searchText"
-      )
-      .value
-      .trim();
-
-  const pays =
-    document
-      .getElementById(
-        "searchPays"
-      )
-      .value
-      .trim();
-
-  const ville =
-    document
-      .getElementById(
-        "searchVille"
-      )
-      .value
-      .trim();
-
-
-  const results =
-    document
-      .getElementById(
-        "searchResults"
-      );
-
-
-  results.innerHTML = `
-    <p>
-      ⏳ Recherche en cours...
-    </p>
-  `;
-
-
-  try {
-
-    let query =
-      db
-        .from("ressortissants")
-        .select(`
-          id,
-          numero_recensement,
-          nom,
-          prenom,
-          origine,
-          pays,
-          ville,
-          zone,
-          statut,
-          niveau_etudes,
-          profession,
-          secteur,
-          competences,
-          telephone,
-          whatsapp,
-          email,
-          contact_pref,
-          contribution,
-          contact_partage_autorise,
-          consentement,
-          created_at
-        `)
-        .eq(
-          "consentement",
-          true
-        )
-        .order(
-          "created_at",
-          {
-            ascending: false
-          }
-        )
-        .limit(50);
-
-
-    if (texte) {
-
-      query =
-        query.or(
-          "nom.ilike.%" +
-          texte +
-          "%," +
-          "prenom.ilike.%" +
-          texte +
-          "%," +
-          "profession.ilike.%" +
-          texte +
-          "%," +
-          "competences.ilike.%" +
-          texte +
-          "%"
-        );
-
-    }
-
-
-    if (pays) {
-
-      query =
-        query.ilike(
-          "pays",
-          "%" + pays + "%"
-        );
-
-    }
-
-
-    if (ville) {
-
-      query =
-        query.ilike(
-          "ville",
-          "%" + ville + "%"
-        );
-
-    }
-
-
-    const {
-      data,
-      error
-    } = await query;
-
-
-    if (error) {
-      throw error;
-    }
-
-
-    if (!data || data.length === 0) {
-
-      results.innerHTML = `
-
-        <div class="result">
-
-          ❌ Aucun ressortissant
-          trouvé avec ces critères.
-
-        </div>
-
-      `;
-
-      return;
-
-    }
-
-
-    results.innerHTML =
-      data
-        .map(
-          personne => {
-
-            const contactAutorise =
-              personne
-                .contact_partage_autorise;
-
-
-            return `
-
-              <div class="result">
-
-                <span class="badge">
-                  Ressortissant enregistré
-                </span>
-
-                <h3>
-                  ${echapperHTML(
-                    personne.nom
-                  )}
-                  ${echapperHTML(
-                    personne.prenom
-                  )}
-                </h3>
-
-                <p>
-                  <strong>
-                    Numéro :
-                  </strong>
-
-                  ${echapperHTML(
-                    personne.numero_recensement
-                  )}
-                </p>
-
-                <p>
-                  <strong>
-                    Origine :
-                  </strong>
-
-                  ${echapperHTML(
-                    personne.origine || ""
-                  )}
-                </p>
-
-                <p>
-                  <strong>
-                    Localisation :
-                  </strong>
-
-                  ${echapperHTML(
-                    personne.ville || ""
-                  )},
-                  ${echapperHTML(
-                    personne.pays || ""
-                  )}
-                </p>
-
-                ${
-                  personne.profession
-                    ? `
-                      <p>
-                        <strong>
-                          Profession :
-                        </strong>
-
-                        ${echapperHTML(
-                          personne.profession
-                        )}
-                      </p>
-                    `
-                    : ""
-                }
-
-                ${
-                  contactAutorise &&
-                  personne.telephone
-                    ? `
-                      <p>
-                        📞
-                        ${echapperHTML(
-                          personne.telephone
-                        )}
-                      </p>
-                    `
-                    : ""
-                }
-
-              </div>
-
-            `;
-
-          }
-        )
-        .join("");
-
-  }
-
-  catch(error) {
-
-    console.error(error);
-
-
-    results.innerHTML = `
-
-      <div class="error">
-
-        ❌ Erreur pendant la recherche :
-
-        <br><br>
-
-        ${echapperHTML(
-          error.message
-        )}
-
-      </div>
-
-    `;
-
-  }
 
 }
 
 </script>
-
 
 </body>
 
