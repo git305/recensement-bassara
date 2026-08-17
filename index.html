@@ -4,15 +4,9 @@
 <head>
   <meta charset="UTF-8">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta
-    name="theme-color"
-    content="#12365f"
-  >
+  <meta name="theme-color" content="#12365f">
 
   <title>Bassara — Recensement</title>
 
@@ -443,7 +437,7 @@
     }
 
     /* =========================
-       MODE SIMPLE
+       MODE SIMPLE AVEC IMAGES
     ========================== */
 
     .accessBox {
@@ -608,7 +602,9 @@
 
     .successNumber {
       font-size: 22px;
+
       font-weight: 900;
+
       color: var(--green);
     }
 
@@ -1060,6 +1056,7 @@
       <p>
 
         Remplissez les informations ci-dessous.
+
         Si vous avez des difficultés à lire ou à écrire,
         utilisez le mode simple avec images.
 
@@ -2049,7 +2046,8 @@
 
         Les informations personnelles sont enregistrées
         dans la base centrale du recensement.
-        Elles ne sont plus accessibles par une recherche
+
+        Elles ne sont pas accessibles par une recherche
         publique sur cette page.
 
       </p>
@@ -2136,7 +2134,6 @@
 
 <script>
 
-
 /* =====================================================
    SUPABASE
 ===================================================== */
@@ -2157,7 +2154,7 @@ const db =
 
 
 /* =====================================================
-   MENU
+   MENU MOBILE
 ===================================================== */
 
 function toggleMenu() {
@@ -2192,14 +2189,14 @@ function toggleSimpleMode() {
   );
 
 
-  const actif =
+  const active =
     !box.classList.contains(
       "hidden"
     );
 
 
   button.textContent =
-    actif
+    active
       ? "↩️ Revenir au mode normal"
       : "🖼️ Activer le mode simple";
 
@@ -2242,11 +2239,6 @@ document
           field.value =
             value;
 
-
-          /*
-            Retirer l'état actif
-            des autres boutons
-          */
 
           document
             .querySelectorAll(
@@ -2332,16 +2324,6 @@ function voiceTo(id) {
             /[.!?]+$/,
             ""
           );
-
-    };
-
-
-  recognition.onerror =
-    function() {
-
-      console.log(
-        "Saisie vocale interrompue."
-      );
 
     };
 
@@ -2472,9 +2454,8 @@ document
 
       try {
 
-
         /* =========================================
-           RÉCUPÉRER LE FORMULAIRE
+           RÉCUPÉRER LES DONNÉES
         ========================================== */
 
         const formData =
@@ -2491,7 +2472,7 @@ document
 
             personne[key] =
               value.trim()
-                || null;
+              || null;
 
           }
         );
@@ -2523,10 +2504,6 @@ document
 
         /* =========================================
            INSERTION SUPABASE
-
-           Pas de recherche publique.
-           Les données vont directement
-           dans la base centrale.
         ========================================== */
 
         const {
@@ -2568,7 +2545,7 @@ document
 
 
         /* =========================================
-           DONNÉES CARTE
+           CARTE
         ========================================== */
 
         currentCard = {
@@ -2601,7 +2578,7 @@ document
 
 
         /* =========================================
-           SUCCÈS
+           MESSAGE DE SUCCÈS
         ========================================== */
 
         message.innerHTML = `
@@ -2638,9 +2615,11 @@ document
                   ${escapeHtml(
                     personne.nom
                   )}
+
                   ${escapeHtml(
                     personne.prenom
                   )}
+
                 </strong>
 
               </p>
@@ -2752,7 +2731,7 @@ document
 
 
 /* =====================================================
-   ERREUR
+   MESSAGE ERREUR
 ===================================================== */
 
 function showError(text) {
@@ -2780,7 +2759,7 @@ function showError(text) {
 
 
 /* =====================================================
-   TÉLÉCHARGEMENT DE LA CARTE
+   TÉLÉCHARGER LA CARTE
 ===================================================== */
 
 function downloadCard() {
@@ -2799,10 +2778,6 @@ function downloadCard() {
   const card =
     currentCard;
 
-
-  /* =========================================
-     CANVAS
-  ========================================== */
 
   const canvas =
     document.createElement(
@@ -2824,9 +2799,7 @@ function downloadCard() {
     );
 
 
-  /* =========================================
-     FOND
-  ========================================== */
+  /* FOND */
 
   ctx.fillStyle =
     "#eef3f8";
@@ -2840,9 +2813,7 @@ function downloadCard() {
   );
 
 
-  /* =========================================
-     CARTE
-  ========================================== */
+  /* CARTE */
 
   ctx.fillStyle =
     "#ffffff";
@@ -2863,9 +2834,7 @@ function downloadCard() {
   ctx.fill();
 
 
-  /* =========================================
-     BANDEAU
-  ========================================== */
+  /* BANDEAU */
 
   ctx.fillStyle =
     "#12365f";
@@ -2894,9 +2863,7 @@ function downloadCard() {
   );
 
 
-  /* =========================================
-     LOGO
-  ========================================== */
+  /* LOGO */
 
   ctx.fillStyle =
     "#ffffff";
@@ -2913,9 +2880,7 @@ function downloadCard() {
   );
 
 
-  /* =========================================
-     TITRE
-  ========================================== */
+  /* TITRE */
 
   ctx.font =
     "bold 42px Arial";
@@ -2939,9 +2904,7 @@ function downloadCard() {
   );
 
 
-  /* =========================================
-     NOM
-  ========================================== */
+  /* NOM */
 
   ctx.fillStyle =
     "#12365f";
@@ -2977,9 +2940,7 @@ function downloadCard() {
   );
 
 
-  /* =========================================
-     ORIGINE
-  ========================================== */
+  /* ORIGINE */
 
   ctx.fillStyle =
     "#475467";
@@ -3000,9 +2961,7 @@ function downloadCard() {
   );
 
 
-  /* =========================================
-     LOCALISATION
-  ========================================== */
+  /* RÉSIDENCE */
 
   ctx.fillText(
     "Résidence : " +
@@ -3020,9 +2979,7 @@ function downloadCard() {
   );
 
 
-  /* =========================================
-     NUMÉRO
-  ========================================== */
+  /* NUMÉRO */
 
   ctx.fillStyle =
     "#4f8f2f";
@@ -3054,9 +3011,7 @@ function downloadCard() {
   );
 
 
-  /* =========================================
-     DATE
-  ========================================== */
+  /* DATE */
 
   ctx.fillStyle =
     "#475467";
@@ -3074,9 +3029,7 @@ function downloadCard() {
   );
 
 
-  /* =========================================
-     VALIDATION
-  ========================================== */
+  /* VALIDATION */
 
   ctx.fillStyle =
     "#4f8f2f";
@@ -3112,9 +3065,7 @@ function downloadCard() {
   );
 
 
-  /* =========================================
-     TÉLÉCHARGER
-  ========================================== */
+  /* TÉLÉCHARGEMENT */
 
   const link =
     document.createElement(
