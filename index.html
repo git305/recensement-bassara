@@ -73,9 +73,9 @@ footer{background:#0e2540;color:#dbe6f2;padding:40px 0}.foot{display:grid;grid-t
 <h3>🏠 Où résidez-vous actuellement ?</h3>
 <p>Cette information sert uniquement à établir les statistiques communautaires.</p>
 <div class="situationGrid">
-<button type="button" class="situationChoice" data-value="Réside à Bassara">🏠 Je réside actuellement à Bassara</button>
-<button type="button" class="situationChoice" data-value="Réside en Guinée hors Bassara">🇬🇳 Je réside en Guinée, mais pas à Bassara</button>
-<button type="button" class="situationChoice" data-value="Réside à l'extérieur de la Guinée">🌍 Je réside actuellement à l'extérieur de la Guinée</button>
+<button type="button" class="situationChoice" data-value="Réside à Bassara" onclick="choisirResidence(this)">🏠 Je réside actuellement à Bassara</button>
+<button type="button" class="situationChoice" data-value="Réside en Guinée hors Bassara" onclick="choisirResidence(this)">🇬🇳 Je réside en Guinée, mais pas à Bassara</button>
+<button type="button" class="situationChoice" data-value="Réside à l'extérieur de la Guinée" onclick="choisirResidence(this)">🌍 Je réside actuellement à l'extérieur de la Guinée</button>
 </div>
 <input type="hidden" id="situation_bassara" name="situation_bassara">
 </div>
@@ -124,6 +124,17 @@ footer{background:#0e2540;color:#dbe6f2;padding:40px 0}.foot{display:grid;grid-t
 
 
 <script>
+function choisirResidence(button){
+    document.querySelectorAll(".situationChoice").forEach(function(x){
+        x.classList.remove("active");
+    });
+    button.classList.add("active");
+    var champ=document.getElementById("situation_bassara");
+    if(champ){
+        champ.value=button.getAttribute("data-value") || "";
+        champ.dispatchEvent(new Event("change",{bubbles:true}));
+    }
+}
 document.addEventListener("DOMContentLoaded", function(){
 
 const SUPABASE_URL="https://gxsokrwqefletxitejde.supabase.co";
@@ -143,14 +154,6 @@ window.toggleSimpleMode=function(){
     x.classList.toggle("hidden");
     b.textContent=x.classList.contains("hidden")?"🖼️ Activer":"↩️ Fermer";
 };
-
-document.querySelectorAll(".situationChoice").forEach(b=>{
-    b.addEventListener("click",()=>{
-        document.querySelectorAll(".situationChoice").forEach(x=>x.classList.remove("active"));
-        b.classList.add("active");
-        $("situation_bassara").value=b.dataset.value;
-    });
-});
 
 document.querySelectorAll(".visualChoice").forEach(b=>{
     b.addEventListener("click",()=>{
@@ -180,7 +183,7 @@ if(calendar && dateText){
         let value=this.value;
 
         // Garder uniquement les chiffres
-        let digits=value.replace(/\\D/g,"").slice(0,8);
+        let digits=value.replace(/\D/g,"").slice(0,8);
 
         let formatted="";
 
@@ -235,8 +238,8 @@ function esc(x){
 function dateOK(x){
     if(!x)return null;
 
-    const cleaned=x.trim().replace(/\\s/g,"");
-    const m=cleaned.match(/^(\\d{1,2})\\/(\\d{1,2})\\/(\\d{4})$/);
+    const cleaned=x.trim().replace(/\s/g,"");
+    const m=cleaned.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
 
     if(!m)return null;
 
@@ -338,11 +341,22 @@ form.addEventListener("submit",async function(e){
         const numero=data?.numero_recensement||p.numero_recensement;
         currentCard={numero:numero,nom:p.nom,prenom:p.prenom};
 
-        msg.innerHTML='<div class="success"><strong>✅ Inscription enregistrée avec succès.</strong><p>Votre numéro de recensement :</p><div class="recNumber">'+esc(numero)+'</div><div class="cardPreview"><strong>🪪 Carte de recensement</strong><p><strong>'+esc(p.nom)+" "+esc(p.prenom)+'</strong></p><p>Année : <strong>2026</strong></p><div style="display:flex;gap:10px;flex-wrap:wrap">
+        msg.innerHTML=`<div class="success">
+<strong>✅ Inscription enregistrée avec succès.</strong>
+<p>Votre numéro de recensement :</p>
+<div class="recNumber">${esc(numero)}</div>
+<div class="cardPreview">
+<strong>🪪 Carte de recensement</strong>
+<p><strong>${esc(p.nom+" "+p.prenom)}</strong></p>
+<p>Année : <strong>2026</strong></p>
+<div style="display:flex;gap:10px;flex-wrap:wrap">
 <button type="button" class="btn green" id="downloadCardButton">📥 Télécharger ma carte</button>
 <button type="button" class="btn blue" id="printCardButton">🖨️ Imprimer / PDF</button>
 </div>
-<p style="font-size:13px;margin-top:12px">💡 Sur téléphone, si le téléchargement direct ne fonctionne pas, utilisez « Imprimer / PDF » puis choisissez « Enregistrer au format PDF ».</p></div><p>Conservez précieusement cette carte.</p></div>';
+<p style="font-size:13px;margin-top:12px">💡 Sur téléphone, si le téléchargement direct ne fonctionne pas, utilisez « Imprimer / PDF » puis choisissez « Enregistrer au format PDF ».</p>
+</div>
+<p>Conservez précieusement cette carte.</p>
+</div>`;
 
         $("downloadCardButton").addEventListener("click",downloadCard); const pb=$("printCardButton"); if(pb) pb.addEventListener("click",printCard);
 
