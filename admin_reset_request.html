@@ -83,7 +83,8 @@ button{
 }
 
 button:disabled{
-  opacity:.6
+  opacity:.6;
+  cursor:not-allowed
 }
 
 .msg{
@@ -114,157 +115,156 @@ button:disabled{
 
 <div class="box">
 
-  <div class="logo">B</div>
+<div class="logo">B</div>
 
-  <h1>Mot de passe oublié ?</h1>
+<h1>Mot de passe oublié ?</h1>
 
-  <p>
-    Entrez l'adresse e-mail de votre compte administrateur.
-    Supabase vous enverra un lien pour créer un nouveau mot de passe.
-  </p>
+<p>
+Entrez l'adresse e-mail de votre compte administrateur.
+Supabase vous enverra un lien pour créer un nouveau mot de passe.
+</p>
 
-  <form id="form">
+<form id="form">
 
-    <label for="email">
-      Adresse e-mail
-    </label>
+<label for="email">
+Adresse e-mail
+</label>
 
-    <input
-      id="email"
-      type="email"
-      value="internetgr74@gmail.com"
-      autocomplete="email"
-      required
-    >
+<input
+  id="email"
+  type="email"
+  autocomplete="email"
+  required
+>
 
-    <button id="btn" type="submit">
-      📩 Recevoir le lien
-    </button>
+<button id="btn" type="submit">
+📩 Recevoir le lien
+</button>
 
-  </form>
+</form>
 
-  <div id="message"></div>
+<div id="message"></div>
 
-  <a class="back" href="admin_bassara.html">
-    ← Retour à l'administration
-  </a>
+<a class="back" href="admin_bassara.html">
+← Retour à l'administration
+</a>
 
 </div>
 
 <script>
 
 const SUPABASE_URL =
-  "https://gxsokrwqefletxitejde.supabase.co";
+"https://gxsokrwqefletxitejde.supabase.co";
 
 const SUPABASE_PUBLISHABLE_KEY =
-  "sb_publishable_4z1GPpx-LMGbKNXXPoHT3A_zD0Q60XC";
+"sb_publishable_4z1GPpx-LMGbKNXXPoHT3A_zD0Q60XC";
 
-const db = window.supabase.createClient(
+const db =
+window.supabase.createClient(
   SUPABASE_URL,
   SUPABASE_PUBLISHABLE_KEY
 );
 
+const form =
+document.getElementById("form");
 
-document.getElementById("form").addEventListener(
-  "submit",
-  async function(e){
+const emailInput =
+document.getElementById("email");
 
-    e.preventDefault();
+const btn =
+document.getElementById("btn");
 
-    const btn =
-      document.getElementById("btn");
-
-    const message =
-      document.getElementById("message");
-
-    const email =
-      document.getElementById("email").value.trim();
-
-
-    if(!email){
-      message.innerHTML =
-        '<div class="msg error">❌ Veuillez saisir votre adresse e-mail.</div>';
-
-      return;
-    }
-
-
-    btn.disabled = true;
-
-    btn.textContent = "⏳ Envoi...";
-
-    message.innerHTML = "";
-
-
-    /*
-     * IMPORTANT :
-     * Adresse publique GitHub Pages.
-     * Ne pas utiliser localhost:3000.
-     */
-    const redirectTo =
-      "https://git305.github.io/recensement-bassara/admin_reset.html";
-
-
-    try{
-
-      const { error } =
-        await db.auth.resetPasswordForEmail(
-          email,
-          {
-            redirectTo: redirectTo
-          }
-        );
-
-
-      if(error){
-
-        message.innerHTML =
-          '<div class="msg error">❌ ' +
-          escapeHtml(error.message) +
-          '</div>';
-
-      }else{
-
-        message.innerHTML =
-          '<div class="msg">' +
-          '✅ Un lien de récupération a été envoyé.' +
-          '<br><br>' +
-          'Vérifiez votre boîte e-mail et vos spams.' +
-          '</div>';
-
-      }
-
-    }catch(error){
-
-      console.error(error);
-
-      message.innerHTML =
-        '<div class="msg error">' +
-        '❌ Une erreur est survenue. Veuillez réessayer.' +
-        '</div>';
-
-    }
-
-
-    btn.disabled = false;
-
-    btn.textContent =
-      "📩 Recevoir le lien";
-
-  }
-);
+const message =
+document.getElementById("message");
 
 
 function escapeHtml(value){
 
-  return String(value ?? "")
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
+return String(value ?? "")
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;")
+.replaceAll('"',"&quot;")
+.replaceAll("'","&#039;");
 
 }
+
+
+form.addEventListener("submit",async function(e){
+
+e.preventDefault();
+
+const email =
+emailInput.value.trim();
+
+if(!email){
+
+message.innerHTML =
+'<div class="msg error">❌ Veuillez saisir votre adresse e-mail.</div>';
+
+return;
+
+}
+
+btn.disabled=true;
+btn.textContent="⏳ Envoi...";
+message.innerHTML="";
+
+
+/*
+IMPORTANT :
+On utilise directement l'adresse publique
+de GitHub Pages.
+*/
+
+const redirectTo =
+"https://git305.github.io/recensement-bassara/admin_reset.html";
+
+
+try{
+
+const {error} =
+await db.auth.resetPasswordForEmail(
+email,
+{
+redirectTo:redirectTo
+}
+);
+
+
+if(error){
+
+message.innerHTML =
+'<div class="msg error">❌ '+
+escapeHtml(error.message)+
+'</div>';
+
+}else{
+
+message.innerHTML =
+'<div class="msg">'+
+'✅ Le lien de récupération a été envoyé.'+
+'<br><br>'+
+'Vérifiez votre boîte e-mail et vos spams.'+
+'</div>';
+
+}
+
+}catch(error){
+
+console.error(error);
+
+message.innerHTML =
+'<div class="msg error">'+
+'❌ Une erreur est survenue. Veuillez réessayer.'+
+'</div>';
+
+}
+
+btn.disabled=false;
+btn.textContent="📩 Recevoir le lien";
+
+});
 
 </script>
 
