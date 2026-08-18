@@ -28,13 +28,44 @@ table{width:100%;border-collapse:collapse;min-width:1050px}th,td{padding:12px;te
 @media(max-width:1100px){.stats{grid-template-columns:repeat(3,1fr)}.toolbar{grid-template-columns:repeat(3,1fr)}.ages{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:650px){.stats{grid-template-columns:1fr 1fr}.toolbar{grid-template-columns:1fr 1fr}.ages{grid-template-columns:1fr 1fr}.detail{grid-template-columns:1fr}}
 .actionsCell{display:flex;gap:6px;flex-wrap:wrap}.dupRow{background:#fff8ed!important}.dupBox{border:1px solid #f0b429;background:#fffaf0;color:#7a4b00;padding:14px;border-radius:12px;margin-top:12px}.dupBox strong{color:#8a5700}
-.cardPrint{width:86mm;min-height:54mm;background:#fff;border:2px solid #12365f;border-radius:5mm;padding:6mm;color:#101828}
-.cardPrint .ctop{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #d8e0e8;padding-bottom:3mm;margin-bottom:3mm}
-.cardPrint .brandCard{font-size:18px;font-weight:900;color:#12365f}.cardPrint .smallCard{font-size:9px;color:#667085}
-.cardPrint .nameCard{font-size:20px;font-weight:900;color:#12365f;margin:3mm 0}
-.cardPrint .lineCard{font-size:11px;margin:1.5mm 0}.cardPrint .numCard{font-size:13px;font-weight:900;color:#4f8f2f}
+.cardPrint{
+width:190mm;
+min-height:105mm;
+background:#fff;
+border:1px solid #d8e0e8;
+border-radius:4mm;
+overflow:hidden;
+color:#101828;
+font-family:Arial,sans-serif;
+}
+.cardPrint .cardHeader{
+background:#173f6b;
+color:#fff;
+padding:7mm 10mm 6mm;
+text-align:center;
+}
+.cardPrint .republique{font-size:20px;font-weight:900;letter-spacing:.3px}
+.cardPrint .motto{display:flex;justify-content:center;gap:28mm;margin:4mm 0 3mm;font-size:13px;font-weight:900}
+.cardPrint .travail{color:#f21b1b}.cardPrint .justice{color:#ffd21c}.cardPrint .solidarite{color:#18a343}
+.cardPrint .title{font-size:16px;font-weight:900}
+.cardPrint .year{font-size:15px;font-weight:900;margin-top:2mm}
+.cardPrint .cardBody{padding:7mm 10mm 6mm}
+.cardPrint .sectionTitle{font-size:16px;font-weight:900;color:#173f6b;margin-bottom:4mm}
+.cardPrint .locGrid{display:grid;grid-template-columns:42mm 1fr;gap:2mm 0;font-size:12px}
+.cardPrint .locGrid b{font-weight:900}
+.cardPrint .identityWrap{border-top:1px solid #c7d3e0;margin-top:6mm;padding-top:6mm;display:grid;grid-template-columns:1.2fr .9fr;gap:12mm}
+.cardPrint .personName{font-size:22px;font-weight:900;color:#111827;margin:2mm 0 3mm;text-transform:uppercase}
+.cardPrint .identityLine{font-size:12px;margin:2mm 0}
+.cardPrint .numberBox{border:2px solid #4f8f2f;background:#f0f8ea;border-radius:4mm;padding:5mm 6mm}
+.cardPrint .numberLabel{font-size:14px;font-weight:900;color:#4f8f2f}
+.cardPrint .numberValue{font-size:19px;font-weight:900;margin:4mm 0}
+.cardPrint .numberNote{font-size:10px;color:#475467}
+.cardPrint .cardFooter{background:#173f6b;color:#fff;padding:5mm 10mm}
+.cardPrint .footerTitle{font-size:14px;font-weight:900}
+.cardPrint .footerText{font-size:10px;margin-top:2mm}
+.cardPrint .footerCenter{text-align:center;font-size:10px;font-weight:700;margin-top:2mm}
 @media print{
- @page{size:A4;margin:12mm}
+ @page{size:A4 landscape;margin:10mm}
  body{background:#fff!important}
  #loginPage,#app>header,#app main>.wrap>div:not(#printArea){display:none!important}
  #printArea{display:block!important;margin:0!important;padding:0!important}
@@ -293,14 +324,48 @@ function showDuplicates(){
 }
 function cardHTML(r){
  const a=age(r);
- return '<div class="cardPrint"><div class="ctop"><div class="brandCard">BASSARA</div><div class="smallCard">RECENSEMENT 2026</div></div>'+
- '<div class="nameCard">'+esc((r.nom||"")+" "+(r.prenom||""))+'</div>'+
- '<div class="lineCard"><b>N° :</b> <span class="numCard">'+esc(r.numero_recensement||"—")+'</span></div>'+
- '<div class="lineCard"><b>Âge :</b> '+esc(a===null?"—":a+" ans")+' &nbsp; <b>Sexe :</b> '+esc(r.sexe||"—")+'</div>'+
- '<div class="lineCard"><b>Résidence :</b> '+esc(residenceText(r))+'</div>'+
- '<div class="lineCard"><b>Pays :</b> '+esc(pays(r)||"—")+'</div>'+
- '<div class="lineCard"><b>Téléphone :</b> '+esc(r.telephone||"—")+'</div></div>';
+ const birth=dob(r);
+ const n=r.numero_recensement||"—";
+ const nom=((r.nom||"")+" "+(r.prenom||"")).trim().replace(/\s+/g," ");
+ return '<div class="cardPrint">'+
+   '<div class="cardHeader">'+
+     '<div class="republique">RÉPUBLIQUE DE GUINÉE</div>'+
+     '<div class="motto"><span class="travail">TRAVAIL</span><span class="justice">JUSTICE</span><span class="solidarite">SOLIDARITÉ</span></div>'+
+     '<div class="title">CARTE DE RECENSEMENT COMMUNAUTAIRE</div>'+
+     '<div class="year">BASSARA — 2026</div>'+
+   '</div>'+
+   '<div class="cardBody">'+
+     '<div class="sectionTitle">LOCALISATION ADMINISTRATIVE</div>'+
+     '<div class="locGrid">'+
+       '<b>Région :</b><span>Labé</span>'+
+       '<b>Préfecture :</b><span>Koubia</span>'+
+       '<b>Sous-préfecture :</b><span>Fafaya</span>'+
+       '<b>District :</b><span>Bassara</span>'+
+     '</div>'+
+     '<div class="identityWrap">'+
+       '<div>'+
+         '<div class="sectionTitle">IDENTITÉ DU RECENSÉ</div>'+
+         '<div class="personName">'+esc(nom)+'</div>'+
+         '<div class="identityLine"><b>Origine :</b> '+esc(r.origine||"Bassara")+'</div>'+
+         '<div class="identityLine"><b>Âge :</b> '+esc(a===null?"—":a+" ans")+'</div>'+
+         '<div class="identityLine"><b>Sexe :</b> '+esc(r.sexe||"—")+'</div>'+
+         '<div class="identityLine"><b>Année du recensement :</b> 2026</div>'+
+       '</div>'+
+       '<div class="numberBox">'+
+         '<div class="numberLabel">NUMÉRO DE RECENSEMENT</div>'+
+         '<div class="numberValue">'+esc(n)+'</div>'+
+         '<div class="numberNote">Conservez cette carte précieusement.</div>'+
+       '</div>'+
+     '</div>'+
+   '</div>'+
+   '<div class="cardFooter">'+
+     '<div class="footerTitle">Recensement communautaire de Bassara</div>'+
+     '<div class="footerText">Carte de preuve d’enregistrement — Année 2026</div>'+
+     '<div class="footerCenter">Document de preuve d’enregistrement au recensement communautaire</div>'+
+   '</div>'+
+ '</div>';
 }
+
 function printCard(i){
  const r=rows[i];if(!r)return;
  printArea.innerHTML=cardHTML(r);
