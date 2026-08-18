@@ -401,6 +401,32 @@ form.addEventListener("submit",async function(e){
             }
         }
 
+
+        // Vérification anti-doublon via Supabase RPC.
+        // Le contrôle porte sur téléphone + date de naissance + parents.
+        if(p.telephone){
+            let datePourDoublon = p.date_naissance || null;
+
+            const {data:dejaRecense,error:dupError}=await db.rpc(
+                "verifier_doublon_ressortissant",
+                {
+                    p_telephone:p.telephone,
+                    p_date_naissance:datePourDoublon,
+                    p_nom_pere:p.nom_pere || "",
+                    p_nom_mere:p.nom_mere || ""
+                }
+            );
+
+            if(dupError){
+                console.error("Erreur vérification doublon :",dupError);
+                throw Error("Impossible de vérifier les doublons pour le moment. Veuillez réessayer.");
+            }
+
+            if(dejaRecense===true){
+                throw Error("⚠️ Cette personne semble déjà être recensée. Le numéro de téléphone, la date de naissance et les informations des parents correspondent à une inscription existante.");
+            }
+        }
+
         // Important :
         // On ne demande PAS .select() après l'insertion.
         // La lecture SELECT est volontairement protégée pour les visiteurs.
@@ -416,7 +442,7 @@ form.addEventListener("submit",async function(e){
         currentCard={numero:numero,nom:p.nom,prenom:p.prenom};
 
         msg.innerHTML=`<div class="success">
-<strong>✅ Inscription enregistrée avec succès.</strong>
+<strong>✅ Inscription enregistrée avec succès. Votre carte est prête.</strong>
 <p>Votre numéro de recensement :</p>
 <div class="recNumber">${esc(numero)}</div>
 <div class="cardPreview">
@@ -615,9 +641,9 @@ function openPrintWindow(imageData){
 
     w.document.open();
     w.document.write(`
-<!DOCTYPE html>
-<html lang="fr">
-<head>
+\x3C!DOCTYPE html>
+\x3Chtml lang="fr">
+\x3Chead>
 <meta charset="UTF-8">
 <title>Carte de recensement ${esc(currentCard.numero)}</title>
 <style>
@@ -625,12 +651,12 @@ body{margin:0;padding:20px;background:#fff;text-align:center;font-family:Arial}
 img{max-width:100%;height:auto}
 @media print{body{padding:0}img{width:100%;max-width:1800px}}
 </style>
-</head>
-<body>
+\x3C/head>
+\x3Cbody>
 <img src="${imageData}" alt="Carte de recensement">
 \x3Cscript>window.onload=function(){setTimeout(function(){window.print()},400)}\x3C/script>
-</body>
-</html>`);
+\x3C/body>
+\x3C/html>`);
     w.document.close();
 }
 
