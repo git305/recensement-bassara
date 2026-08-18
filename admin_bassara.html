@@ -27,6 +27,11 @@ table{width:100%;border-collapse:collapse;min-width:1050px}th,td{padding:12px;te
 .msg{padding:12px;border-radius:10px;margin-top:12px;background:#fff1f1;color:var(--r)}
 @media(max-width:1100px){.stats{grid-template-columns:repeat(3,1fr)}.toolbar{grid-template-columns:repeat(3,1fr)}.ages{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:650px){.stats{grid-template-columns:1fr 1fr}.toolbar{grid-template-columns:1fr 1fr}.ages{grid-template-columns:1fr 1fr}.detail{grid-template-columns:1fr}}
+.printPanel{margin-top:14px;padding:16px;border:2px solid #4f8f2f;border-radius:14px;background:#f4faef;color:#173f6b}
+.printPanel>div:first-child{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:17px}
+.printPanel p{margin:8px 0 12px;color:#475467;font-size:13px}
+.printCount{display:inline-block;background:#fff;border:1px solid #c7d3e0;border-radius:999px;padding:5px 10px;font-size:12px;font-weight:800}
+.printActions{display:flex;gap:9px;flex-wrap:wrap}
 .actionsCell{display:flex;gap:6px;flex-wrap:wrap}.dupRow{background:#fff8ed!important}.dupBox{border:1px solid #f0b429;background:#fffaf0;color:#7a4b00;padding:14px;border-radius:12px;margin-top:12px}.dupBox strong{color:#8a5700}
 .cardPrint{
 width:190mm;
@@ -129,9 +134,20 @@ text-align:center;
 <select id="gender" onchange="render()"><option value="">Tous les sexes</option><option value="Homme">Hommes</option><option value="Femme">Femmes</option></select>
 <button class="btn secondary" onclick="clearFilters()">Réinitialiser</button>
 </div>
+<div class="printPanel">
+  <div>
+    <strong>🖨️ Impression / PDF</strong>
+    <span id="filterCount" class="printCount">0 personne</span>
+  </div>
+  <p>Les filtres ci-dessus déterminent les cartes à imprimer. Vous pouvez imprimer uniquement les personnes affichées ou enregistrer les cartes au format PDF.</p>
+  <div class="printActions">
+    <button class="btn primary" onclick="printFilteredCards()">🖨️ Imprimer les cartes filtrées</button>
+    <button class="btn secondary" onclick="printFilteredCards()">📄 Enregistrer en PDF</button>
+    <button class="btn secondary" onclick="printCurrentFilteredList()">🗂️ Imprimer la liste filtrée</button>
+  </div>
+</div>
 <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
 <button class="btn secondary" onclick="showDuplicates()">⚠️ Voir les doublons</button>
-<button class="btn secondary" onclick="printFilteredCards()">🖨️ Imprimer les cartes filtrées / PDF</button>
 </div>
 <div id="dataMessage"></div>
 <div class="tableWrap"><table><thead><tr><th>N°</th><th>Nom</th><th>Prénom</th><th>Âge</th><th>Sexe</th><th>Résidence</th><th>Pays</th><th>Téléphone</th><th></th></tr></thead><tbody id="tbody"></tbody></table></div>
@@ -228,6 +244,7 @@ function countries(){
 function render(){
  const q=search.value.toLowerCase().trim(),rt=residence.value,cp=country.value,ag=ageGroup.value,g=gender.value;
  const list=rows.filter(r=>(!q||(String(r.nom||"")+" "+String(r.prenom||"")+" "+String(r.telephone||"")+" "+String(r.numero_recensement||"")).toLowerCase().includes(q))&&(!rt||residence(r)===rt)&&(!cp||pays(r)===cp)&&(!ag||group(age(r))===ag)&&(!g||String(r.sexe||"")===g));
+ filterCount.textContent=list.length+" "+(list.length===1?"personne":"personnes")+" sélectionnée"+(list.length===1?"":"s");
  tbody.innerHTML=list.length?list.map(r=>{
  const i=rows.indexOf(r),a=age(r),res=residence(r),cl=res==="bassara"?"bass":res==="guinee"?"gui":res==="exterieur"?"ext":"";
  const dup=findDuplicates(r);
@@ -372,6 +389,17 @@ function printCard(i){
  printArea.classList.remove("hidden");
  document.body.classList.add("printing");
  setTimeout(()=>{window.print();setTimeout(()=>{printArea.classList.add("hidden");document.body.classList.remove("printing")},300)},100);
+}
+
+function printCurrentFilteredList(){
+ const q=search.value.toLowerCase().trim(),rt=residence.value,cp=country.value,ag=ageGroup.value,g=gender.value;
+ const list=rows.filter(r=>(!q||(String(r.nom||"")+" "+String(r.prenom||"")+" "+String(r.telephone||"")+" "+String(r.numero_recensement||"")).toLowerCase().includes(q))&&(!rt||residence(r)===rt)&&(!cp||pays(r)===cp)&&(!ag||group(age(r))===ag)&&(!g||String(r.sexe||"")===g));
+ if(!list.length){alert("Aucune personne ne correspond aux filtres.");return}
+ printArea.innerHTML='<div style="font-family:Arial,sans-serif;padding:10mm"><h1 style="color:#173f6b">BASSARA — RECENSEMENT 2026</h1><p>Liste filtrée — '+list.length+' personne(s)</p><table style="width:100%;border-collapse:collapse"><thead><tr><th style="text-align:left;border-bottom:2px solid #173f6b;padding:8px">N°</th><th style="text-align:left;border-bottom:2px solid #173f6b;padding:8px">Nom</th><th style="text-align:left;border-bottom:2px solid #173f6b;padding:8px">Prénom</th><th style="text-align:left;border-bottom:2px solid #173f6b;padding:8px">Âge</th><th style="text-align:left;border-bottom:2px solid #173f6b;padding:8px">Résidence</th><th style="text-align:left;border-bottom:2px solid #173f6b;padding:8px">Pays</th><th style="text-align:left;border-bottom:2px solid #173f6b;padding:8px">Téléphone</th></tr></thead><tbody>'+
+ list.map(r=>'<tr><td style="padding:7px;border-bottom:1px solid #ddd">'+esc(r.numero_recensement||"—")+'</td><td style="padding:7px;border-bottom:1px solid #ddd">'+esc(r.nom||"")+'</td><td style="padding:7px;border-bottom:1px solid #ddd">'+esc(r.prenom||"")+'</td><td style="padding:7px;border-bottom:1px solid #ddd">'+esc(age(r)===null?"—":age(r)+" ans")+'</td><td style="padding:7px;border-bottom:1px solid #ddd">'+esc(residenceText(r))+'</td><td style="padding:7px;border-bottom:1px solid #ddd">'+esc(pays(r)||"—")+'</td><td style="padding:7px;border-bottom:1px solid #ddd">'+esc(r.telephone||"—")+'</td></tr>').join("")+
+ '</tbody></table></div>';
+ printArea.classList.remove("hidden");
+ setTimeout(()=>{window.print();setTimeout(()=>printArea.classList.add("hidden"),300)},100);
 }
 function printFilteredCards(){
  const q=search.value.toLowerCase().trim(),rt=residence.value,cp=country.value,ag=ageGroup.value,g=gender.value;
