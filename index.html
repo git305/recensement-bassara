@@ -402,17 +402,32 @@ function buildCardCanvas(){
     ctx.fillRect(45,200,1710,90);
 
     const drawText=()=>{
-        ctx.textAlign="left";
+        // En-tête de la carte : aucun logo AJBD.
+        ctx.textAlign="center";
+
         ctx.fillStyle="#fff";
         ctx.font="bold 43px Arial";
-        ctx.fillText("RÉPUBLIQUE DE GUINÉE",115,115);
-        ctx.font="bold 27px Arial";
-        ctx.fillText("TRAVAIL — JUSTICE — SOLIDARITÉ",115,160);
-        ctx.font="bold 31px Arial";
-        ctx.fillText("CARTE DE RECENSEMENT COMMUNAUTAIRE",115,215);
-        ctx.font="bold 27px Arial";
-        ctx.fillText("BASSARA — 2026",115,260);
+        ctx.fillText("RÉPUBLIQUE DE GUINÉE",900,115);
 
+        // Devise : Travail rouge, Justice jaune, Solidarité verte.
+        ctx.font="bold 27px Arial";
+        ctx.fillStyle="#d71920";
+        ctx.fillText("TRAVAIL",650,165);
+
+        ctx.fillStyle="#f2c500";
+        ctx.fillText("JUSTICE",900,165);
+
+        ctx.fillStyle="#1b8f3a";
+        ctx.fillText("SOLIDARITÉ",1170,165);
+
+        ctx.fillStyle="#fff";
+        ctx.font="bold 31px Arial";
+        ctx.fillText("CARTE DE RECENSEMENT COMMUNAUTAIRE",900,215);
+
+        ctx.font="bold 27px Arial";
+        ctx.fillText("BASSARA — 2026",900,260);
+
+        ctx.textAlign="left";
         ctx.fillStyle="#12365f";
         ctx.font="bold 29px Arial";
         ctx.fillText("LOCALISATION ADMINISTRATIVE",110,350);
@@ -462,15 +477,14 @@ function buildCardCanvas(){
         ctx.fillRect(45,900,1710,155);
 
         ctx.fillStyle="#fff";
-        ctx.font="bold 30px Arial";
-        ctx.fillText("B",90,970);
         ctx.font="bold 29px Arial";
         ctx.fillText("Recensement communautaire de Bassara",155,955);
         ctx.font="22px Arial";
         ctx.fillText("Carte de preuve d'enregistrement — Année 2026",155,1000);
-        ctx.textAlign="right";
+
+        ctx.textAlign="center";
         ctx.font="bold 20px Arial";
-        ctx.fillText("AJBD — Association des Jeunes de Bassara pour le Développement",1710,1030);
+        ctx.fillText("Document de preuve d'enregistrement au recensement communautaire",900,1030);
         ctx.textAlign="left";
     };
 
@@ -481,50 +495,28 @@ function downloadCard(){
     if(!currentCard){ alert("Les informations de la carte sont introuvables."); return; }
 
     try{
-        const {canvas,ctx,drawText}=buildCardCanvas();
-        const logo=new Image();
+        const {canvas,drawText}=buildCardCanvas();
+        drawText();
 
-        logo.onload=function(){
-            ctx.fillStyle="#fff";
-            ctx.beginPath(); ctx.roundRect(1490,65,230,200,18); ctx.fill();
-            ctx.drawImage(logo,1505,75,200,180);
-            drawText();
+        canvas.toBlob(function(blob){
+            if(!blob){
+                alert("Le téléchargement n'a pas pu être préparé. Utilisez « Imprimer / PDF ».");
+                return;
+            }
 
-            canvas.toBlob(function(blob){
-                if(!blob){
-                    alert("Le téléchargement n'a pas pu être préparé. Utilisez « Imprimer / PDF ».");
-                    return;
-                }
+            const url=URL.createObjectURL(blob);
+            const a=document.createElement("a");
+            a.href=url;
+            a.download="Carte-Recensement-"+currentCard.numero+".png";
+            a.style.display="none";
+            document.body.appendChild(a);
+            a.click();
 
-                const url=URL.createObjectURL(blob);
-                const a=document.createElement("a");
-                a.href=url;
-                a.download="Carte-Recensement-"+currentCard.numero+".png";
-                a.style.display="none";
-                document.body.appendChild(a);
-                a.click();
-
-                setTimeout(()=>{
-                    URL.revokeObjectURL(url);
-                    a.remove();
-                },1500);
-            },"image/png");
-        };
-
-        logo.onerror=function(){
-            drawText();
-            canvas.toBlob(function(blob){
-                const url=URL.createObjectURL(blob);
-                const a=document.createElement("a");
-                a.href=url;
-                a.download="Carte-Recensement-"+currentCard.numero+".png";
-                document.body.appendChild(a);
-                a.click();
-                setTimeout(()=>{URL.revokeObjectURL(url);a.remove()},1500);
-            },"image/png");
-        };
-
-        logo.src=AJBD_LOGO;
+            setTimeout(()=>{
+                URL.revokeObjectURL(url);
+                a.remove();
+            },1500);
+        },"image/png");
     }catch(e){
         console.error(e);
         alert("Le téléchargement a rencontré un problème. Utilisez « Imprimer / PDF ».");
@@ -535,23 +527,9 @@ function printCard(){
     if(!currentCard){ alert("Les informations de la carte sont introuvables."); return; }
 
     try{
-        const {canvas,ctx,drawText}=buildCardCanvas();
-        const logo=new Image();
-
-        logo.onload=function(){
-            ctx.fillStyle="#fff";
-            ctx.beginPath(); ctx.roundRect(1490,65,230,200,18); ctx.fill();
-            ctx.drawImage(logo,1505,75,200,180);
-            drawText();
-            openPrintWindow(canvas.toDataURL("image/png"));
-        };
-
-        logo.onerror=function(){
-            drawText();
-            openPrintWindow(canvas.toDataURL("image/png"));
-        };
-
-        logo.src=AJBD_LOGO;
+        const {canvas,drawText}=buildCardCanvas();
+        drawText();
+        openPrintWindow(canvas.toDataURL("image/png"));
     }catch(e){
         console.error(e);
         alert("Impossible de préparer l'impression.");
