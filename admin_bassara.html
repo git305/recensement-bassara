@@ -166,13 +166,70 @@ table{width:100%;border-collapse:collapse;min-width:1050px}th,td{padding:12px;te
  margin-top:1.5mm;
 }
 @media print{
- @page{size:A4 landscape;margin:8mm}
- body{background:#fff!important}
- #loginPage,#app>header,#app main>.wrap>div:not(#printArea){display:none!important}
- #printArea{display:block!important;margin:0!important;padding:0!important}
- .cardPrint{margin:0 auto 10mm;box-shadow:none;page-break-inside:avoid;break-inside:avoid}
-}
-</style>
+ @page{
+   size:A4 landscape;
+   margin:8mm;
+ }
+ html,body{
+   margin:0!important;
+   padding:0!important;
+   width:100%!important;
+   min-width:0!important;
+   background:#fff!important;
+ }
+ body{
+   -webkit-print-color-adjust:exact!important;
+   print-color-adjust:exact!important;
+ }
+ #loginPage,#app>header,#app main>.wrap>div:not(#printArea){
+   display:none!important;
+ }
+ main,#app, .wrap{
+   width:100%!important;
+   max-width:none!important;
+   margin:0!important;
+   padding:0!important;
+ }
+ #printArea{
+   display:flex!important;
+   width:100%!important;
+   max-width:none!important;
+   margin:0!important;
+   padding:0!important;
+   justify-content:center!important;
+   align-items:flex-start!important;
+   background:#fff!important;
+ }
+ .cardPrint{
+   width:270mm!important;
+   max-width:270mm!important;
+   min-height:156mm!important;
+   height:156mm!important;
+   margin:0 auto!important;
+   flex:0 0 270mm!important;
+   box-shadow:none!important;
+   border:1px solid #d9e1ea!important;
+   page-break-inside:avoid!important;
+   break-inside:avoid!important;
+   -webkit-print-color-adjust:exact!important;
+   print-color-adjust:exact!important;
+ }
+ .cardPrint .cardHeader{
+   background:#173f6b!important;
+   color:#fff!important;
+ }
+ .cardPrint .travail{color:#ff1e1e!important}
+ .cardPrint .justice{color:#ffd21a!important}
+ .cardPrint .solidarite{color:#13a33a!important}
+ .cardPrint .numberBox{
+   background:#f0f8ea!important;
+   border-color:#4f8f2f!important;
+ }
+ .cardPrint .cardFooter{
+   background:#173f6b!important;
+   color:#fff!important;
+ }
+}</style>
 </head>
 <body>
 
