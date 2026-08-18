@@ -28,7 +28,7 @@ label{display:block;font-size:13px;font-weight:bold;margin:12px 0 5px}input,sele
 footer{background:#0e2540;color:#dbe6f2;padding:40px 0}.foot{display:grid;grid-template-columns:2fr 1fr 1.5fr;gap:25px}.ajbd{display:flex;gap:12px;align-items:center}.ajbdLogo{width:90px;height:90px;object-fit:contain;background:white;border-radius:12px;padding:4px}
 @media(max-width:850px){.links{display:none}.menu{display:block}.heroGrid,.formGrid{grid-template-columns:1fr}.cards{grid-template-columns:1fr 1fr}.counters{grid-template-columns:1fr}.visualGrid{grid-template-columns:1fr 1fr}.foot{grid-template-columns:1fr}}
 @media(max-width:520px){.situationGrid{grid-template-columns:1fr}}
-</style>
+.requiredNote{margin:6px 0 16px;color:#b42318;font-size:14px;font-weight:700}</style>
 </head>
 <body>
 
@@ -89,13 +89,13 @@ footer{background:#0e2540;color:#dbe6f2;padding:40px 0}.foot{display:grid;grid-t
 </div></div>
 
 <form id="recensementForm" class="formGrid">
-<div class="box"><h3>👤 Identité</h3><label>Nom *</label><input name="nom" required><label>Prénom *</label><input name="prenom" required><label>Date de naissance (facultative)</label><input id="date_naissance" name="date_naissance" type="text" inputmode="numeric" maxlength="10" class="dateInput" autocomplete="bday" placeholder="JJ/MM/AAAA — ex. 01/04/2000"><small>✍️ Écrivez la date ou utilisez le calendrier.</small><input id="date_calendrier" type="date" style="margin-top:6px"><label>Sexe</label><select id="sexe" name="sexe"><option value="">Choisir</option><option>Homme</option><option>Femme</option></select><label>Origine</label><input name="origine" value="Bassara"><label>Nom du père</label><input name="nom_pere"><label>Nom de la mère</label><input name="nom_mere"><label>Famille</label><input name="famille"></div>
+<div class="box"><h3>👤 Identité</h3><p class="requiredNote">* Champs obligatoires : Nom, prénom et numéro de téléphone.</p><label>Nom *</label><input name="nom" required><label>Prénom *</label><input name="prenom" required><label>Date de naissance (facultative)</label><input id="date_naissance" name="date_naissance" type="text" inputmode="numeric" maxlength="10" class="dateInput" autocomplete="bday" placeholder="JJ/MM/AAAA — ex. 01/04/2000"><small>✍️ Écrivez la date ou utilisez le calendrier.</small><input id="date_calendrier" type="date" style="margin-top:6px"><label>Sexe</label><select id="sexe" name="sexe"><option value="">Choisir</option><option>Homme</option><option>Femme</option></select><label>Origine</label><input name="origine" value="Bassara"><label>Nom du père</label><input name="nom_pere"><label>Nom de la mère</label><input name="nom_mere"><label>Famille</label><input name="famille"></div>
 
 <div class="box"><h3>📍 Résidence</h3><label>Pays de résidence *</label><select id="pays" name="pays" required><option value="">Choisir</option><option>Guinée</option><option>Sénégal</option><option>Mali</option><option>Côte d'Ivoire</option><option>Maroc</option><option>France</option><option>États-Unis</option><option>Espagne</option><option>Autre</option></select><div id="autrePaysBox" class="hidden"><label>Nom du pays</label><input id="autre_pays" name="autre_pays"></div><label>Ville *</label><input id="ville" name="ville" required><label>Zone / quartier</label><input name="zone"><label>Situation familiale</label><select id="statut" name="statut"><option value="">Choisir</option><option>Célibataire</option><option>Marié(e)</option><option>Veuf(ve)</option><option>Autre</option></select></div>
 
 <div class="box"><h3>🎓 Études et activité</h3><label>Niveau d'études</label><select id="niveau_etudes" name="niveau_etudes"><option value="">Choisir</option><option>Aucun</option><option>Primaire</option><option>Secondaire</option><option>Supérieur</option><option>Formation professionnelle</option></select><label>Profession</label><input id="profession" name="profession"><label>Secteur</label><input name="secteur"><label>Compétences / savoir-faire</label><textarea name="competences"></textarea></div>
 
-<div class="box"><h3>📞 Contact</h3><label>Téléphone</label><input name="telephone" type="tel"><label>WhatsApp</label><input name="whatsapp" type="tel"><label>Email</label><input name="email" type="email"><label>Préférence de contact</label><select name="contact_pref"><option>WhatsApp</option><option>Téléphone</option><option>Email</option></select><label>Contribution à Bassara</label><textarea name="contribution"></textarea></div>
+<div class="box"><h3>📞 Contact</h3><label>Téléphone</label><input name="telephone" type="tel" required><label>WhatsApp</label><input name="whatsapp" type="tel"><label>Email</label><input name="email" type="email"><label>Préférence de contact</label><select name="contact_pref"><option>WhatsApp</option><option>Téléphone</option><option>Email</option></select><label>Contribution à Bassara</label><textarea name="contribution"></textarea></div>
 
 <div class="box full"><label class="check"><input id="contact_partage_autorise" type="checkbox"><span>J'accepte que mon téléphone/WhatsApp puisse être partagé uniquement avec les responsables autorisés du recensement.</span></label><label class="check"><input id="consentement" type="checkbox" required><span>J'accepte que mes informations soient enregistrées dans la base du recensement de Bassara et utilisées uniquement pour les objectifs du projet. *</span></label><button id="submitButton" class="btn green" type="submit" style="width:100%;font-size:17px">✅ Enregistrer mon inscription</button><p>Les inscriptions sont enregistrées dans la base centrale sécurisée.</p><div id="message"></div></div>
 </form></div></section>
@@ -315,6 +315,10 @@ form.addEventListener("submit",async function(e){
         const p={};
         new FormData(form).forEach((v,k)=>p[k]=String(v).trim()||null);
 
+        if(!p.nom || !p.prenom || !p.telephone){
+            throw Error("Les champs Nom, Prénom et Numéro de téléphone sont obligatoires.");
+        }
+
         if(p.date_naissance){
             const normalized=dateOK(p.date_naissance);
             if(!normalized)throw Error("Date invalide. Utilisez JJ/MM/AAAA.");
@@ -330,6 +334,21 @@ form.addEventListener("submit",async function(e){
         p.numero_recensement="BAS-"+Date.now().toString(36).toUpperCase()+"-"+Math.floor(Math.random()*100000).toString().padStart(5,"0");
         p.consentement=true;
         p.contact_partage_autorise=$("contact_partage_autorise").checked;
+
+        // Vérification préliminaire des doublons.
+        // Le contrôle serveur/RLS reste la protection définitive.
+        if(p.telephone || p.whatsapp){
+            const contact = p.whatsapp || p.telephone;
+            const {data:dupRows,error:dupError}=await db
+                .from("ressortissants")
+                .select("id")
+                .or("telephone.eq."+contact+",whatsapp.eq."+contact)
+                .limit(1);
+
+            if(!dupError && dupRows && dupRows.length){
+                throw Error("Ce numéro de téléphone/WhatsApp est déjà utilisé pour un recensement. Si vous pensez qu'il s'agit d'une erreur, contactez l'assistance au 00224 628 01 18 21.");
+            }
+        }
 
         // Important :
         // On ne demande PAS .select() après l'insertion.
