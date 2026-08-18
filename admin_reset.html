@@ -1,64 +1,493 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Bassara — Nouveau mot de passe</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<style>
-*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;padding:20px;background:#f3f6fa;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;color:#101828}
-.box{width:min(430px,100%);background:#fff;border:1px solid #d8e0e8;border-radius:20px;padding:30px;box-shadow:0 15px 40px #12365f18}
-.logo{width:58px;height:58px;border-radius:15px;background:#12365f;color:#fff;display:grid;place-items:center;font-size:30px;font-weight:900}
-h1{color:#12365f}label{display:block;font-size:13px;font-weight:800;margin:15px 0 6px}input{width:100%;padding:13px;border:1px solid #98a2b3;border-radius:10px;font-size:16px}
-button{width:100%;border:0;border-radius:10px;padding:13px;margin-top:18px;background:#4f8f2f;color:#fff;font-weight:800;font-size:16px;cursor:pointer}
-.msg{margin-top:15px;padding:13px;border-radius:10px;background:#eef7e9;color:#3f6e2d}.error{background:#fff1f1;color:#b42318}
-</style>
-</head>
-<body>
-<div class="box">
-<div class="logo">B</div>
-<h1>Nouveau mot de passe</h1>
-<p>Choisissez un nouveau mot de passe pour votre compte administrateur.</p>
-<form id="form">
-<label>Nouveau mot de passe</label>
-<input id="password" type="password" minlength="8" autocomplete="new-password" required>
-<label>Confirmer le mot de passe</label>
-<input id="confirm" type="password" minlength="8" autocomplete="new-password" required>
-<button id="btn" type="submit">🔐 Enregistrer le nouveau mot de passe</button>
-</form>
-<div id="message"></div>
-</div>
-<script>
-const SUPABASE_URL="https://gxsokrwqefletxitejde.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY="sb_publishable_4z1GPpx-LMGbKNXXPoHT3A_zD0Q60XC";
-const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
 
-document.getElementById("form").addEventListener("submit",async e=>{
- e.preventDefault();
- const password=document.getElementById("password").value;
- const confirm=document.getElementById("confirm").value;
- const message=document.getElementById("message");
- const btn=document.getElementById("btn");
- message.innerHTML="";
- if(password!==confirm){
-  message.innerHTML='<div class="msg error">❌ Les deux mots de passe ne correspondent pas.</div>';
-  return;
- }
- if(password.length<8){
-  message.innerHTML='<div class="msg error">❌ Le mot de passe doit contenir au moins 8 caractères.</div>';
-  return;
- }
- btn.disabled=true;btn.textContent="⏳ Enregistrement...";
- const {error}=await db.auth.updateUser({password});
- if(error){
-  message.innerHTML='<div class="msg error">❌ '+escapeHtml(error.message)+'</div>';
-  btn.disabled=false;btn.textContent="🔐 Enregistrer le nouveau mot de passe";
-  return;
- }
- message.innerHTML='<div class="msg">✅ Mot de passe modifié avec succès.<br><br><a href="admin_bassara.html">➡️ Ouvrir l'administration</a></div>';
- btn.disabled=false;
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width,initial-scale=1"
+>
+
+<title>Bassara — Nouveau mot de passe</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+
+*{
+box-sizing:border-box
+}
+
+body{
+margin:0;
+min-height:100vh;
+display:grid;
+place-items:center;
+padding:20px;
+background:#f3f6fa;
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+color:#101828
+}
+
+.box{
+width:min(430px,100%);
+background:#fff;
+border:1px solid #d8e0e8;
+border-radius:20px;
+padding:30px;
+box-shadow:0 15px 40px #12365f18
+}
+
+.logo{
+width:58px;
+height:58px;
+border-radius:15px;
+background:#12365f;
+color:#fff;
+display:grid;
+place-items:center;
+font-size:30px;
+font-weight:900
+}
+
+h1{
+color:#12365f;
+font-size:27px
+}
+
+p{
+color:#667085;
+line-height:1.5
+}
+
+label{
+display:block;
+font-size:13px;
+font-weight:800;
+margin:15px 0 6px
+}
+
+input{
+width:100%;
+padding:13px;
+border:1px solid #98a2b3;
+border-radius:10px;
+font-size:16px
+}
+
+button{
+width:100%;
+border:0;
+border-radius:10px;
+padding:13px;
+margin-top:18px;
+background:#4f8f2f;
+color:#fff;
+font-weight:800;
+font-size:16px;
+cursor:pointer
+}
+
+button:disabled{
+opacity:.6;
+cursor:not-allowed
+}
+
+.msg{
+margin-top:15px;
+padding:13px;
+border-radius:10px;
+background:#eef7e9;
+color:#3f6e2d
+}
+
+.error{
+background:#fff1f1;
+color:#b42318
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="box">
+
+<div class="logo">
+B
+</div>
+
+<h1>
+Nouveau mot de passe
+</h1>
+
+<p>
+Choisissez un nouveau mot de passe pour votre compte administrateur.
+</p>
+
+<form id="form">
+
+<label for="password">
+Nouveau mot de passe
+</label>
+
+<input
+id="password"
+type="password"
+minlength="8"
+autocomplete="new-password"
+required
+>
+
+<label for="confirm">
+Confirmer le mot de passe
+</label>
+
+<input
+id="confirm"
+type="password"
+minlength="8"
+autocomplete="new-password"
+required
+>
+
+<button
+id="btn"
+type="submit"
+>
+🔐 Enregistrer le nouveau mot de passe
+</button>
+
+</form>
+
+<div id="message"></div>
+
+</div>
+
+
+<script>
+
+const SUPABASE_URL =
+"https://gxsokrwqefletxitejde.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+"sb_publishable_4z1GPpx-LMGbKNXXPoHT3A_zD0Q60XC";
+
+const db =
+window.supabase.createClient(
+SUPABASE_URL,
+SUPABASE_PUBLISHABLE_KEY
+);
+
+
+const form =
+document.getElementById("form");
+
+const passwordInput =
+document.getElementById("password");
+
+const confirmInput =
+document.getElementById("confirm");
+
+const message =
+document.getElementById("message");
+
+const btn =
+document.getElementById("btn");
+
+
+function showMessage(text,error=false){
+
+message.innerHTML =
+'<div class="msg '+(error?"error":"")+'">'+
+text+
+'</div>';
+
+}
+
+
+function escapeHtml(value){
+
+return String(value ?? "")
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;")
+.replaceAll('"',"&quot;")
+.replaceAll("'","&#039;");
+
+}
+
+
+/*
+Supabase peut établir la session de récupération
+après le chargement de la page.
+
+On écoute donc PASSWORD_RECOVERY.
+*/
+
+db.auth.onAuthStateChange(
+async function(event,session){
+
+console.log(
+"Supabase Auth:",
+event
+);
+
+if(
+event==="PASSWORD_RECOVERY" &&
+session
+){
+
+btn.disabled=false;
+
+message.innerHTML="";
+
+}
+
 });
-function escapeHtml(v){return String(v??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
+
+
+/*
+Vérification initiale de la session.
+*/
+
+async function checkRecoverySession(){
+
+try{
+
+const {
+data,
+error
+}=await db.auth.getSession();
+
+
+if(error){
+
+console.error(error);
+
+showMessage(
+"❌ Impossible de vérifier le lien de récupération.",
+true
+);
+
+btn.disabled=true;
+
+return;
+
+}
+
+
+/*
+Si la session existe déjà,
+le formulaire peut être utilisé.
+*/
+
+if(data.session){
+
+btn.disabled=false;
+
+return;
+
+}
+
+
+/*
+La session peut encore être créée
+par PASSWORD_RECOVERY.
+*/
+
+console.log(
+"En attente de la session de récupération..."
+);
+
+}catch(error){
+
+console.error(error);
+
+showMessage(
+"❌ Impossible de vérifier le lien de récupération.",
+true
+);
+
+btn.disabled=true;
+
+}
+
+}
+
+
+/*
+Enregistrement du nouveau mot de passe.
+*/
+
+form.addEventListener(
+"submit",
+async function(e){
+
+e.preventDefault();
+
+message.innerHTML="";
+
+
+const password =
+passwordInput.value;
+
+const confirm =
+confirmInput.value;
+
+
+/*
+Vérification des mots de passe.
+*/
+
+if(password.length<8){
+
+showMessage(
+"❌ Le mot de passe doit contenir au moins 8 caractères.",
+true
+);
+
+return;
+
+}
+
+
+if(password!==confirm){
+
+showMessage(
+"❌ Les deux mots de passe ne correspondent pas.",
+true
+);
+
+return;
+
+}
+
+
+btn.disabled=true;
+
+btn.textContent =
+"⏳ Enregistrement...";
+
+
+try{
+
+
+/*
+Vérifier que Supabase possède bien
+une session de récupération.
+*/
+
+const {
+data,
+error:sessionError
+}=await db.auth.getSession();
+
+
+if(
+sessionError ||
+!data.session
+){
+
+showMessage(
+"❌ Le lien de récupération est invalide ou a expiré. Demandez un nouveau lien.",
+true
+);
+
+btn.disabled=false;
+
+btn.textContent =
+"🔐 Enregistrer le nouveau mot de passe";
+
+return;
+
+}
+
+
+/*
+Modification réelle du mot de passe.
+*/
+
+const {
+error
+}=await db.auth.updateUser({
+
+password:password
+
+});
+
+
+if(error){
+
+console.error(
+"Erreur changement mot de passe:",
+error
+);
+
+showMessage(
+"❌ Impossible de modifier le mot de passe. Veuillez demander un nouveau lien.",
+true
+);
+
+btn.disabled=false;
+
+btn.textContent =
+"🔐 Enregistrer le nouveau mot de passe";
+
+return;
+
+}
+
+
+/*
+SUCCÈS
+*/
+
+showMessage(
+'✅ Mot de passe modifié avec succès.'+
+'<br><br>'+
+'<a href="admin_bassara.html" '+
+'style="color:#12365f;font-weight:800">'+
+'➡️ Ouvrir l’administration'+
+'</a>'
+);
+
+
+passwordInput.value="";
+confirmInput.value="";
+
+btn.disabled=true;
+
+btn.textContent =
+"✅ Mot de passe enregistré";
+
+
+}catch(error){
+
+console.error(error);
+
+showMessage(
+"❌ Une erreur est survenue. Veuillez demander un nouveau lien de récupération.",
+true
+);
+
+btn.disabled=false;
+
+btn.textContent =
+"🔐 Enregistrer le nouveau mot de passe";
+
+}
+
+});
+
+
+checkRecoverySession();
+
 </script>
+
 </body>
+
 </html>
