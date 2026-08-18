@@ -316,13 +316,7 @@ async function updateCounters(){
     }
     try{
         const {data,error}=await db.rpc("get_recensement_public_stats");
-        if(error){
-            // PostgreSQL 23505 = violation d'une contrainte/index UNIQUE.
-            if(error.code==="23505"){
-                throw Error("⚠️ Ce numéro de téléphone est déjà associé à une personne recensée. Une personne ne peut être enregistrée qu'une seule fois avec le même numéro.");
-            }
-            throw error;
-        }
+        if(error) throw error;
         $("countGuinee").textContent=Number(data?.guinee||0);
         $("countExt").textContent=Number(data?.ailleurs||0);
         $("countTotal").textContent=Number(data?.total||0);
@@ -423,7 +417,20 @@ form.addEventListener("submit",async function(e){
         const {error}=await db.from("ressortissants")
             .insert([p]);
 
-        if(error)throw error;
+        if(error){
+            // PostgreSQL 23505 = violation d'une contrainte UNIQUE.
+            // Ici, il s'agit notamment de l'index unique du téléphone.
+            if(error.code === "23505" ||
+               String(error.message || "").includes("ressortissants_telephone_unique") ||
+               String(error.details || "").includes("ressortissants_telephone_unique")){
+                throw Error(
+                    "⚠️ Ce numéro de téléphone est déjà associé à une personne recensée. " +
+                    "Une personne ne peut être enregistrée qu'une seule fois avec le même numéro."
+                );
+            }
+
+            throw error;
+        }
 
         // Le numéro est déjà généré avant l'insertion.
         const numero=p.numero_recensement;
