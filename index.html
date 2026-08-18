@@ -47,7 +47,12 @@ footer{background:#0e2540;color:#dbe6f2;padding:40px 0}.foot{display:grid;grid-t
     font-weight: 700;
     margin-top: 5px;
 }
-</style>
+
+.situationBox.residence-error{border-color:#dc2626!important;background:#fff5f5!important}
+.situationBox.residence-error h3{color:#dc2626!important}
+.situationChoice.residence-error-choice{border-color:#dc2626!important;background:#fff5f5!important}
+.residence-error-message{display:block;color:#dc2626;font-weight:700;margin-top:10px;padding:10px 12px;background:#fff1f1;border-radius:10px}
+.requiredStar{color:#dc2626;font-weight:900}.situationBox.residence-error{border-color:#dc2626!important;background:#fff5f5!important}.situationBox.residence-error h3{color:#dc2626!important}.situationChoice.residence-error-choice{border-color:#dc2626!important;background:#fff5f5!important}.residence-error-message{display:block;color:#dc2626;font-weight:700;margin:10px 0;padding:10px 12px;background:#fff1f1;border-radius:10px}</style>
 </head>
 <body>
 
@@ -88,14 +93,15 @@ footer{background:#0e2540;color:#dbe6f2;padding:40px 0}.foot{display:grid;grid-t
 
 <section id="inscription" class="section"><div class="wrap"><div class="head"><h2>📝 Inscription au recensement</h2></div>
 
-<div class="situationBox">
-<h3>🏠 Où résidez-vous actuellement ?</h3>
+<div class="situationBox" id="residenceSection">
+<h3>🏠 Où résidez-vous actuellement ? <span class="requiredStar">*</span></h3>
 <p>Cette information sert uniquement à établir les statistiques communautaires.</p>
 <div class="situationGrid">
 <button type="button" class="situationChoice" data-value="Réside à Bassara" onclick="choisirResidence(this)">🏠 Je réside actuellement à Bassara</button>
 <button type="button" class="situationChoice" data-value="Réside en Guinée hors Bassara" onclick="choisirResidence(this)">🇬🇳 Je réside en Guinée, mais pas à Bassara</button>
 <button type="button" class="situationChoice" data-value="Réside à l'extérieur de la Guinée" onclick="choisirResidence(this)">🌍 Je réside actuellement à l'extérieur de la Guinée</button>
 </div>
+<div id="residenceError" class="residence-error-message" style="display:none">⚠️ Veuillez choisir votre lieu de résidence actuel.</div>
 <input type="hidden" id="situation_bassara" name="situation_bassara">
 </div>
 
@@ -108,7 +114,7 @@ footer{background:#0e2540;color:#dbe6f2;padding:40px 0}.foot{display:grid;grid-t
 </div></div>
 
 <form id="recensementForm" class="formGrid">
-<div class="box"><h3>👤 Identité</h3><p class="requiredNote">* Champs obligatoires : tous les champs de cette section Identité.</p><label>Nom *</label><input name="nom" required><label>Prénom *</label><input name="prenom" required><label>Date de naissance *</label><input id="date_naissance" name="date_naissance" type="text" required inputmode="numeric" maxlength="10" class="dateInput" autocomplete="bday" placeholder="JJ/MM/AAAA — ex. 01/04/2000"><small>✍️ Écrivez la date ou utilisez le calendrier.</small><input id="date_calendrier" type="date" style="margin-top:6px"><label>Sexe *</label><select id="sexe" name="sexe" required><option value="">Choisir</option><option>Homme</option><option>Femme</option></select><label>Origine *</label><input name="origine" value="Bassara" required><label>Nom du père *</label><input name="nom_pere" required><label>Nom de la mère *</label><input name="nom_mere" required><label>Famille *</label><input name="famille" required></div>
+<div class="box"><h3>👤 Identité</h3><p class="requiredNote">* Champs obligatoires : tous les champs de cette section Identité, y compris le numéro de téléphone.</p><label>Nom *</label><input name="nom" required><label>Prénom *</label><input name="prenom" required><label>Date de naissance *</label><input id="date_naissance" name="date_naissance" type="text" required inputmode="numeric" maxlength="10" class="dateInput" autocomplete="bday" placeholder="JJ/MM/AAAA — ex. 01/04/2000"><small>✍️ Écrivez la date ou utilisez le calendrier.</small><input id="date_calendrier" type="date" style="margin-top:6px"><label>Sexe *</label><select id="sexe" name="sexe" required><option value="">Choisir</option><option>Homme</option><option>Femme</option></select><label>Origine *</label><input name="origine" value="Bassara" required><label>Nom du père *</label><input name="nom_pere" required><label>Nom de la mère *</label><input name="nom_mere" required><label>Famille *</label><input name="famille" required></div>
 
 <div class="box"><h3>📍 Résidence</h3><label>Pays de résidence *</label><select id="pays" name="pays" required><option value="">Choisir</option><option>Guinée</option><option>Sénégal</option><option>Mali</option><option>Côte d'Ivoire</option><option>Maroc</option><option>France</option><option>États-Unis</option><option>Espagne</option><option>Autre</option></select><div id="autrePaysBox" class="hidden"><label>Nom du pays</label><input id="autre_pays" name="autre_pays"></div><label>Ville *</label><input id="ville" name="ville" required><label>Zone / quartier</label><input name="zone"><label>Situation familiale</label><select id="statut" name="statut"><option value="">Choisir</option><option>Célibataire</option><option>Marié(e)</option><option>Veuf(ve)</option><option>Autre</option></select></div>
 
@@ -148,12 +154,34 @@ function choisirResidence(button){
         x.classList.remove("active");
     });
     button.classList.add("active");
+    document.querySelectorAll(".situationChoice").forEach(function(c){c.classList.remove("residence-error-choice");});
+    var section=document.getElementById("residenceSection");
+    var error=document.getElementById("residenceError");
+    if(section) section.classList.remove("residence-error");
+    if(error) error.style.display="none";
     var champ=document.getElementById("situation_bassara");
     if(champ){
         champ.value=button.getAttribute("data-value") || "";
         champ.dispatchEvent(new Event("change",{bubbles:true}));
     }
 }
+function validateResidence(){
+    var field=document.getElementById("situation_bassara");
+    var section=document.getElementById("residenceSection");
+    var error=document.getElementById("residenceError");
+    var choices=document.querySelectorAll(".situationChoice");
+
+    if(field && field.value.trim()!==""){
+        return true;
+    }
+
+    if(section) section.classList.add("residence-error");
+    choices.forEach(function(c){c.classList.add("residence-error-choice");});
+    if(error) error.style.display="block";
+    if(section) section.scrollIntoView({behavior:"smooth",block:"center"});
+    return false;
+}
+
 document.addEventListener("DOMContentLoaded", function(){
 
 const SUPABASE_URL="https://gxsokrwqefletxitejde.supabase.co";
@@ -312,8 +340,8 @@ form.addEventListener("submit",async function(e){
     const btn=$("submitButton");
     const msg=$("message");
 
-    if(!$("situation_bassara").value){
-        msg.innerHTML='<div class="error">❌ Choisissez votre situation par rapport à Bassara.</div>';
+    if(!validateResidence()){
+        msg.innerHTML='<div class="error">❌ La partie « Où résidez-vous actuellement ? » est obligatoire. Elle est indiquée en rouge.</div>';
         return;
     }
 
@@ -355,18 +383,21 @@ form.addEventListener("submit",async function(e){
         p.consentement=true;
         p.contact_partage_autorise=$("contact_partage_autorise").checked;
 
-        // Vérification préliminaire des doublons.
-        // Le contrôle serveur/RLS reste la protection définitive.
-        if(p.telephone || p.whatsapp){
-            const contact = p.whatsapp || p.telephone;
-            const {data:dupRows,error:dupError}=await db
-                .from("ressortissants")
-                .select("id")
-                .or("telephone.eq."+contact+",whatsapp.eq."+contact)
-                .limit(1);
+        // Vérification des doublons AVANT insertion.
+        // Le contrôle définitif doit être fait côté Supabase.
+        if(p.telephone){
+            const {data:duplicateExists,error:duplicateError}=await db.rpc(
+                "check_ressortissant_phone_duplicate",
+                {p_phone:p.telephone}
+            );
 
-            if(!dupError && dupRows && dupRows.length){
-                throw Error("Ce numéro de téléphone/WhatsApp est déjà utilisé pour un recensement. Si vous pensez qu'il s'agit d'une erreur, contactez l'assistance au 00224 628 01 18 21.");
+            if(duplicateError){
+                console.error("Erreur vérification doublon :",duplicateError);
+                throw Error("Impossible de vérifier si ce numéro est déjà recensé. Réessayez dans quelques instants.");
+            }
+
+            if(duplicateExists===true){
+                throw Error("⚠️ Ce numéro de téléphone est déjà utilisé pour un recensement. Si vous pensez qu'il s'agit d'une erreur, contactez l'assistance au 00224 628 01 18 21.");
             }
         }
 
