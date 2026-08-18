@@ -120,7 +120,7 @@ footer{background:#0e2540;color:#dbe6f2;padding:40px 0}.foot{display:grid;grid-t
 
 <div class="box"><h3>🎓 Études et activité</h3><label>Niveau d'études</label><select id="niveau_etudes" name="niveau_etudes"><option value="">Choisir</option><option>Aucun</option><option>Primaire</option><option>Secondaire</option><option>Supérieur</option><option>Formation professionnelle</option></select><label>Profession</label><input id="profession" name="profession"><label>Secteur</label><input name="secteur"><label>Compétences / savoir-faire</label><textarea name="competences"></textarea></div>
 
-<div class="box"><h3>📞 Contact</h3><label>Téléphone</label><input name="telephone" type="tel" required><label>WhatsApp</label><input name="whatsapp" type="tel"><label>Email</label><input name="email" type="email"><label>Préférence de contact</label><select name="contact_pref"><option>WhatsApp</option><option>Téléphone</option><option>Email</option></select><label>Contribution à Bassara</label><textarea name="contribution"></textarea></div>
+<div class="box"><h3>📞 Contact</h3><label>Téléphone <span class="requiredStar">*</span></label><input name="telephone" type="tel" required><label>WhatsApp</label><input name="whatsapp" type="tel"><label>Email</label><input name="email" type="email"><label>Préférence de contact</label><select name="contact_pref"><option>WhatsApp</option><option>Téléphone</option><option>Email</option></select><label>Contribution à Bassara</label><textarea name="contribution"></textarea></div>
 
 <div class="box full"><label class="check"><input id="contact_partage_autorise" type="checkbox"><span>J'accepte que mon téléphone/WhatsApp puisse être partagé uniquement avec les responsables autorisés du recensement.</span></label><label class="check"><input id="consentement" type="checkbox" required><span>J'accepte que mes informations soient enregistrées dans la base du recensement de Bassara et utilisées uniquement pour les objectifs du projet. *</span></label><button id="submitButton" class="btn green" type="submit" style="width:100%;font-size:17px">✅ Enregistrer mon inscription</button><p>Les inscriptions sont enregistrées dans la base centrale sécurisée.</p><div id="message"></div></div>
 </form></div></section>
@@ -316,7 +316,13 @@ async function updateCounters(){
     }
     try{
         const {data,error}=await db.rpc("get_recensement_public_stats");
-        if(error)throw error;
+        if(error){
+            // PostgreSQL 23505 = violation d'une contrainte/index UNIQUE.
+            if(error.code==="23505"){
+                throw Error("⚠️ Ce numéro de téléphone est déjà associé à une personne recensée. Une personne ne peut être enregistrée qu'une seule fois avec le même numéro.");
+            }
+            throw error;
+        }
         $("countGuinee").textContent=Number(data?.guinee||0);
         $("countExt").textContent=Number(data?.ailleurs||0);
         $("countTotal").textContent=Number(data?.total||0);
@@ -382,24 +388,6 @@ form.addEventListener("submit",async function(e){
         p.numero_recensement="BAS-"+Date.now().toString(36).toUpperCase()+"-"+Math.floor(Math.random()*100000).toString().padStart(5,"0");
         p.consentement=true;
         p.contact_partage_autorise=$("contact_partage_autorise").checked;
-
-        // Vérification des doublons AVANT insertion.
-        // Le contrôle définitif doit être fait côté Supabase.
-        if(p.telephone){
-            const {data:duplicateExists,error:duplicateError}=await db.rpc(
-                "check_ressortissant_phone_duplicate",
-                {p_phone:p.telephone}
-            );
-
-            if(duplicateError){
-                console.error("Erreur vérification doublon :",duplicateError);
-                throw Error("Impossible de vérifier si ce numéro est déjà recensé. Réessayez dans quelques instants.");
-            }
-
-            if(duplicateExists===true){
-                throw Error("⚠️ Ce numéro de téléphone est déjà utilisé pour un recensement. Si vous pensez qu'il s'agit d'une erreur, contactez l'assistance au 00224 628 01 18 21.");
-            }
-        }
 
 
         // Vérification anti-doublon via Supabase RPC.
