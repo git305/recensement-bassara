@@ -304,10 +304,11 @@ table{width:100%;border-collapse:collapse;min-width:1050px}th,td{padding:12px;te
   </div>
 </div>
 <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
-<button class="btn secondary" onclick="showDuplicates()">⚠️ Voir les doublons</button>
+<button class="btn secondary" onclick="filterDuplicates()">⚠️ Voir les doublons</button>
+<button class="btn deleteBtn" onclick="deleteSelectedDuplicates()">🗑️ Supprimer les sélectionnés</button>
 </div>
 <div id="dataMessage"></div>
-<div class="tableWrap"><table><thead><tr><th>N°</th><th>Nom</th><th>Prénom</th><th>Âge</th><th>Sexe</th><th>Résidence</th><th>Pays</th><th>Téléphone</th><th></th></tr></thead><tbody id="tbody"></tbody></table></div>
+<div class="tableWrap"><table><thead><tr><th>☑</th><th>N°</th><th>Nom</th><th>Prénom</th><th>Âge</th><th>Sexe</th><th>Résidence</th><th>Pays</th><th>Téléphone</th><th></th></tr></thead><tbody id="tbody"></tbody></table></div>
 </div>
 
 <div id="detailPanel" class="panel hidden">
@@ -323,6 +324,15 @@ table{width:100%;border-collapse:collapse;min-width:1050px}th,td{padding:12px;te
 <div style="display:flex;justify-content:space-between;gap:10px;align-items:center">
 <h2>⚠️ Doublons possibles</h2>
 <button class="btn secondary" onclick="duplicatePanel.classList.add('hidden')">Fermer</button>
+</div>
+<div class="dupBox">
+<strong>ℹ️ Choisissez vous-même quoi supprimer.</strong>
+<p style="margin:6px 0">Aucune inscription n'est supprimée automatiquement. Cochez uniquement les personnes que vous voulez supprimer.</p>
+<div style="display:flex;gap:8px;flex-wrap:wrap">
+<button class="btn secondary" onclick="selectAllVisibleDuplicates()">☑️ Tout sélectionner</button>
+<button class="btn secondary" onclick="clearDuplicateSelection()">☐ Tout désélectionner</button>
+<button class="btn deleteBtn" onclick="deleteSelectedDuplicates()">🗑️ Supprimer les sélectionnés (<span id="selectedDuplicateCount">0</span>)</button>
+</div>
 </div>
 <div id="duplicateContent"></div>
 </div>
@@ -548,87 +558,185 @@ function showDuplicates(){
  duplicatePanel.scrollIntoView({behavior:"smooth"});
 }
 
-async function deletePerson(i){
+
+
+let selectedDuplicateIds=new Set();
+
+function filterDuplicates(){
+ const duplicateIds=new Set();
+ rows.forEach((r,i)=>{
+   if(findDuplicates(r).length) duplicateIds.add(i);
+ });
+
+ search.value="";
+ residence.value="";
+ country.value="";
+ ageGroup.value="";
+ gender.value="";
+
+ const filtered=rows.filter((r,i)=>duplicateIds.has(i));
+
+ filterCount.textContent=filtered.length+" "+(filtered.length===1?"doublon":"doublons")+" détecté"+(filtered.length===1?"":"s");
+
+ tbody.innerHTML=filtered.length ? filtered.map(r=>{
+   const i=rows.indexOf(r),a=age(r),res=residence(r),cl=res==="bassara"?"bass":res==="guinee"?"gui":res==="exterieur"?"ext":"";
+   const checked=selectedDuplicateIds.has(r.id)?"checked":"";
+   return '<tr class="dupRow">'+
+     '<td><input type="checkbox" class="dupCheck" '+checked+' onchange="toggleDuplicateSelection('+i+',this.checked)" style="width:auto"></td>'+
+     '<td class="num">'+esc(r.numero_recensement)+'</td>'+
+     '<td>'+esc(r.nom)+'</td>'+
+     '<td>'+esc(r.prenom)+'</td>'+
+     '<td>'+esc(a===null?"—":a+" ans")+'</td>'+
+     '<td>'+esc(r.sexe)+'</td>'+
+     '<td><span class="badge '+cl+'">'+esc(residenceText(r))+'</span></td>'+
+     '<td>'+esc(pays(r)||"—")+'</td>'+
+     '<td>'+esc(r.telephone||"—")+'</td>'+
+     '<td><button class="btn secondary" onclick="showDuplicateFor('+i+')">⚠️ Voir</button></td>'+
+   '</tr>';
+ }).join("") :
+ '<tr><td colspan="10" style="text-align:center;padding:30px;color:#3f6e2d">✅ Aucun doublon détecté.</td></tr>';
+
+ renderDuplicatePanel();
+}
+
+function toggleDuplicateSelection(i,checked){
  const r=rows[i];
+ if(!r||!r.id)return;
+ if(checked) selectedDuplicateIds.add(r.id);
+ else selectedDuplicateIds.delete(r.id);
+ renderDuplicatePanel();
+}
 
- if(!r){
-   alert("Cette inscription n'existe plus.");
+function renderDuplicatePanel(){
+ const count=selectedDuplicateIds.size;
+ const el=document.getElementById("selectedDuplicateCount");
+ if(el) el.textContent=count;
+}
+
+function selectDuplicateGroup(ids){
+ ids.forEach(i=>{
+   const r=rows[i];
+   if(r&&r.id) selectedDuplicateIds.add(r.id);
+ });
+ filterDuplicates();
+}
+
+function clearDuplicateSelection(){
+ selectedDuplicateIds.clear();
+ filterDuplicates();
+}
+
+async function deleteSelectedDuplicates(){
+ const ids=[...selectedDuplicateIds];
+
+ if(!ids.length){
+   alert("⚠️ Sélectionnez d'abord les inscriptions à supprimer.");
    return;
  }
 
- const id=r.id;
+ const selected=rows.filter(r=>r.id&&ids.includes(r.id));
 
- if(!id){
-   alert("Impossible de supprimer cette inscription : son identifiant Supabase (id) est introuvable.");
-   return;
- }
+ const summary=selected.map(r=>
+   "• "+((r.nom||"")+" "+(r.prenom||"")).trim()+
+   " — N° "+(r.numero_recensement||"—")
+ ).join("\n");
 
- const name=((r.nom||"")+" "+(r.prenom||"")).trim()||"cette personne";
- const number=r.numero_recensement||"non renseigné";
-
- const confirmed=confirm(
-   "⚠️ SUPPRESSION DE L’INSCRIPTION\n\n"+
-   "Nom : "+name+"\n"+
-   "N° de recensement : "+number+"\n"+
-   "Téléphone : "+(r.telephone||"non renseigné")+"\n\n"+
-   "Voulez-vous vraiment supprimer cette inscription ?\n\n"+
-   "Cette action est irréversible."
+ const ok=confirm(
+   "SUPPRESSION DES INSCRIPTIONS SÉLECTIONNÉES\n\n"+
+   summary+
+   "\n\n"+ids.length+" inscription(s) seront supprimée(s)."+
+   "\n\nCette action est irréversible.\n\nContinuer ?"
  );
 
- if(!confirmed) return;
+ if(!ok)return;
 
  try{
    const {data:{session}}=await db.auth.getSession();
 
-   if(!session || session.user.id!==ADMIN_UID){
-     alert("❌ Votre session administrateur n'est plus valide. Veuillez vous reconnecter.");
+   if(!session||session.user.id!==ADMIN_UID){
+     alert("❌ Session administrateur invalide.");
      await db.auth.signOut();
      location.reload();
      return;
    }
 
-   const {error}=await db
-     .from("ressortissants")
-     .delete()
-     .eq("id",id);
+   let deleted=0;
 
-   if(error){
-     console.error("Erreur suppression:",error);
-     alert(
-       "❌ Suppression impossible.\n\n"+
-       error.message+
-       "\n\nVérifiez les autorisations RLS de la table ressortissants."
-     );
-     return;
+   for(const id of ids){
+     const {error}=await db.from("ressortissants").delete().eq("id",id);
+
+     if(error){
+       console.error(error);
+       alert(
+         "❌ La suppression s'est arrêtée après "+deleted+" suppression(s).\n\n"+
+         error.message
+       );
+       await loadData();
+       return;
+     }
+
+     deleted++;
    }
 
-   // Retirer immédiatement la ligne de l'interface.
-   rows.splice(i,1);
+   selectedDuplicateIds.clear();
 
-   updateStatsAfterDelete();
-   populateCountries();
-   render();
+   alert(
+     "✅ Suppression terminée.\n\n"+
+     deleted+" inscription(s) sélectionnée(s) ont été supprimée(s)."
+   );
 
-   // Rafraîchir l'affichage des doublons s'il est ouvert.
-   if(!duplicatePanel.classList.contains("hidden")){
-     showDuplicates();
-   }
-
-   alert("✅ L'inscription de "+name+" a été supprimée.");
+   await loadData();
 
  }catch(error){
    console.error(error);
-   alert("❌ Une erreur inattendue est survenue pendant la suppression.");
+   alert("❌ Une erreur est survenue pendant la suppression.");
  }
 }
 
-function updateStatsAfterDelete(){
- // La fonction stats() de la page est conservée sous son nom actuel.
- if(typeof stats==="function"){
-   stats();
- }else if(typeof updateStats==="function"){
-   updateStats();
- }
+function showDuplicateFor(i){
+ const r=rows[i];
+ const matches=findDuplicates(r);
+
+ duplicateContent.innerHTML=matches.length
+ ? '<div class="dupBox"><strong>⚠️ Doublon possible</strong>'+
+   '<p>Choisissez précisément l’inscription à supprimer.</p>'+
+   '<div style="background:#fff;padding:10px;border-radius:9px;margin-top:8px">'+
+   '<b>Inscription actuelle :</b> '+esc(r.nom||"")+" "+esc(r.prenom||"")+
+   ' — N° '+esc(r.numero_recensement||"—")+
+   '</div>'+
+   matches.map(x=>{
+     const xi=rows.indexOf(x);
+     const checked=x.id&&selectedDuplicateIds.has(x.id)?"checked":"";
+     return '<div style="background:#fff;padding:10px;border-radius:9px;margin-top:8px">'+
+       '<label style="display:flex;gap:8px;align-items:center;margin:0">'+
+       '<input type="checkbox" '+checked+' onchange="toggleDuplicateSelection('+xi+',this.checked)" style="width:auto">'+
+       '<span><b>'+esc(x.nom||"")+" "+esc(x.prenom||"")+'</b>'+
+       ' — N° '+esc(x.numero_recensement||"—")+
+       ' — '+esc(x.telephone||"—")+
+       '<br><small>'+esc(duplicateReason(r,x))+'</small></span>'+
+       '</label>'+
+       '</div>';
+   }).join("")+
+   '<div class="dupDelete">'+
+   '<button class="btn deleteBtn" onclick="deleteSelectedDuplicates()">🗑️ Supprimer les sélectionnés</button>'+
+   '</div></div>'
+ : '<div class="ok">Aucun doublon détecté pour cette personne.</div>';
+
+ duplicatePanel.classList.remove("hidden");
+ duplicatePanel.scrollIntoView({behavior:"smooth"});
+ renderDuplicatePanel();
+}
+
+function showDuplicates(){
+ filterDuplicates();
+}
+
+
+function selectAllVisibleDuplicates(){
+ rows.forEach(r=>{
+   if(findDuplicates(r).length&&r.id) selectedDuplicateIds.add(r.id);
+ });
+ filterDuplicates();
 }
 
 function cardHTML(r){
