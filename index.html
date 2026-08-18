@@ -28,7 +28,26 @@ label{display:block;font-size:13px;font-weight:bold;margin:12px 0 5px}input,sele
 footer{background:#0e2540;color:#dbe6f2;padding:40px 0}.foot{display:grid;grid-template-columns:2fr 1fr 1.5fr;gap:25px}.ajbd{display:flex;gap:12px;align-items:center}.ajbdLogo{width:90px;height:90px;object-fit:contain;background:white;border-radius:12px;padding:4px}
 @media(max-width:850px){.links{display:none}.menu{display:block}.heroGrid,.formGrid{grid-template-columns:1fr}.cards{grid-template-columns:1fr 1fr}.counters{grid-template-columns:1fr}.visualGrid{grid-template-columns:1fr 1fr}.foot{grid-template-columns:1fr}}
 @media(max-width:520px){.situationGrid{grid-template-columns:1fr}}
-.requiredNote{margin:6px 0 16px;color:#b42318;font-size:14px;font-weight:700}</style>
+.requiredNote{margin:6px 0 16px;color:#b42318;font-size:14px;font-weight:700}
+/* Validation visuelle des champs obligatoires */
+.form-attempt input.field-error,
+.form-attempt select.field-error,
+.form-attempt textarea.field-error {
+    border: 2px solid #dc2626 !important;
+    background-color: #fff5f5 !important;
+    box-shadow: 0 0 0 2px rgba(220,38,38,.08);
+}
+.form-attempt label.field-label-error {
+    color: #dc2626 !important;
+}
+.field-error-message {
+    display: block;
+    color: #dc2626;
+    font-size: 13px;
+    font-weight: 700;
+    margin-top: 5px;
+}
+</style>
 </head>
 <body>
 
@@ -89,7 +108,7 @@ footer{background:#0e2540;color:#dbe6f2;padding:40px 0}.foot{display:grid;grid-t
 </div></div>
 
 <form id="recensementForm" class="formGrid">
-<div class="box"><h3>👤 Identité</h3><p class="requiredNote">* Champs obligatoires : Nom, prénom et numéro de téléphone.</p><label>Nom *</label><input name="nom" required><label>Prénom *</label><input name="prenom" required><label>Date de naissance (facultative)</label><input id="date_naissance" name="date_naissance" type="text" inputmode="numeric" maxlength="10" class="dateInput" autocomplete="bday" placeholder="JJ/MM/AAAA — ex. 01/04/2000"><small>✍️ Écrivez la date ou utilisez le calendrier.</small><input id="date_calendrier" type="date" style="margin-top:6px"><label>Sexe</label><select id="sexe" name="sexe"><option value="">Choisir</option><option>Homme</option><option>Femme</option></select><label>Origine</label><input name="origine" value="Bassara"><label>Nom du père</label><input name="nom_pere"><label>Nom de la mère</label><input name="nom_mere"><label>Famille</label><input name="famille"></div>
+<div class="box"><h3>👤 Identité</h3><p class="requiredNote">* Champs obligatoires : tous les champs de cette section Identité.</p><label>Nom *</label><input name="nom" required><label>Prénom *</label><input name="prenom" required><label>Date de naissance *</label><input id="date_naissance" name="date_naissance" type="text" required inputmode="numeric" maxlength="10" class="dateInput" autocomplete="bday" placeholder="JJ/MM/AAAA — ex. 01/04/2000"><small>✍️ Écrivez la date ou utilisez le calendrier.</small><input id="date_calendrier" type="date" style="margin-top:6px"><label>Sexe *</label><select id="sexe" name="sexe" required><option value="">Choisir</option><option>Homme</option><option>Femme</option></select><label>Origine *</label><input name="origine" value="Bassara" required><label>Nom du père *</label><input name="nom_pere" required><label>Nom de la mère *</label><input name="nom_mere" required><label>Famille *</label><input name="famille" required></div>
 
 <div class="box"><h3>📍 Résidence</h3><label>Pays de résidence *</label><select id="pays" name="pays" required><option value="">Choisir</option><option>Guinée</option><option>Sénégal</option><option>Mali</option><option>Côte d'Ivoire</option><option>Maroc</option><option>France</option><option>États-Unis</option><option>Espagne</option><option>Autre</option></select><div id="autrePaysBox" class="hidden"><label>Nom du pays</label><input id="autre_pays" name="autre_pays"></div><label>Ville *</label><input id="ville" name="ville" required><label>Zone / quartier</label><input name="zone"><label>Situation familiale</label><select id="statut" name="statut"><option value="">Choisir</option><option>Célibataire</option><option>Marié(e)</option><option>Veuf(ve)</option><option>Autre</option></select></div>
 
@@ -315,8 +334,9 @@ form.addEventListener("submit",async function(e){
         const p={};
         new FormData(form).forEach((v,k)=>p[k]=String(v).trim()||null);
 
-        if(!p.nom || !p.prenom || !p.telephone){
-            throw Error("Les champs Nom, Prénom et Numéro de téléphone sont obligatoires.");
+        if(!p.nom || !p.prenom || !p.date_naissance || !p.sexe || !p.origine ||
+           !p.nom_pere || !p.nom_mere || !p.famille || !p.telephone){
+            throw Error("Tous les champs de la section Identité sont obligatoires : Nom, Prénom, Date de naissance, Sexe, Origine, Nom du père, Nom de la mère et Famille. Le numéro de téléphone est également obligatoire.");
         }
 
         if(p.date_naissance){
