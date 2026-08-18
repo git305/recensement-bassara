@@ -27,6 +27,19 @@ table{width:100%;border-collapse:collapse;min-width:1050px}th,td{padding:12px;te
 .msg{padding:12px;border-radius:10px;margin-top:12px;background:#fff1f1;color:var(--r)}
 @media(max-width:1100px){.stats{grid-template-columns:repeat(3,1fr)}.toolbar{grid-template-columns:repeat(3,1fr)}.ages{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:650px){.stats{grid-template-columns:1fr 1fr}.toolbar{grid-template-columns:1fr 1fr}.ages{grid-template-columns:1fr 1fr}.detail{grid-template-columns:1fr}}
+.actionsCell{display:flex;gap:6px;flex-wrap:wrap}.dupRow{background:#fff8ed!important}.dupBox{border:1px solid #f0b429;background:#fffaf0;color:#7a4b00;padding:14px;border-radius:12px;margin-top:12px}.dupBox strong{color:#8a5700}
+.cardPrint{width:86mm;min-height:54mm;background:#fff;border:2px solid #12365f;border-radius:5mm;padding:6mm;color:#101828}
+.cardPrint .ctop{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #d8e0e8;padding-bottom:3mm;margin-bottom:3mm}
+.cardPrint .brandCard{font-size:18px;font-weight:900;color:#12365f}.cardPrint .smallCard{font-size:9px;color:#667085}
+.cardPrint .nameCard{font-size:20px;font-weight:900;color:#12365f;margin:3mm 0}
+.cardPrint .lineCard{font-size:11px;margin:1.5mm 0}.cardPrint .numCard{font-size:13px;font-weight:900;color:#4f8f2f}
+@media print{
+ @page{size:A4;margin:12mm}
+ body{background:#fff!important}
+ #loginPage,#app>header,#app main>.wrap>div:not(#printArea){display:none!important}
+ #printArea{display:block!important;margin:0!important;padding:0!important}
+ .cardPrint{margin:0 auto 10mm;box-shadow:none;page-break-inside:avoid;break-inside:avoid}
+}
 </style>
 </head>
 <body>
@@ -85,14 +98,32 @@ table{width:100%;border-collapse:collapse;min-width:1050px}th,td{padding:12px;te
 <select id="gender" onchange="render()"><option value="">Tous les sexes</option><option value="Homme">Hommes</option><option value="Femme">Femmes</option></select>
 <button class="btn secondary" onclick="clearFilters()">Réinitialiser</button>
 </div>
+<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
+<button class="btn secondary" onclick="showDuplicates()">⚠️ Voir les doublons</button>
+<button class="btn secondary" onclick="printFilteredCards()">🖨️ Imprimer les cartes filtrées / PDF</button>
+</div>
 <div id="dataMessage"></div>
 <div class="tableWrap"><table><thead><tr><th>N°</th><th>Nom</th><th>Prénom</th><th>Âge</th><th>Sexe</th><th>Résidence</th><th>Pays</th><th>Téléphone</th><th></th></tr></thead><tbody id="tbody"></tbody></table></div>
 </div>
 
 <div id="detailPanel" class="panel hidden">
-<div style="display:flex;justify-content:space-between"><h2>👤 Fiche détaillée</h2><button class="btn secondary" onclick="detailPanel.classList.add('hidden')">Fermer</button></div>
-<div id="detail" class="detail"></div>
+<div style="display:flex;justify-content:space-between;gap:10px;align-items:center">
+<h2>👤 Fiche détaillée</h2>
+<button class="btn secondary" onclick="detailPanel.classList.add('hidden')">Fermer</button>
 </div>
+<div id="detail" class="detail"></div>
+<div id="duplicateInfo"></div>
+</div>
+
+<div id="duplicatePanel" class="panel hidden">
+<div style="display:flex;justify-content:space-between;gap:10px;align-items:center">
+<h2>⚠️ Doublons possibles</h2>
+<button class="btn secondary" onclick="duplicatePanel.classList.add('hidden')">Fermer</button>
+</div>
+<div id="duplicateContent"></div>
+</div>
+
+<div id="printArea" class="hidden"></div>
 </div></main></div>
 
 <script>
@@ -168,15 +199,124 @@ function render(){
  const list=rows.filter(r=>(!q||(String(r.nom||"")+" "+String(r.prenom||"")+" "+String(r.telephone||"")+" "+String(r.numero_recensement||"")).toLowerCase().includes(q))&&(!rt||residence(r)===rt)&&(!cp||pays(r)===cp)&&(!ag||group(age(r))===ag)&&(!g||String(r.sexe||"")===g));
  tbody.innerHTML=list.length?list.map(r=>{
  const i=rows.indexOf(r),a=age(r),res=residence(r),cl=res==="bassara"?"bass":res==="guinee"?"gui":res==="exterieur"?"ext":"";
- return '<tr><td class="num">'+esc(r.numero_recensement)+'</td><td>'+esc(r.nom)+'</td><td>'+esc(r.prenom)+'</td><td>'+esc(a===null?"—":a+" ans")+'</td><td>'+esc(r.sexe)+'</td><td><span class="badge '+cl+'">'+esc(residenceText(r))+'</span></td><td>'+esc(pays(r)||"—")+'</td><td>'+esc(r.telephone||"—")+'</td><td><button class="btn secondary" onclick="showDetail('+i+')">Voir</button></td></tr>'
+ const dup=findDuplicates(r);
+ return '<tr class="'+(dup.length?'dupRow':'')+'"><td class="num">'+esc(r.numero_recensement)+'</td><td>'+esc(r.nom)+'</td><td>'+esc(r.prenom)+'</td><td>'+esc(a===null?"—":a+" ans")+'</td><td>'+esc(r.sexe)+'</td><td><span class="badge '+cl+'">'+esc(residenceText(r))+'</span></td><td>'+esc(pays(r)||"—")+'</td><td>'+esc(r.telephone||"—")+'</td><td class="actionsCell">'+
+ '<button class="btn secondary" onclick="showDetail('+i+')">Voir</button>'+
+ '<button class="btn secondary" onclick="printCard('+i+')">🖨️ Carte</button>'+
+ (dup.length?'<button class="btn secondary" onclick="showDuplicateFor('+i+')">⚠️ Doublon</button>':'')+
+ '</td></tr>'
  }).join(""):'<tr><td colspan="9" style="text-align:center;padding:30px;color:#667085">Aucune personne ne correspond aux filtres.</td></tr>';
 }
+
 function clearFilters(){search.value="";residence.value="";country.value="";ageGroup.value="";gender.value="";render()}
 function showDetail(i){
  const r=rows[i];if(!r)return;const a=age(r);
  const d=[["Nom",r.nom],["Prénom",r.prenom],["Âge",a===null?"Non renseigné":a+" ans"],["Sexe",r.sexe],["Résidence",residenceText(r)],["Pays",pays(r)],["Téléphone",r.telephone],["N° recensement",r.numero_recensement],["Date de naissance",dob(r)],["Ville",r.ville],["Profession",r.profession]];
  detail.innerHTML=d.map(x=>'<div><b>'+esc(x[0])+'</b>'+esc(x[1]??"—")+'</div>').join("");detailPanel.classList.remove("hidden");detailPanel.scrollIntoView({behavior:"smooth"});
 }
+
+function normalizePhone(v){
+ return String(v||"").replace(/\D/g,"");
+}
+function norm(v){
+ return String(v||"").trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+}
+function parentKey(r){
+ const pere=norm(r.nom_pere||r.pere||r.nom_du_pere||"");
+ const mere=norm(r.nom_mere||r.mere||r.nom_de_la_mere||"");
+ return pere+"|"+mere;
+}
+function duplicateKey(r){
+ const phone=normalizePhone(r.telephone);
+ const birth=String(dob(r)||"").slice(0,10);
+ const parents=parentKey(r);
+ const nom=norm(r.nom),prenom=norm(r.prenom);
+ return {phone,birth,parents,nom,prenom};
+}
+function findDuplicates(r){
+ const k=duplicateKey(r);
+ return rows.filter(x=>{
+   if(x===r)return false;
+   const a=duplicateKey(x);
+   // Même téléphone : doublon probable.
+   if(k.phone && a.phone && k.phone===a.phone)return true;
+   // Même nom + prénom + date de naissance + parents : doublon très probable.
+   if(k.nom&&k.prenom&&k.birth&&a.nom===k.nom&&a.prenom===k.prenom&&a.birth===k.birth&&k.parents===a.parents)return true;
+   // Même nom + prénom + date de naissance, même si les parents ne sont pas renseignés.
+   if(k.nom&&k.prenom&&k.birth&&a.nom===k.nom&&a.prenom===k.prenom&&a.birth===k.birth)return true;
+   return false;
+ });
+}
+function duplicateReason(a,b){
+ const reasons=[];
+ const pa=normalizePhone(a.telephone),pb=normalizePhone(b.telephone);
+ if(pa&&pb&&pa===pb) reasons.push("même téléphone");
+ const ba=String(dob(a)||"").slice(0,10),bb=String(dob(b)||"").slice(0,10);
+ if(ba&&bb&&ba===bb&&norm(a.nom)===norm(b.nom)&&norm(a.prenom)===norm(b.prenom)) reasons.push("même nom, prénom et date de naissance");
+ const p1=parentKey(a),p2=parentKey(b);
+ if(p1&&p1!=="|"&&p1===p2) reasons.push("mêmes informations des parents");
+ return reasons.join(" + ")||"informations similaires";
+}
+function showDuplicateFor(i){
+ const r=rows[i], matches=findDuplicates(r);
+ duplicateContent.innerHTML=matches.length
+ ? '<div class="dupBox"><strong>⚠️ Doublon possible</strong><p>'+esc(r.nom||"")+" "+esc(r.prenom||"")+' semble correspondre à '+matches.length+' autre(s) inscription(s).</p>'+
+ matches.map(x=>'<div style="background:#fff;padding:10px;border-radius:9px;margin-top:8px"><b>'+esc(x.nom||"")+" "+esc(x.prenom||"")+'</b> — N° '+esc(x.numero_recensement||"—")+' — '+esc(x.telephone||"—")+'<br><small>'+esc(duplicateReason(r,x))+'</small></div>').join("")+'</div>'
+ : '<div class="ok">Aucun doublon détecté pour cette personne.</div>';
+ duplicatePanel.classList.remove("hidden");
+ duplicatePanel.scrollIntoView({behavior:"smooth"});
+}
+function showDuplicates(){
+ const groups=[],seen=new Set();
+ rows.forEach((r,i)=>{
+   if(seen.has(i))return;
+   const matches=findDuplicates(r);
+   if(matches.length){
+     const indices=[i,...matches.map(x=>rows.indexOf(x))].sort((a,b)=>a-b);
+     indices.forEach(x=>seen.add(x));
+     groups.push(indices);
+   }
+ });
+ if(!groups.length){
+   duplicateContent.innerHTML='<div class="ok">✅ Aucun doublon possible détecté.</div>';
+ }else{
+   duplicateContent.innerHTML='<p><b>'+groups.length+'</b> groupe(s) de doublons possibles.</p>'+
+   groups.map((ids,n)=>{
+     const first=rows[ids[0]];
+     return '<div class="dupBox"><strong>Groupe '+(n+1)+'</strong>'+
+       ids.map(i=>{const r=rows[i];return '<div style="background:#fff;padding:10px;border-radius:9px;margin-top:8px"><b>'+esc(r.nom||"")+" "+esc(r.prenom||"")+'</b> — N° '+esc(r.numero_recensement||"—")+' — '+esc(r.telephone||"—")+' — '+esc(age(r)===null?"âge non renseigné":age(r)+" ans")+'<br><small>'+esc(duplicateReason(first,r))+'</small></div>'}).join("")+
+       '</div>';
+   }).join("");
+ }
+ duplicatePanel.classList.remove("hidden");
+ duplicatePanel.scrollIntoView({behavior:"smooth"});
+}
+function cardHTML(r){
+ const a=age(r);
+ return '<div class="cardPrint"><div class="ctop"><div class="brandCard">BASSARA</div><div class="smallCard">RECENSEMENT 2026</div></div>'+
+ '<div class="nameCard">'+esc((r.nom||"")+" "+(r.prenom||""))+'</div>'+
+ '<div class="lineCard"><b>N° :</b> <span class="numCard">'+esc(r.numero_recensement||"—")+'</span></div>'+
+ '<div class="lineCard"><b>Âge :</b> '+esc(a===null?"—":a+" ans")+' &nbsp; <b>Sexe :</b> '+esc(r.sexe||"—")+'</div>'+
+ '<div class="lineCard"><b>Résidence :</b> '+esc(residenceText(r))+'</div>'+
+ '<div class="lineCard"><b>Pays :</b> '+esc(pays(r)||"—")+'</div>'+
+ '<div class="lineCard"><b>Téléphone :</b> '+esc(r.telephone||"—")+'</div></div>';
+}
+function printCard(i){
+ const r=rows[i];if(!r)return;
+ printArea.innerHTML=cardHTML(r);
+ printArea.classList.remove("hidden");
+ document.body.classList.add("printing");
+ setTimeout(()=>{window.print();setTimeout(()=>{printArea.classList.add("hidden");document.body.classList.remove("printing")},300)},100);
+}
+function printFilteredCards(){
+ const q=search.value.toLowerCase().trim(),rt=residence.value,cp=country.value,ag=ageGroup.value,g=gender.value;
+ const list=rows.filter(r=>(!q||(String(r.nom||"")+" "+String(r.prenom||"")+" "+String(r.telephone||"")+" "+String(r.numero_recensement||"")).toLowerCase().includes(q))&&(!rt||residence(r)===rt)&&(!cp||pays(r)===cp)&&(!ag||group(age(r))===ag)&&(!g||String(r.sexe||"")===g));
+ if(!list.length){alert("Aucune personne ne correspond aux filtres.");return}
+ printArea.innerHTML=list.map(cardHTML).join('<div style="page-break-after:always"></div>');
+ printArea.classList.remove("hidden");
+ setTimeout(()=>{window.print();setTimeout(()=>printArea.classList.add("hidden"),300)},100);
+}
+
 function exportCSV(){
  if(!rows.length){alert("Aucune donnée à exporter.");return}
  const keys=[...new Set(rows.flatMap(r=>Object.keys(r)))];
