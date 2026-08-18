@@ -331,14 +331,18 @@ form.addEventListener("submit",async function(e){
         p.consentement=true;
         p.contact_partage_autorise=$("contact_partage_autorise").checked;
 
-        const {data,error}=await db.from("ressortissants")
-            .insert([p])
-            .select("numero_recensement")
-            .single();
+        // Important :
+        // On ne demande PAS .select() après l'insertion.
+        // La lecture SELECT est volontairement protégée pour les visiteurs.
+        // Avec .select().single(), Supabase tentait de relire la ligne
+        // avec le rôle anon et déclenchait une erreur RLS.
+        const {error}=await db.from("ressortissants")
+            .insert([p]);
 
         if(error)throw error;
 
-        const numero=data?.numero_recensement||p.numero_recensement;
+        // Le numéro est déjà généré avant l'insertion.
+        const numero=p.numero_recensement;
         currentCard={numero:numero,nom:p.nom,prenom:p.prenom};
 
         msg.innerHTML=`<div class="success">
