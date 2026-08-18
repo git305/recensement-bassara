@@ -18,7 +18,7 @@ header{position:sticky;top:0;z-index:10;background:#fff;border-bottom:1px solid 
 .section{padding:55px 0}.head h2{font-size:34px;color:var(--b)}.head p{color:#344054}
 .counters{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.counter,.card,.box{background:white;border:1px solid var(--bd);border-radius:17px;padding:22px}.counter{text-align:center}.number{font-size:42px;font-weight:900;color:var(--g)}
 .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}.formGrid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.full{grid-column:1/-1}
-label{display:block;font-size:13px;font-weight:bold;margin:12px 0 5px}input,select,textarea{width:100%;padding:12px;border:1px solid #98a2b3;border-radius:10px}textarea{min-height:95px}
+label{display:block;font-size:13px;font-weight:bold;margin:12px 0 5px}input,select,textarea{width:100%;padding:12px;border:1px solid #98a2b3;border-radius:10px}textarea{min-height:95px}.dateInput{letter-spacing:1px;font-variant-numeric:tabular-nums}
 .situationBox,.accessBox{background:#f8fbff;border:2px solid #d6e4f2;border-radius:18px;padding:20px;margin-bottom:20px}.situationGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .situationChoice,.visualChoice{background:white;border:2px solid var(--bd);border-radius:15px;padding:16px;cursor:pointer;color:var(--b);font-weight:bold}.situationChoice.active,.visualChoice.active{border-color:var(--g);background:#eef7e9}
 .visualGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.visualChoice{text-align:center;min-height:90px}.ico{display:block;font-size:30px}
@@ -34,7 +34,7 @@ footer{background:#0e2540;color:#dbe6f2;padding:40px 0}.foot{display:grid;grid-t
 
 <header><div class="wrap nav">
 <a class="brand" href="#accueil"><span class="mark">B</span><span>BASSARA<br><small>RECENSEMENT 2026</small></span></a>
-<nav class="links"><a href="#objectif">Objectif</a><a href="#inscription">S'inscrire</a><a href="#confidentialite">Confidentialité</a><a class="btn green" href="#inscription">📝 Je participe</a></nav>
+<nav class="links"><a href="#objectif">Objectif</a><a href="#inscription">S'inscrire</a><a href="#aide">Aide</a><a href="#confidentialite">Confidentialité</a><a class="btn green" href="#inscription">📝 Je participe</a></nav>
 <button class="menu" onclick="document.getElementById('mobileMenu').classList.toggle('hidden')">☰</button>
 </div></header>
 
@@ -89,7 +89,7 @@ footer{background:#0e2540;color:#dbe6f2;padding:40px 0}.foot{display:grid;grid-t
 </div></div>
 
 <form id="recensementForm" class="formGrid">
-<div class="box"><h3>👤 Identité</h3><label>Nom *</label><input name="nom" required><label>Prénom *</label><input name="prenom" required><label>Date de naissance (facultative)</label><input id="date_naissance" name="date_naissance" type="text" inputmode="numeric" placeholder="JJ/MM/AAAA — ex. 01/04/2000"><small>✍️ Écrivez la date ou utilisez le calendrier.</small><input id="date_calendrier" type="date" style="margin-top:6px"><label>Sexe</label><select id="sexe" name="sexe"><option value="">Choisir</option><option>Homme</option><option>Femme</option></select><label>Origine</label><input name="origine" value="Bassara"><label>Nom du père</label><input name="nom_pere"><label>Nom de la mère</label><input name="nom_mere"><label>Famille</label><input name="famille"></div>
+<div class="box"><h3>👤 Identité</h3><label>Nom *</label><input name="nom" required><label>Prénom *</label><input name="prenom" required><label>Date de naissance (facultative)</label><input id="date_naissance" name="date_naissance" type="text" inputmode="numeric" maxlength="10" class="dateInput" autocomplete="bday" placeholder="JJ/MM/AAAA — ex. 01/04/2000"><small>✍️ Écrivez la date ou utilisez le calendrier.</small><input id="date_calendrier" type="date" style="margin-top:6px"><label>Sexe</label><select id="sexe" name="sexe"><option value="">Choisir</option><option>Homme</option><option>Femme</option></select><label>Origine</label><input name="origine" value="Bassara"><label>Nom du père</label><input name="nom_pere"><label>Nom de la mère</label><input name="nom_mere"><label>Famille</label><input name="famille"></div>
 
 <div class="box"><h3>📍 Résidence</h3><label>Pays de résidence *</label><select id="pays" name="pays" required><option value="">Choisir</option><option>Guinée</option><option>Sénégal</option><option>Mali</option><option>Côte d'Ivoire</option><option>Maroc</option><option>France</option><option>États-Unis</option><option>Espagne</option><option>Autre</option></select><div id="autrePaysBox" class="hidden"><label>Nom du pays</label><input id="autre_pays" name="autre_pays"></div><label>Ville *</label><input id="ville" name="ville" required><label>Zone / quartier</label><input name="zone"><label>Situation familiale</label><select id="statut" name="statut"><option value="">Choisir</option><option>Célibataire</option><option>Marié(e)</option><option>Veuf(ve)</option><option>Autre</option></select></div>
 
@@ -99,6 +99,24 @@ footer{background:#0e2540;color:#dbe6f2;padding:40px 0}.foot{display:grid;grid-t
 
 <div class="box full"><label class="check"><input id="contact_partage_autorise" type="checkbox"><span>J'accepte que mon téléphone/WhatsApp puisse être partagé uniquement avec les responsables autorisés du recensement.</span></label><label class="check"><input id="consentement" type="checkbox" required><span>J'accepte que mes informations soient enregistrées dans la base du recensement de Bassara et utilisées uniquement pour les objectifs du projet. *</span></label><button id="submitButton" class="btn green" type="submit" style="width:100%;font-size:17px">✅ Enregistrer mon inscription</button><p>Les inscriptions sont enregistrées dans la base centrale sécurisée.</p><div id="message"></div></div>
 </form></div></section>
+
+
+<section id="aide" class="section">
+<div class="wrap">
+<div class="head">
+<h2>📞 Besoin d'aide ?</h2>
+<p>Vous avez une difficulté pour vous inscrire ou télécharger votre carte de recensement ?</p>
+</div>
+<div class="card" style="text-align:center;max-width:760px;margin:auto">
+<h3 style="color:#12365f;font-size:28px">📱 Assistance recensement</h3>
+<p style="font-size:24px;font-weight:900;color:#4f8f2f">
+<a href="tel:+224628011821" style="color:#4f8f2f;text-decoration:none">00224 628 01 18 21</a>
+</p>
+<p>Notre équipe peut vous accompagner pour l'inscription, la vérification du numéro de recensement et le téléchargement de la carte.</p>
+<a class="btn blue" href="tel:+224628011821">📞 Appeler l'assistance</a>
+</div>
+</div>
+</section>
 
 <section id="confidentialite" class="section"><div class="wrap"><div class="head"><h2>🔐 Confidentialité</h2><p>Les informations personnelles sont enregistrées dans la base centrale du recensement.</p><p>Aucune recherche publique des personnes recensées n'est disponible sur cette page.</p><p>L'accès complet aux données sera réservé à l'espace administrateur sécurisé.</p></div></div></section>
 
@@ -146,11 +164,51 @@ document.querySelectorAll(".visualChoice").forEach(b=>{
 
 const calendar=$("date_calendrier");
 const dateText=$("date_naissance");
+
 if(calendar && dateText){
+
     calendar.addEventListener("change",function(){
         if(this.value){
             const [y,m,d]=this.value.split("-");
             dateText.value=d+"/"+m+"/"+y;
+        }
+    });
+
+    // Saisie automatique : 01 -> 01/ -> 01/04/ -> 01/04/2000
+    dateText.addEventListener("input",function(){
+
+        let value=this.value;
+
+        // Garder uniquement les chiffres
+        let digits=value.replace(/\\D/g,"").slice(0,8);
+
+        let formatted="";
+
+        if(digits.length<=2){
+            formatted=digits;
+        }
+        else if(digits.length<=4){
+            formatted=digits.slice(0,2)+"/"+digits.slice(2);
+        }
+        else{
+            formatted=digits.slice(0,2)+"/"+digits.slice(2,4)+"/"+digits.slice(4,8);
+        }
+
+        this.value=formatted;
+    });
+
+    // Permet d'entrer directement une date et vérifie le format.
+    dateText.addEventListener("blur",function(){
+
+        if(!this.value.trim()) return;
+
+        const normalized=dateOK(this.value);
+
+        if(!normalized){
+            this.setCustomValidity("Date invalide. Utilisez JJ/MM/AAAA.");
+            this.reportValidity();
+        }else{
+            this.setCustomValidity("");
         }
     });
 }
@@ -176,11 +234,29 @@ function esc(x){
 
 function dateOK(x){
     if(!x)return null;
-    const m=x.trim().match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+
+    const cleaned=x.trim().replace(/\\s/g,"");
+    const m=cleaned.match(/^(\\d{1,2})\\/(\\d{1,2})\\/(\\d{4})$/);
+
     if(!m)return null;
-    const d=new Date(+m[3],+m[2]-1,+m[1]);
-    if(d.getFullYear()!=+m[3]||d.getMonth()!=+m[2]-1||d.getDate()!=+m[1])return null;
-    return m[3]+"-"+m[2]+"-"+m[1];
+
+    const day=Number(m[1]);
+    const month=Number(m[2]);
+    const year=Number(m[3]);
+
+    const d=new Date(year,month-1,day);
+
+    if(
+        d.getFullYear()!==year ||
+        d.getMonth()!==month-1 ||
+        d.getDate()!==day
+    ){
+        return null;
+    }
+
+    return String(year).padStart(4,"0")+"-"+
+           String(month).padStart(2,"0")+"-"+
+           String(day).padStart(2,"0");
 }
 
 async function updateCounters(){
@@ -262,9 +338,13 @@ form.addEventListener("submit",async function(e){
         const numero=data?.numero_recensement||p.numero_recensement;
         currentCard={numero:numero,nom:p.nom,prenom:p.prenom};
 
-        msg.innerHTML='<div class="success"><strong>✅ Inscription enregistrée avec succès.</strong><p>Votre numéro de recensement :</p><div class="recNumber">'+esc(numero)+'</div><div class="cardPreview"><strong>🪪 Carte de recensement</strong><p><strong>'+esc(p.nom)+" "+esc(p.prenom)+'</strong></p><p>Année : <strong>2026</strong></p><button type="button" class="btn green" id="downloadCardButton">📥 Télécharger ma carte</button></div><p>Conservez précieusement cette carte.</p></div>';
+        msg.innerHTML='<div class="success"><strong>✅ Inscription enregistrée avec succès.</strong><p>Votre numéro de recensement :</p><div class="recNumber">'+esc(numero)+'</div><div class="cardPreview"><strong>🪪 Carte de recensement</strong><p><strong>'+esc(p.nom)+" "+esc(p.prenom)+'</strong></p><p>Année : <strong>2026</strong></p><div style="display:flex;gap:10px;flex-wrap:wrap">
+<button type="button" class="btn green" id="downloadCardButton">📥 Télécharger ma carte</button>
+<button type="button" class="btn blue" id="printCardButton">🖨️ Imprimer / PDF</button>
+</div>
+<p style="font-size:13px;margin-top:12px">💡 Sur téléphone, si le téléchargement direct ne fonctionne pas, utilisez « Imprimer / PDF » puis choisissez « Enregistrer au format PDF ».</p></div><p>Conservez précieusement cette carte.</p></div>';
 
-        $("downloadCardButton").addEventListener("click",downloadCard);
+        $("downloadCardButton").addEventListener("click",downloadCard); const pb=$("printCardButton"); if(pb) pb.addEventListener("click",printCard);
 
         form.reset();
         $("situation_bassara").value="";
@@ -284,52 +364,34 @@ form.addEventListener("submit",async function(e){
 });
 }
 
-function downloadCard(){
-    if(!currentCard){
-        alert("Les informations de la carte sont introuvables.");
-        return;
-    }
+function buildCardCanvas(){
+    if(!currentCard) throw new Error("Carte introuvable.");
 
     const canvas=document.createElement("canvas");
     canvas.width=1800;
     canvas.height=1100;
     const ctx=canvas.getContext("2d");
+    ctx.imageSmoothingEnabled=true;
 
     ctx.fillStyle="#e9eef4";
     ctx.fillRect(0,0,1800,1100);
 
     ctx.fillStyle="#fff";
-    ctx.beginPath();
-    ctx.roundRect(45,45,1710,1010,38);
-    ctx.fill();
+    ctx.beginPath(); ctx.roundRect(45,45,1710,1010,38); ctx.fill();
 
     ctx.fillStyle="#12365f";
-    ctx.beginPath();
-    ctx.roundRect(45,45,1710,245,38);
-    ctx.fill();
+    ctx.beginPath(); ctx.roundRect(45,45,1710,245,38); ctx.fill();
     ctx.fillRect(45,200,1710,90);
 
-    const logo=new Image();
-
-    logo.onload=function(){
-        ctx.fillStyle="#fff";
-        ctx.beginPath();
-        ctx.roundRect(1490,65,230,200,18);
-        ctx.fill();
-
-        ctx.drawImage(logo,1505,75,200,180);
-
+    const drawText=()=>{
         ctx.textAlign="left";
         ctx.fillStyle="#fff";
         ctx.font="bold 43px Arial";
         ctx.fillText("RÉPUBLIQUE DE GUINÉE",115,115);
-
         ctx.font="bold 27px Arial";
         ctx.fillText("TRAVAIL — JUSTICE — SOLIDARITÉ",115,160);
-
         ctx.font="bold 31px Arial";
         ctx.fillText("CARTE DE RECENSEMENT COMMUNAUTAIRE",115,215);
-
         ctx.font="bold 27px Arial";
         ctx.fillText("BASSARA — 2026",115,260);
 
@@ -338,32 +400,17 @@ function downloadCard(){
         ctx.fillText("LOCALISATION ADMINISTRATIVE",110,350);
 
         ctx.fillStyle="#101828";
-        ctx.font="bold 25px Arial";
-        ctx.fillText("Région :",110,405);
-        ctx.font="25px Arial";
-        ctx.fillText("Labé",305,405);
+        ctx.font="bold 25px Arial"; ctx.fillText("Région :",110,405);
+        ctx.font="25px Arial"; ctx.fillText("Labé",305,405);
+        ctx.font="bold 25px Arial"; ctx.fillText("Préfecture :",110,450);
+        ctx.font="25px Arial"; ctx.fillText("Koubia",305,450);
+        ctx.font="bold 25px Arial"; ctx.fillText("Sous-préfecture :",110,495);
+        ctx.font="25px Arial"; ctx.fillText("Fafaya",365,495);
+        ctx.font="bold 25px Arial"; ctx.fillText("District :",110,540);
+        ctx.font="25px Arial"; ctx.fillText("Bassara",305,540);
 
-        ctx.font="bold 25px Arial";
-        ctx.fillText("Préfecture :",110,450);
-        ctx.font="25px Arial";
-        ctx.fillText("Koubia",305,450);
-
-        ctx.font="bold 25px Arial";
-        ctx.fillText("Sous-préfecture :",110,495);
-        ctx.font="25px Arial";
-        ctx.fillText("Fafaya",365,495);
-
-        ctx.font="bold 25px Arial";
-        ctx.fillText("District :",110,540);
-        ctx.font="25px Arial";
-        ctx.fillText("Bassara",305,540);
-
-        ctx.strokeStyle="#cbd5e1";
-        ctx.lineWidth=2;
-        ctx.beginPath();
-        ctx.moveTo(110,585);
-        ctx.lineTo(1690,585);
-        ctx.stroke();
+        ctx.strokeStyle="#cbd5e1"; ctx.lineWidth=2;
+        ctx.beginPath(); ctx.moveTo(110,585); ctx.lineTo(1690,585); ctx.stroke();
 
         ctx.fillStyle="#12365f";
         ctx.font="bold 29px Arial";
@@ -375,17 +422,11 @@ function downloadCard(){
 
         ctx.font="bold 25px Arial";
         ctx.fillText("Origine : Bassara",110,765);
-
         ctx.fillText("Année du recensement : 2026",110,815);
 
         ctx.fillStyle="#eff8e9";
-        ctx.beginPath();
-        ctx.roundRect(980,625,650,205,22);
-        ctx.fill();
-
-        ctx.strokeStyle="#4f8f2f";
-        ctx.lineWidth=3;
-        ctx.stroke();
+        ctx.beginPath(); ctx.roundRect(980,625,650,205,22); ctx.fill();
+        ctx.strokeStyle="#4f8f2f"; ctx.lineWidth=3; ctx.stroke();
 
         ctx.fillStyle="#4f8f2f";
         ctx.font="bold 27px Arial";
@@ -399,37 +440,139 @@ function downloadCard(){
         ctx.font="21px Arial";
         ctx.fillText("Conservez cette carte précieusement.",1020,800);
 
-        // Footer très contrasté.
         ctx.fillStyle="#12365f";
         ctx.fillRect(45,900,1710,155);
 
         ctx.fillStyle="#fff";
         ctx.font="bold 30px Arial";
         ctx.fillText("B",90,970);
-
         ctx.font="bold 29px Arial";
         ctx.fillText("Recensement communautaire de Bassara",155,955);
-
         ctx.font="22px Arial";
         ctx.fillText("Carte de preuve d'enregistrement — Année 2026",155,1000);
-
         ctx.textAlign="right";
         ctx.font="bold 20px Arial";
         ctx.fillText("AJBD — Association des Jeunes de Bassara pour le Développement",1710,1030);
-
-        const a=document.createElement("a");
-        a.download="Carte-Recensement-"+currentCard.numero+".png";
-        a.href=canvas.toDataURL("image/png");
-        a.click();
+        ctx.textAlign="left";
     };
 
-    logo.onerror=function(){
-        alert("Le logo AJBD ne peut pas être chargé.");
-    };
-
-    logo.src=AJBD_LOGO;
+    return {canvas,ctx,drawText};
 }
 
+function downloadCard(){
+    if(!currentCard){ alert("Les informations de la carte sont introuvables."); return; }
+
+    try{
+        const {canvas,ctx,drawText}=buildCardCanvas();
+        const logo=new Image();
+
+        logo.onload=function(){
+            ctx.fillStyle="#fff";
+            ctx.beginPath(); ctx.roundRect(1490,65,230,200,18); ctx.fill();
+            ctx.drawImage(logo,1505,75,200,180);
+            drawText();
+
+            canvas.toBlob(function(blob){
+                if(!blob){
+                    alert("Le téléchargement n'a pas pu être préparé. Utilisez « Imprimer / PDF ».");
+                    return;
+                }
+
+                const url=URL.createObjectURL(blob);
+                const a=document.createElement("a");
+                a.href=url;
+                a.download="Carte-Recensement-"+currentCard.numero+".png";
+                a.style.display="none";
+                document.body.appendChild(a);
+                a.click();
+
+                setTimeout(()=>{
+                    URL.revokeObjectURL(url);
+                    a.remove();
+                },1500);
+            },"image/png");
+        };
+
+        logo.onerror=function(){
+            drawText();
+            canvas.toBlob(function(blob){
+                const url=URL.createObjectURL(blob);
+                const a=document.createElement("a");
+                a.href=url;
+                a.download="Carte-Recensement-"+currentCard.numero+".png";
+                document.body.appendChild(a);
+                a.click();
+                setTimeout(()=>{URL.revokeObjectURL(url);a.remove()},1500);
+            },"image/png");
+        };
+
+        logo.src=AJBD_LOGO;
+    }catch(e){
+        console.error(e);
+        alert("Le téléchargement a rencontré un problème. Utilisez « Imprimer / PDF ».");
+    }
+}
+
+function printCard(){
+    if(!currentCard){ alert("Les informations de la carte sont introuvables."); return; }
+
+    try{
+        const {canvas,ctx,drawText}=buildCardCanvas();
+        const logo=new Image();
+
+        logo.onload=function(){
+            ctx.fillStyle="#fff";
+            ctx.beginPath(); ctx.roundRect(1490,65,230,200,18); ctx.fill();
+            ctx.drawImage(logo,1505,75,200,180);
+            drawText();
+            openPrintWindow(canvas.toDataURL("image/png"));
+        };
+
+        logo.onerror=function(){
+            drawText();
+            openPrintWindow(canvas.toDataURL("image/png"));
+        };
+
+        logo.src=AJBD_LOGO;
+    }catch(e){
+        console.error(e);
+        alert("Impossible de préparer l'impression.");
+    }
+}
+
+function openPrintWindow(imageData){
+    const w=window.open("","_blank");
+    if(!w){
+        alert("Le navigateur bloque la fenêtre d'impression. Autorisez les fenêtres pour ce site puis réessayez.");
+        return;
+    }
+
+    w.document.open();
+    w.document.write(`
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Carte de recensement ${esc(currentCard.numero)}</title>
+<style>
+body{margin:0;padding:20px;background:#fff;text-align:center;font-family:Arial}
+img{max-width:100%;height:auto}
+@media print{body{padding:0}img{width:100%;max-width:1800px}}
+</style>
+</head>
+<body>
+<img src="${imageData}" alt="Carte de recensement">
+\x3Cscript>window.onload=function(){setTimeout(function(){window.print()},400)}\x3C/script>
+</body>
+</html>`);
+    w.document.close();
+}
+
+const downloadBtn=$("downloadCardButton");
+if(downloadBtn) downloadBtn.addEventListener("click",downloadCard);
+
+const printBtn=$("printCardButton");
+if(printBtn) printBtn.addEventListener("click",printCard);
 });
 </script>
 
