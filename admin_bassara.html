@@ -4,77 +4,96 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#12365f">
-<title>Bassara — Administration</title>
+<title>Bassara — Administration 2026</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-:root{--blue:#12365f;--green:#4f8f2f;--bg:#f3f6fa;--text:#101828;--muted:#667085;--border:#d8e0e8;--danger:#b42318}
-*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:var(--bg);color:var(--text)}
-button,input,select{font:inherit}.hidden{display:none!important}.wrap{width:min(1200px,94%);margin:auto}
-.login{min-height:100vh;display:grid;place-items:center;padding:20px}.loginBox{width:min(430px,100%);background:#fff;padding:32px;border-radius:20px;border:1px solid var(--border);box-shadow:0 15px 40px #12365f18}.logo{width:55px;height:55px;background:var(--blue);color:#fff;border-radius:15px;display:grid;place-items:center;font-size:28px;font-weight:900}
-h1,h2,h3{color:var(--blue)}label{display:block;font-size:13px;font-weight:800;margin:15px 0 6px}input{width:100%;padding:13px;border:1px solid #98a2b3;border-radius:10px}.btn{border:0;border-radius:10px;padding:12px 17px;font-weight:800;cursor:pointer}.primary{background:var(--green);color:#fff}.secondary{background:#edf3f8;color:var(--blue)}.danger{background:#fee4e2;color:var(--danger)}
-header{background:#fff;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:10}.nav{min-height:70px;display:flex;align-items:center;justify-content:space-between;gap:15px}.brand{display:flex;align-items:center;gap:10px;color:var(--blue);font-weight:900}.miniLogo{width:42px;height:42px;background:var(--blue);color:#fff;border-radius:11px;display:grid;place-items:center;font-weight:900}
-main{padding:30px 0}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}.stat{background:#fff;border:1px solid var(--border);border-radius:15px;padding:20px}.stat span{color:var(--muted);font-size:13px;font-weight:700}.stat strong{display:block;font-size:30px;color:var(--blue);margin-top:5px}
-.panel{background:#fff;border:1px solid var(--border);border-radius:17px;padding:20px;margin-top:20px}.toolbar{display:grid;grid-template-columns:1fr 180px 180px auto;gap:10px}.toolbar input,.toolbar select{width:100%;padding:12px;border:1px solid #98a2b3;border-radius:10px;background:#fff}
-.tableWrap{overflow:auto;margin-top:18px}table{width:100%;border-collapse:collapse;min-width:850px}th,td{text-align:left;padding:12px;border-bottom:1px solid #eaecf0;font-size:13px;vertical-align:top}th{background:#f8fafc;color:var(--blue);position:sticky;top:0}.num{font-weight:900;color:var(--green)}
-.detail{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.detail div{padding:12px;background:#f8fafc;border-radius:10px}.detail b{display:block;font-size:11px;color:var(--muted);margin-bottom:3px}.msg{padding:12px;border-radius:10px;margin-top:12px;background:#fff1f1;color:var(--danger)}.ok{background:#eef7e9;color:#3f6e2d}
-@media(max-width:800px){.stats{grid-template-columns:1fr 1fr}.toolbar{grid-template-columns:1fr 1fr}.detail{grid-template-columns:1fr}}
+:root{--b:#12365f;--g:#4f8f2f;--bg:#f3f6fa;--t:#101828;--m:#667085;--bd:#d8e0e8;--r:#b42318}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:var(--t)}
+.wrap{width:min(1250px,94%);margin:auto}.hidden{display:none!important}
+.login{min-height:100vh;display:grid;place-items:center;padding:20px}.loginBox,.panel,.stat{background:#fff;border:1px solid var(--bd);border-radius:18px}
+.loginBox{width:min(430px,100%);padding:32px;box-shadow:0 15px 40px #12365f18}
+.logo,.mini{background:var(--b);color:#fff;display:grid;place-items:center;font-weight:900;border-radius:14px}
+.logo{width:58px;height:58px;font-size:30px}.mini{width:42px;height:42px}
+h1,h2,h3{color:var(--b)}label{display:block;font-size:13px;font-weight:800;margin:15px 0 6px}
+input,select{width:100%;padding:12px;border:1px solid #98a2b3;border-radius:10px;background:#fff}
+.btn{border:0;border-radius:10px;padding:12px 16px;font-weight:800;cursor:pointer}.primary{background:var(--g);color:#fff}.secondary{background:#edf3f8;color:var(--b)}
+header{background:#fff;border-bottom:1px solid var(--bd);position:sticky;top:0;z-index:10}.nav{min-height:70px;display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{display:flex;align-items:center;gap:10px;color:var(--b);font-weight:900}
+main{padding:28px 0}.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}.stat{padding:16px}.stat span{display:block;color:var(--m);font-size:12px;font-weight:700}.stat strong{display:block;color:var(--b);font-size:28px;margin-top:5px}
+.panel{padding:20px;margin-top:18px}.toolbar{display:grid;grid-template-columns:1.5fr repeat(4,1fr) auto;gap:9px}.tableWrap{overflow:auto;margin-top:18px}
+table{width:100%;border-collapse:collapse;min-width:1050px}th,td{padding:12px;text-align:left;border-bottom:1px solid #eaecf0;font-size:13px}th{color:var(--b);background:#f8fafc}.num{font-weight:900;color:var(--g)}
+.badge{display:inline-block;padding:5px 8px;border-radius:999px;background:#edf3f8;color:var(--b);font-weight:800;font-size:11px}.bass{background:#eef7e9;color:#3f6e2d}.ext{background:#fff4e5;color:#9a6700}.gui{background:#eaf2ff;color:#175cd3}
+.ages{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}.age{background:#f8fafc;border-radius:12px;padding:12px;text-align:center}.age strong{display:block;font-size:22px;color:var(--b)}
+.detail{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.detail div{background:#f8fafc;padding:11px;border-radius:10px}.detail b{display:block;font-size:11px;color:var(--m)}
+.msg{padding:12px;border-radius:10px;margin-top:12px;background:#fff1f1;color:var(--r)}
+@media(max-width:1100px){.stats{grid-template-columns:repeat(3,1fr)}.toolbar{grid-template-columns:repeat(3,1fr)}.ages{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:650px){.stats{grid-template-columns:1fr 1fr}.toolbar{grid-template-columns:1fr 1fr}.ages{grid-template-columns:1fr 1fr}.detail{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 
-<div id="loginPage" class="login">
-<div class="loginBox">
-<div class="logo">B</div>
-<h1>Administration Bassara</h1>
-<p>Connectez-vous avec le compte administrateur existant.</p>
+<div id="loginPage" class="login"><div class="loginBox">
+<div class="logo">B</div><h1>Administration Bassara</h1>
+<p>Connectez-vous avec le compte administrateur.</p>
 <form id="loginForm">
-<label>Email</label><input id="email" type="email" autocomplete="username" required>
-<label>Mot de passe</label><input id="password" type="password" autocomplete="current-password" required>
+<label for="email">Email</label><input id="email" type="email" autocomplete="username" required>
+<label for="password">Mot de passe</label><input id="password" type="password" autocomplete="current-password" required>
 <button id="loginBtn" class="btn primary" style="width:100%;margin-top:20px">🔐 Se connecter</button>
-</form>
-<div id="loginMessage"></div>
-</div>
-</div>
+</form><div id="loginMessage"></div>
+</div></div>
 
 <div id="app" class="hidden">
 <header><div class="wrap nav">
-<div class="brand"><span class="miniLogo">B</span><span>BASSARA<br><small>ADMINISTRATION</small></span></div>
-<div><span id="adminEmail" style="margin-right:10px;color:#667085;font-size:13px"></span><button class="btn secondary" onclick="logout()">🚪 Déconnexion</button></div>
+<div class="brand"><span class="mini">B</span><span>BASSARA<br><small>ADMINISTRATION 2026</small></span></div>
+<div><span id="adminEmail" style="color:#667085;margin-right:10px"></span><button class="btn secondary" onclick="logout()">🚪 Déconnexion</button></div>
 </div></header>
 
 <main><div class="wrap">
-<h1>📊 Tableau de bord</h1>
+<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+<div><h1>📊 Tableau de bord</h1><p style="color:#667085">Résidence, pays et âge des personnes recensées.</p></div>
+<button class="btn secondary" onclick="loadData()">🔄 Actualiser</button>
+</div>
+
 <div class="stats">
-<div class="stat"><span>Total des recensés</span><strong id="total">0</strong></div>
-<div class="stat"><span>Hommes</span><strong id="hommes">0</strong></div>
-<div class="stat"><span>Femmes</span><strong id="femmes">0</strong></div>
-<div class="stat"><span>Pays représentés</span><strong id="paysCount">0</strong></div>
+<div class="stat"><span>👥 Total recensé</span><strong id="total">0</strong></div>
+<div class="stat"><span>🏠 Réside à Bassara</span><strong id="bassara">0</strong></div>
+<div class="stat"><span>🇬🇳 Guinée hors Bassara</span><strong id="guinee">0</strong></div>
+<div class="stat"><span>🌍 Réside à l'extérieur</span><strong id="exterieur">0</strong></div>
+<div class="stat"><span>🎂 Âge moyen</span><strong id="ageMoyen">—</strong></div>
+<div class="stat"><span>🌍 Pays représentés</span><strong id="paysCount">0</strong></div>
 </div>
 
 <div class="panel">
-<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
-<h2>👥 Ressortissants recensés</h2>
-<button class="btn secondary" onclick="loadData()">🔄 Actualiser</button>
+<h2>🎂 Répartition par âge</h2>
+<div class="ages">
+<div class="age">0–12 ans<strong id="a012">0</strong></div>
+<div class="age">13–17 ans<strong id="a1317">0</strong></div>
+<div class="age">18–25 ans<strong id="a1825">0</strong></div>
+<div class="age">26–40 ans<strong id="a2640">0</strong></div>
+<div class="age">41–60 ans<strong id="a4160">0</strong></div>
+<div class="age">61 ans et +<strong id="a61">0</strong></div>
+</div></div>
+
+<div class="panel">
+<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+<h2>👥 Personnes recensées</h2><button class="btn primary" onclick="exportCSV()">📥 Exporter CSV</button>
 </div>
 <div class="toolbar">
-<input id="search" placeholder="🔎 Nom, prénom, numéro, ville, profession..." oninput="render()">
+<input id="search" placeholder="🔎 Nom, prénom, téléphone..." oninput="render()">
+<select id="residence" onchange="render()"><option value="">Toutes les résidences</option><option value="bassara">🏠 Bassara</option><option value="guinee">🇬🇳 Guinée hors Bassara</option><option value="exterieur">🌍 Extérieur</option><option value="inconnu">❓ Non renseigné</option></select>
 <select id="country" onchange="render()"><option value="">Tous les pays</option></select>
+<select id="ageGroup" onchange="render()"><option value="">Tous les âges</option><option value="0-12">0–12</option><option value="13-17">13–17</option><option value="18-25">18–25</option><option value="26-40">26–40</option><option value="41-60">41–60</option><option value="61+">61+</option><option value="unknown">Non renseigné</option></select>
 <select id="gender" onchange="render()"><option value="">Tous les sexes</option><option value="Homme">Hommes</option><option value="Femme">Femmes</option></select>
-<button class="btn primary" onclick="exportCSV()">📥 CSV</button>
+<button class="btn secondary" onclick="clearFilters()">Réinitialiser</button>
 </div>
 <div id="dataMessage"></div>
-<div class="tableWrap">
-<table><thead><tr><th>Numéro</th><th>Nom</th><th>Prénom</th><th>Sexe</th><th>Ville</th><th>Pays</th><th>Profession</th><th>Date</th><th></th></tr></thead>
-<tbody id="tbody"></tbody></table>
-</div>
+<div class="tableWrap"><table><thead><tr><th>N°</th><th>Nom</th><th>Prénom</th><th>Âge</th><th>Sexe</th><th>Résidence</th><th>Pays</th><th>Téléphone</th><th></th></tr></thead><tbody id="tbody"></tbody></table></div>
 </div>
 
 <div id="detailPanel" class="panel hidden">
-<div style="display:flex;justify-content:space-between"><h2>👤 Fiche du ressortissant</h2><button class="btn secondary" onclick="document.getElementById('detailPanel').classList.add('hidden')">Fermer</button></div>
+<div style="display:flex;justify-content:space-between"><h2>👤 Fiche détaillée</h2><button class="btn secondary" onclick="detailPanel.classList.add('hidden')">Fermer</button></div>
 <div id="detail" class="detail"></div>
 </div>
-</div></main>
-</div>
+</div></main></div>
 
 <script>
 const SUPABASE_URL="https://gxsokrwqefletxitejde.supabase.co";
@@ -84,76 +103,85 @@ const ADMIN_UID="cabf99bc-3d84-43ca-bb64-2dd3d3dd95ec";
 let rows=[];
 
 function esc(v){return String(v??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;")}
+function dob(r){return r.date_naissance||r.dateNaissance||r.naissance||null}
+function pays(r){return r.pays||r.pays_residence||r.country||""}
+function residence(r){
+ const s=String(r.situation_bassara||r.residence||r.lieu_residence||r.residence_actuelle||"").toLowerCase();
+ if(s.includes("bassara"))return"bassara";
+ if(s.includes("exterieur")||s.includes("extérieur")||s.includes("hors guinée")||s.includes("hors guinee"))return"exterieur";
+ if(s.includes("guinée")||s.includes("guinee"))return"guinee";
+ const p=String(pays(r)).toLowerCase();
+ if(!s&&p&&p!=="guinée"&&p!=="guinee")return"exterieur";
+ if(!s&&(p==="guinée"||p==="guinee"))return"guinee";
+ return"inconnu";
+}
+function residenceText(r){return{bassara:"🏠 Bassara",guinee:"🇬🇳 Guinée hors Bassara",exterieur:"🌍 Extérieur",inconnu:"❓ Non renseigné"}[residence(r)]}
+function age(r){
+ const v=dob(r);if(!v)return null;const d=new Date(v);if(isNaN(d))return null;
+ const n=new Date();let a=n.getFullYear()-d.getFullYear();
+ if(n.getMonth()<d.getMonth()||(n.getMonth()===d.getMonth()&&n.getDate()<d.getDate()))a--;
+ return a>=0&&a<=120?a:null;
+}
+function group(a){if(a===null)return"unknown";if(a<=12)return"0-12";if(a<=17)return"13-17";if(a<=25)return"18-25";if(a<=40)return"26-40";if(a<=60)return"41-60";return"61+"}
 
 async function checkSession(){
  const {data:{session}}=await db.auth.getSession();
- if(session && session.user.id===ADMIN_UID){
-   showApp(session.user.email); await loadData();
- }else if(session){
-   await db.auth.signOut(); showLoginError("Ce compte n'est pas autorisé à accéder à l'administration.");
- }
+ if(session&&session.user.id===ADMIN_UID){showApp(session.user.email);await loadData()}
+ else if(session){await db.auth.signOut();loginError("Ce compte n'est pas autorisé à accéder à l'administration.")}
 }
+function showApp(e){loginPage.classList.add("hidden");app.classList.remove("hidden");adminEmail.textContent=e||"Administrateur"}
+function loginError(t){loginMessage.innerHTML='<div class="msg">❌ '+esc(t)+'</div>'}
 
-function showApp(email){
- document.getElementById("loginPage").classList.add("hidden");
- document.getElementById("app").classList.remove("hidden");
- document.getElementById("adminEmail").textContent=email||"Administrateur";
-}
-function showLoginError(t){document.getElementById("loginMessage").innerHTML='<div class="msg">'+esc(t)+'</div>'}
-
-document.getElementById("loginForm").addEventListener("submit",async e=>{
- e.preventDefault();
- const btn=document.getElementById("loginBtn");btn.disabled=true;btn.textContent="⏳ Connexion...";
- const {data,error}=await db.auth.signInWithPassword({email:document.getElementById("email").value.trim(),password:document.getElementById("password").value});
- if(error){showLoginError(error.message);btn.disabled=false;btn.textContent="🔐 Se connecter";return}
- if(data.user.id!==ADMIN_UID){await db.auth.signOut();showLoginError("Ce compte n'est pas autorisé.");btn.disabled=false;btn.textContent="🔐 Se connecter";return}
- showApp(data.user.email);await loadData();btn.disabled=false;btn.textContent="🔐 Se connecter";
+loginForm.addEventListener("submit",async e=>{
+ e.preventDefault();loginBtn.disabled=true;loginBtn.textContent="⏳ Connexion...";
+ const {data,error}=await db.auth.signInWithPassword({email:email.value.trim(),password:password.value});
+ if(error){loginError(error.message);loginBtn.disabled=false;loginBtn.textContent="🔐 Se connecter";return}
+ if(data.user.id!==ADMIN_UID){await db.auth.signOut();loginError("Ce compte n'est pas autorisé.");loginBtn.disabled=false;loginBtn.textContent="🔐 Se connecter";return}
+ showApp(data.user.email);await loadData();loginBtn.disabled=false;loginBtn.textContent="🔐 Se connecter";
 });
 
 async function loadData(){
- const m=document.getElementById("dataMessage");m.innerHTML="";
+ dataMessage.innerHTML="";
  const {data,error}=await db.from("ressortissants").select("*");
- if(error){m.innerHTML='<div class="msg">❌ '+esc(error.message)+'</div>';return}
- rows=data||[];
- updateStats();populateCountries();render();
+ if(error){dataMessage.innerHTML='<div class="msg">❌ '+esc(error.message)+'</div>';return}
+ rows=data||[];stats();countries();render();
 }
-function updateStats(){
- document.getElementById("total").textContent=rows.length;
- document.getElementById("hommes").textContent=rows.filter(r=>String(r.sexe||"").toLowerCase()==="homme").length;
- document.getElementById("femmes").textContent=rows.filter(r=>String(r.sexe||"").toLowerCase()==="femme").length;
- document.getElementById("paysCount").textContent=new Set(rows.map(r=>r.pays).filter(Boolean)).size;
+function stats(){
+ total.textContent=rows.length;
+ bassara.textContent=rows.filter(r=>residence(r)==="bassara").length;
+ guinee.textContent=rows.filter(r=>residence(r)==="guinee").length;
+ exterieur.textContent=rows.filter(r=>residence(r)==="exterieur").length;
+ const ages=rows.map(age).filter(a=>a!==null);
+ ageMoyen.textContent=ages.length?Math.round(ages.reduce((a,b)=>a+b,0)/ages.length):"—";
+ paysCount.textContent=new Set(rows.map(pays).filter(Boolean)).size;
+ const c={"0-12":0,"13-17":0,"18-25":0,"26-40":0,"41-60":0,"61+":0};
+ ages.forEach(a=>c[group(a)]++);
+ a012.textContent=c["0-12"];a1317.textContent=c["13-17"];a1825.textContent=c["18-25"];a2640.textContent=c["26-40"];a4160.textContent=c["41-60"];a61.textContent=c["61+"];
 }
-function populateCountries(){
- const s=document.getElementById("country"),old=s.value;
- const countries=[...new Set(rows.map(r=>r.pays).filter(Boolean))].sort();
- s.innerHTML='<option value="">Tous les pays</option>'+countries.map(x=>'<option value="'+esc(x)+'">'+esc(x)+'</option>').join("");
- s.value=old;
+function countries(){
+ const old=country.value;
+ country.innerHTML='<option value="">Tous les pays</option>'+[...new Set(rows.map(pays).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"fr")).map(x=>'<option>'+esc(x)+'</option>').join("");
+ country.value=old;
 }
 function render(){
- const q=document.getElementById("search").value.toLowerCase().trim(),country=document.getElementById("country").value,gender=document.getElementById("gender").value;
- const filtered=rows.filter(r=>{
-   const text=Object.values(r).join(" ").toLowerCase();
-   return (!q||text.includes(q))&&(!country||r.pays===country)&&(!gender||r.sexe===gender);
- });
- document.getElementById("tbody").innerHTML=filtered.map((r,i)=>'<tr>'+
- '<td class="num">'+esc(r.numero_recensement)+'</td>'+
- '<td>'+esc(r.nom)+'</td><td>'+esc(r.prenom)+'</td><td>'+esc(r.sexe)+'</td>'+
- '<td>'+esc(r.ville)+'</td><td>'+esc(r.pays)+'</td><td>'+esc(r.profession)+'</td>'+
- '<td>'+esc(r.created_at||"")+'</td>'+
- '<td><button class="btn secondary" onclick="showDetail('+rows.indexOf(r)+')">Voir</button></td></tr>').join("");
+ const q=search.value.toLowerCase().trim(),rt=residence.value,cp=country.value,ag=ageGroup.value,g=gender.value;
+ const list=rows.filter(r=>(!q||(String(r.nom||"")+" "+String(r.prenom||"")+" "+String(r.telephone||"")+" "+String(r.numero_recensement||"")).toLowerCase().includes(q))&&(!rt||residence(r)===rt)&&(!cp||pays(r)===cp)&&(!ag||group(age(r))===ag)&&(!g||String(r.sexe||"")===g));
+ tbody.innerHTML=list.length?list.map(r=>{
+ const i=rows.indexOf(r),a=age(r),res=residence(r),cl=res==="bassara"?"bass":res==="guinee"?"gui":res==="exterieur"?"ext":"";
+ return '<tr><td class="num">'+esc(r.numero_recensement)+'</td><td>'+esc(r.nom)+'</td><td>'+esc(r.prenom)+'</td><td>'+esc(a===null?"—":a+" ans")+'</td><td>'+esc(r.sexe)+'</td><td><span class="badge '+cl+'">'+esc(residenceText(r))+'</span></td><td>'+esc(pays(r)||"—")+'</td><td>'+esc(r.telephone||"—")+'</td><td><button class="btn secondary" onclick="showDetail('+i+')">Voir</button></td></tr>'
+ }).join(""):'<tr><td colspan="9" style="text-align:center;padding:30px;color:#667085">Aucune personne ne correspond aux filtres.</td></tr>';
 }
+function clearFilters(){search.value="";residence.value="";country.value="";ageGroup.value="";gender.value="";render()}
 function showDetail(i){
- const r=rows[i];if(!r)return;
- document.getElementById("detail").innerHTML=Object.entries(r).map(([k,v])=>'<div><b>'+esc(k)+'</b>'+esc(v??"")+'</div>').join("");
- document.getElementById("detailPanel").classList.remove("hidden");
- document.getElementById("detailPanel").scrollIntoView({behavior:"smooth"});
+ const r=rows[i];if(!r)return;const a=age(r);
+ const d=[["Nom",r.nom],["Prénom",r.prenom],["Âge",a===null?"Non renseigné":a+" ans"],["Sexe",r.sexe],["Résidence",residenceText(r)],["Pays",pays(r)],["Téléphone",r.telephone],["N° recensement",r.numero_recensement],["Date de naissance",dob(r)],["Ville",r.ville],["Profession",r.profession]];
+ detail.innerHTML=d.map(x=>'<div><b>'+esc(x[0])+'</b>'+esc(x[1]??"—")+'</div>').join("");detailPanel.classList.remove("hidden");detailPanel.scrollIntoView({behavior:"smooth"});
 }
 function exportCSV(){
  if(!rows.length){alert("Aucune donnée à exporter.");return}
  const keys=[...new Set(rows.flatMap(r=>Object.keys(r)))];
- const csv=[keys, ...rows.map(r=>keys.map(k=>r[k]??""))].map(row=>row.map(v=>'"'+String(v).replaceAll('"','""')+'"').join(";")).join("\r\n");
- const blob=new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8"});
- const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="recenses-bassara.csv";a.click();URL.revokeObjectURL(a.href);
+ const csv=[keys,...rows.map(r=>keys.map(k=>r[k]??""))].map(row=>row.map(v=>'"'+String(v).replaceAll('"','""')+'"').join(";")).join("\r\n");
+ const blob=new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8"}),a=document.createElement("a"),u=URL.createObjectURL(blob);a.href=u;a.download="recenses-bassara.csv";a.click();setTimeout(()=>URL.revokeObjectURL(u),1000);
 }
 async function logout(){await db.auth.signOut();location.reload()}
 checkSession();
