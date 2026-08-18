@@ -34,43 +34,139 @@ table{width:100%;border-collapse:collapse;min-width:1050px}th,td{padding:12px;te
 .printActions{display:flex;gap:9px;flex-wrap:wrap}
 .actionsCell{display:flex;gap:6px;flex-wrap:wrap}.dupRow{background:#fff8ed!important}.dupBox{border:1px solid #f0b429;background:#fffaf0;color:#7a4b00;padding:14px;border-radius:12px;margin-top:12px}.dupBox strong{color:#8a5700}
 .cardPrint{
-width:190mm;
-min-height:105mm;
-background:#fff;
-border:1px solid #d8e0e8;
-border-radius:4mm;
-overflow:hidden;
-color:#101828;
-font-family:Arial,sans-serif;
+ width:100%;
+ max-width:190mm;
+ min-height:108mm;
+ background:#fff;
+ color:#111827;
+ font-family:Arial,Helvetica,sans-serif;
+ border:1px solid #d9e1ea;
+ overflow:hidden;
+ box-sizing:border-box;
 }
 .cardPrint .cardHeader{
-background:#173f6b;
-color:#fff;
-padding:7mm 10mm 6mm;
-text-align:center;
+ height:40mm;
+ background:#173f6b;
+ color:#fff;
+ display:flex;
+ flex-direction:column;
+ align-items:center;
+ justify-content:center;
+ text-align:center;
+ padding:5mm 8mm 4mm;
 }
-.cardPrint .republique{font-size:20px;font-weight:900;letter-spacing:.3px}
-.cardPrint .motto{display:flex;justify-content:center;gap:28mm;margin:4mm 0 3mm;font-size:13px;font-weight:900}
-.cardPrint .travail{color:#f21b1b}.cardPrint .justice{color:#ffd21c}.cardPrint .solidarite{color:#18a343}
-.cardPrint .title{font-size:16px;font-weight:900}
-.cardPrint .year{font-size:15px;font-weight:900;margin-top:2mm}
-.cardPrint .cardBody{padding:7mm 10mm 6mm}
-.cardPrint .sectionTitle{font-size:16px;font-weight:900;color:#173f6b;margin-bottom:4mm}
-.cardPrint .locGrid{display:grid;grid-template-columns:42mm 1fr;gap:2mm 0;font-size:12px}
+.cardPrint .republique{
+ font-size:22px;
+ line-height:1.1;
+ font-weight:900;
+ letter-spacing:.2px;
+}
+.cardPrint .motto{
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ gap:31mm;
+ margin:3.5mm 0 2.5mm;
+ font-size:14px;
+ font-weight:900;
+}
+.cardPrint .travail{color:#ff1e1e}
+.cardPrint .justice{color:#ffd21a}
+.cardPrint .solidarite{color:#13a33a}
+.cardPrint .title{
+ font-size:17px;
+ line-height:1.15;
+ font-weight:900;
+}
+.cardPrint .year{
+ font-size:16px;
+ line-height:1.1;
+ font-weight:900;
+ margin-top:2.5mm;
+}
+.cardPrint .cardBody{
+ padding:7mm 10mm 7mm;
+ background:#fff;
+}
+.cardPrint .sectionTitle{
+ color:#173f6b;
+ font-size:16px;
+ font-weight:900;
+ margin:0 0 4mm;
+}
+.cardPrint .locGrid{
+ display:grid;
+ grid-template-columns:45mm 1fr;
+ row-gap:2.2mm;
+ font-size:13px;
+ line-height:1.25;
+}
 .cardPrint .locGrid b{font-weight:900}
-.cardPrint .identityWrap{border-top:1px solid #c7d3e0;margin-top:6mm;padding-top:6mm;display:grid;grid-template-columns:1.2fr .9fr;gap:12mm}
-.cardPrint .personName{font-size:22px;font-weight:900;color:#111827;margin:2mm 0 3mm;text-transform:uppercase}
-.cardPrint .identityLine{font-size:12px;margin:2mm 0}
-.cardPrint .numberBox{border:2px solid #4f8f2f;background:#f0f8ea;border-radius:4mm;padding:5mm 6mm}
-.cardPrint .numberLabel{font-size:14px;font-weight:900;color:#4f8f2f}
-.cardPrint .numberValue{font-size:19px;font-weight:900;margin:4mm 0}
-.cardPrint .numberNote{font-size:10px;color:#475467}
-.cardPrint .cardFooter{background:#173f6b;color:#fff;padding:5mm 10mm}
-.cardPrint .footerTitle{font-size:14px;font-weight:900}
-.cardPrint .footerText{font-size:10px;margin-top:2mm}
-.cardPrint .footerCenter{text-align:center;font-size:10px;font-weight:700;margin-top:2mm}
+.cardPrint .identityWrap{
+ border-top:1px solid #c7d3e0;
+ margin-top:7mm;
+ padding-top:6mm;
+ display:grid;
+ grid-template-columns:1.18fr .92fr;
+ column-gap:15mm;
+ align-items:center;
+}
+.cardPrint .personName{
+ font-size:25px;
+ line-height:1.1;
+ font-weight:900;
+ color:#111827;
+ margin:1.5mm 0 5mm;
+ text-transform:uppercase;
+}
+.cardPrint .identityLine{
+ font-size:13px;
+ line-height:1.25;
+ margin:2.5mm 0;
+}
+.cardPrint .numberBox{
+ border:2px solid #4f8f2f;
+ background:#f0f8ea;
+ border-radius:4mm;
+ padding:5mm 6mm;
+}
+.cardPrint .numberLabel{
+ color:#4f8f2f;
+ font-size:15px;
+ font-weight:900;
+}
+.cardPrint .numberValue{
+ color:#111827;
+ font-size:21px;
+ font-weight:900;
+ margin:5mm 0;
+ word-break:break-word;
+}
+.cardPrint .numberNote{
+ color:#475467;
+ font-size:11px;
+}
+.cardPrint .cardFooter{
+ background:#173f6b;
+ color:#fff;
+ padding:5mm 10mm 4mm;
+}
+.cardPrint .footerTitle{
+ font-size:15px;
+ font-weight:900;
+}
+.cardPrint .footerText{
+ font-size:12px;
+ margin-top:2.5mm;
+}
+.cardPrint .footerCenter{
+ text-align:center;
+ font-size:11px;
+ font-weight:700;
+ margin-top:1.5mm;
+}
 @media print{
- @page{size:A4 landscape;margin:10mm}
+ @page{size:A4 landscape;margin:8mm}
  body{background:#fff!important}
  #loginPage,#app>header,#app main>.wrap>div:not(#printArea){display:none!important}
  #printArea{display:block!important;margin:0!important;padding:0!important}
@@ -341,13 +437,16 @@ function showDuplicates(){
 }
 function cardHTML(r){
  const a=age(r);
- const birth=dob(r);
  const n=r.numero_recensement||"—";
  const nom=((r.nom||"")+" "+(r.prenom||"")).trim().replace(/\s+/g," ");
  return '<div class="cardPrint">'+
    '<div class="cardHeader">'+
      '<div class="republique">RÉPUBLIQUE DE GUINÉE</div>'+
-     '<div class="motto"><span class="travail">TRAVAIL</span><span class="justice">JUSTICE</span><span class="solidarite">SOLIDARITÉ</span></div>'+
+     '<div class="motto">'+
+       '<span class="travail">TRAVAIL</span>'+
+       '<span class="justice">JUSTICE</span>'+
+       '<span class="solidarite">SOLIDARITÉ</span>'+
+     '</div>'+
      '<div class="title">CARTE DE RECENSEMENT COMMUNAUTAIRE</div>'+
      '<div class="year">BASSARA — 2026</div>'+
    '</div>'+
@@ -364,8 +463,6 @@ function cardHTML(r){
          '<div class="sectionTitle">IDENTITÉ DU RECENSÉ</div>'+
          '<div class="personName">'+esc(nom)+'</div>'+
          '<div class="identityLine"><b>Origine :</b> '+esc(r.origine||"Bassara")+'</div>'+
-         '<div class="identityLine"><b>Âge :</b> '+esc(a===null?"—":a+" ans")+'</div>'+
-         '<div class="identityLine"><b>Sexe :</b> '+esc(r.sexe||"—")+'</div>'+
          '<div class="identityLine"><b>Année du recensement :</b> 2026</div>'+
        '</div>'+
        '<div class="numberBox">'+
