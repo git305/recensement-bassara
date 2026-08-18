@@ -424,8 +424,7 @@ form.addEventListener("submit",async function(e){
                String(error.message || "").includes("ressortissants_telephone_unique") ||
                String(error.details || "").includes("ressortissants_telephone_unique")){
                 throw Error(
-                    "⚠️ Ce numéro de téléphone est déjà associé à une personne recensée. " +
-                    "Une personne ne peut être enregistrée qu'une seule fois avec le même numéro."
+                    "⚠️ Une personne ne peut pas s'enregistrer deux fois."
                 );
             }
 
